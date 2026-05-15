@@ -1,0 +1,15 @@
+{
+  "name": "kakao-crawler",
+  "version": "1.0.0",
+  "description": "Kakao Place menu crawler",
+  "main": "crawl.js",
+  "scripts": {
+    "start": "node crawl.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "playwright": "^1.60.0",
+    "xlsx": "^0.18.5"
+  }
+}
