@@ -55,7 +55,7 @@ export function LoginForm() {
         {error && <p className="text-red-500 text-xs">{error}</p>}
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 mt-6">
         <button
           onClick={handleLogin}
           className="w-full bg-black text-white rounded-xl py-4 text-base font-semibold"
