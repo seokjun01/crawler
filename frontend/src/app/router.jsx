@@ -1,0 +1,36 @@
+// app 레이어는 앱 전체에 딱 한 번만 설정하는 것들이 들어간다. 전역 설정
+import { createBrowserRouter } from "react-router-dom";
+
+const router = createBrowserRouter([
+  //URL경로랑 컴포넌트를 연결하는 테이블
+  {
+    path: "/",
+    element: <div>메인페이지 (임시)</div>,
+  },
+  {
+    path: "/login",
+    element: <div>로그인 (임시)</div>,
+  },
+  {
+    path: "/register",
+    element: <div>회원가입 (임시)</div>,
+  },
+  {
+    path: "/location",
+    element: <div>위치등록 (임시)</div>,
+  },
+  {
+    path: "/recommend",
+    element: <div>추천 (임시)</div>,
+  },
+  {
+    path: "/mypage",
+    element: <div>마이페이지 (임시)</div>,
+  },
+  {
+    path: "/places/:kakaoPlaceId",
+    element: <div>식당상세 (임시)</div>,
+  },
+]);
+
+export default router;
