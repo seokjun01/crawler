@@ -1,12 +1,13 @@
 // app 레이어는 앱 전체에 딱 한 번만 설정하는 것들이 들어간다. 전역 설정
 import { createBrowserRouter } from "react-router-dom";
+import SplashPage from "../pages/splash";
 import LoginPage from "../pages/login";
 
 const router = createBrowserRouter([
   //URL경로랑 컴포넌트를 연결하는 테이블
   {
     path: "/",
-    element: <div>메인페이지 (임시)</div>,
+    element: <SplashPage />,
   },
   {
     path: "/login",
