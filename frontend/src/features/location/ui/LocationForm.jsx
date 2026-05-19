@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { locationSaveApi, locationUpdateApi } from "../api";
 
 export function LocationForm({ mode = "register" }) {
-  const [roadAddress, setRoadAddress] = useState("");
-  const [jibunAddress, setJibunAddress] = useState("");
+  const [query, setQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const [detail, setDetail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -79,33 +79,34 @@ export function LocationForm({ mode = "register" }) {
 
   // 주소 입력 → 지도 이동
   const handleAddressSearch = () => {
-    const query = roadAddress || jibunAddress;
     if (!query || !window.kakao) return;
 
     const geocoder = new window.kakao.maps.services.Geocoder();
-
-    // addressSearch: 주소 문자열 → 좌표 변환
     geocoder.addressSearch(query, (result, status) => {
       if (status === window.kakao.maps.services.Status.OK) {
-        // result[0].y → 위도 / result[0].x → 경도 (카카오가 문자열로 줌)
-        const lat = parseFloat(result[0].y);
-        const lng = parseFloat(result[0].x);
-        const latlng = new window.kakao.maps.LatLng(lat, lng);
-
-        kakaoMapRef.current.setCenter(latlng); // 지도 중심 이동
-        markerRef.current.setPosition(latlng); // 마커 이동
-
-        // selectedLocation 업데이트
-        setSelectedLocation({
-          latitude: lat,
-          longitude: lng,
-          address: result[0].address_name,
-        });
+        setSearchResults(result);
         setError("");
       } else {
-        setError("주소를 찾을 수 없습니다.");
+        setSearchResults([]);
+        setError("검색 결과가 없습니다.");
       }
     });
+  };
+
+  const handleSelectResult = (item) => {
+    const lat = parseFloat(item.y);
+    const lng = parseFloat(item.x);
+    const latlng = new window.kakao.maps.LatLng(lat, lng);
+
+    kakaoMapRef.current.setCenter(latlng);
+    markerRef.current.setPosition(latlng);
+
+    setSelectedLocation({
+      latitude: lat,
+      longitude: lng,
+      address: item.address_name,
+    });
+    setSearchResults([]);
   };
 
   const handleSubmit = async () => {
@@ -140,47 +141,43 @@ export function LocationForm({ mode = "register" }) {
       <div ref={mapContainerRef} className="w-full h-52" />
       <div className="px-5 py-5 flex flex-col gap-4">
         <h3 className="text-base font-bold">직접 입력하기</h3>
+        <h3 className="text-base font-bold">주소 검색</h3>
 
-        <div>
-          <label className="text-sm font-semibold mb-1 block">
-            도로명주소 입력
-          </label>
+        <div className="flex gap-2">
           <input
             type="text"
-            placeholder="예: 서울특별시 중구 세종대로 110"
-            value={roadAddress}
-            onChange={(e) => {
-              setRoadAddress(e.target.value);
-              setJibunAddress("");
-            }}
-            // onBlur: 포커스 벗어날 때 검색 실행
-            onBlur={handleAddressSearch}
-            className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm outline-none focus:border-black"
+            placeholder="도로명 또는 지번 주소 입력"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleAddressSearch()}
+            className="flex-1 border border-gray-200 rounded-lg px-4 py-3 text-sm outline-none focus:border-black"
           />
-          <p className="text-xs text-gray-400 mt-1">
-            정확한 주소를 입력하면 더 정확한 위치 안내가 가능해요.
-          </p>
+          <button
+            onClick={handleAddressSearch}
+            className="bg-black text-white rounded-lg px-4 text-sm font-semibold"
+          >
+            검색
+          </button>
         </div>
 
-        <div>
-          <label className="text-sm font-semibold mb-1 block">
-            지번주소 입력
-          </label>
-          <input
-            type="text"
-            placeholder="예: 서울특별시 중구 태평로1가 31"
-            value={jibunAddress}
-            onChange={(e) => {
-              setJibunAddress(e.target.value);
-              setRoadAddress("");
-            }}
-            onBlur={handleAddressSearch}
-            className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm outline-none focus:border-black"
-          />
-          <p className="text-xs text-gray-400 mt-1">
-            도로명주소가 어렵다면 지번으로 입력할 수 있어요.
-          </p>
-        </div>
+        {searchResults.length > 0 && (
+          <div className="border border-gray-200 rounded-lg overflow-hidden">
+            {searchResults.map((item, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleSelectResult(item)}
+                className="w-full text-left px-4 py-3 text-sm border-b border-gray-100 last:border-b-0 hover:bg-gray-50"
+              >
+                <p className="font-medium">{item.address_name}</p>
+                {item.road_address && (
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    {item.road_address.address_name}
+                  </p>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
 
         <div>
           <h3 className="text-base font-bold mb-2">검색 결과</h3>
