@@ -18,3 +18,7 @@ export const registerApi = (email, password, nickname, preferredCategories) => {
 export const checkEmailApi = (email) => {
   return api("GET", `/api/users/check-email?email=${email}`);
 };
+
+export const resendVerificationEmailApi = (email) => {
+  return api("POST", "/api/users/resend-verification-email", { email });
+};
