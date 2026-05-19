@@ -10,7 +10,7 @@ export function VerifyEmailForm() {
 
   const navigate = useNavigate();
   const location = useLocation(); //이전 페이지에서 넘겨준 state 값을 꺼내올 때 사용
-  const email = location.state.email ?? "";
+  const email = location.state?.email ?? "";
 
   const handleResend = async () => {
     if (!email) {
