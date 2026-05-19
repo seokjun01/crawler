@@ -137,8 +137,8 @@ export function RegisterForm() {
               className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-sm transition-all
               ${
                 selectedCategories.includes(cat.label)
-                  ? "border-black bg-gray-800 text-white font-semibold" // 선택됨: 검정 배경 + 흰 글씨
-                  : "border-gray-200 text-gray-500 bg-white" // 미선택: 흰 배경 + 회색 글씨
+                  ? "border-black bg-gray-800 text-white font-semibold"
+                  : "border-gray-200 text-gray-500 bg-white"
               }`}
             >
               <span className="text-xl">{cat.emoji}</span>

@@ -1,3 +1,4 @@
+import { api } from "../../../shared/api";
 export const locationSaveApi = (latitude, longitude, title = "내 위치") => {
   return api("POST", "/api/users/location-save", {
     title,

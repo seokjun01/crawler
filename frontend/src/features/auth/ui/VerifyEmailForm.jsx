@@ -36,7 +36,7 @@ export function VerifyEmailForm() {
   };
 
   return (
-    <div className="flex-1 flex-flex-col px-5 pt-12">
+    <div className="flex-1 flex flex-col px-5 pt-12">
       <div className="mb-12">
         <h2 className="text-2xl font-bold mb-2">이메일을 확인해주세요</h2>
         <p className="text-gray-400 text-sm leading-relaxed">

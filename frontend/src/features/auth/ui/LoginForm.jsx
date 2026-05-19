@@ -18,9 +18,17 @@ export function LoginForm() {
       const response = await loginApi(email, password);
       if (response.data.success) {
         login({ nickname: response.data.nickname, email });
-        navigate("/");
+        const locationResponse = await locationGetApi();
+        const hasLocation = locationResponse.data.latitude;
+
+        // 위치 없으면 최초 등록 화면, 있으면 홈
+        navigate(hasLocation ? "/" : "/location-register");
       } else {
-        setError(response.data.message);
+        if (response.data.message === "이메일 인증이 필요합니다.") {
+          navigate("/verify-email", { state: { email } });
+        } else {
+          setError(response.data.message);
+        }
       }
     } catch (e) {
       setError("로그인 중 오류가 발생하였습니다");

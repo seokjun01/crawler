@@ -9,4 +9,3 @@ export {
 } from "./api";
 export { RegisterForm } from "./ui/RegisterForm";
 export { VerifyEmailForm } from "./ui/VerifyEmailForm";
-export { LoginForm } from "./ui/LocationForm";
