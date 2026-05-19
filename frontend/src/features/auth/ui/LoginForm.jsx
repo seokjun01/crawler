@@ -1,5 +1,5 @@
 // 로그인 UI + 상태관리 + API호출 연결
-
+import { locationGetApi } from "../../location/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../app/AuthContext";

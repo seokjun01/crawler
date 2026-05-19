@@ -138,9 +138,9 @@ export function PlaceList({ latitude, longitude }) {
         </div>
 
         <div className="flex flex-col">
-          {places.map((place) => (
+          {places.map((place, idx) => (
             <button
-              key={place.kakaoPlaceId}
+              key={`${place.kakaoPlaceId}-${idx}`}
               onClick={() =>
                 navigate(`/places/${place.kakaoPlaceId}`, {
                   // 식당 상세 페이지에서 다시 API 안 쳐도 되게 기본 정보 넘겨줌
@@ -153,14 +153,14 @@ export function PlaceList({ latitude, longitude }) {
               className="flex items-center justify-between py-4 border-b border-gray-100 text-left active:bg-gray-50"
             >
               <div className="flex items-center gap-3">
-                <button
+                <span
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
                   className="text-red-400 text-xl"
                 >
                   🤍
-                </button>
+                </span>
                 <div>
                   <p className="font-medium text-sm">{place.placeName}</p>
                   <p className="text-xs text-gray-400 mt-0.5">
@@ -169,7 +169,7 @@ export function PlaceList({ latitude, longitude }) {
                 </div>
               </div>
               <p className="text-sm text-gray-500 flex-shrink-0">
-                {formatDistance(places.distance)}
+                {formatDistance(place.distance)}
               </p>
             </button>
           ))}

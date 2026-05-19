@@ -1,7 +1,7 @@
 import { api } from "../../../shared/api";
 
 export const nearbyApi = (latitude, longitude, radius, category = "") => {
-  let url = `/api/places/nearby?latitude=${latitude}&longitude=${lomgitude}&radius=${radius}`;
+  let url = `/api/places/nearby?latitude=${latitude}&longitude=${longitude}&radius=${radius}`;
   if (category) url += `&category=${category}`;
   return api("GET", url);
 };
