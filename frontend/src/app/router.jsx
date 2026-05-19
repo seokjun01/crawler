@@ -2,6 +2,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import SplashPage from "../pages/splash";
 import LoginPage from "../pages/login";
+import RegisterPage from "../pages/register";
 
 const router = createBrowserRouter([
   //URL경로랑 컴포넌트를 연결하는 테이블
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    element: <div>회원가입 (임시)</div>,
+    element: <RegisterPage />,
   },
   {
     path: "/location",
