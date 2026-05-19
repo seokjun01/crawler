@@ -4,6 +4,8 @@ import SplashPage from "../pages/splash";
 import LoginPage from "../pages/login";
 import RegisterPage from "../pages/register";
 import VerifyEmailPage from "../pages/verify-email";
+import LocationRegisterPage from "../pages/location-register";
+import LocationEditPage from "../pages/location-edit";
 
 const router = createBrowserRouter([
   //URL경로랑 컴포넌트를 연결하는 테이블
@@ -24,8 +26,12 @@ const router = createBrowserRouter([
     element: <VerifyEmailPage />,
   },
   {
-    path: "/location",
-    element: <div>위치등록 (임시)</div>,
+    path: "/location-register",
+    element: <LocationRegisterPage />,
+  },
+  {
+    path: "/location-edit",
+    element: <LocationEditPage />,
   },
   {
     path: "/recommend",
