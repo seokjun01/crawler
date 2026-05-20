@@ -9,6 +9,7 @@ import LocationRegisterPage from "../pages/location-register";
 import LocationEditPage from "../pages/location-edit";
 import HomePage from "../pages/home";
 import PlaceDetailPage from "../pages/place-detail";
+import MyPage from "../pages/mypage";
 
 const router = createBrowserRouter([
   //URL경로랑 컴포넌트를 연결하는 테이블
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/mypage",
-    element: <div>마이페이지 (임시)</div>,
+    element: <MyPage />,
   },
   {
     path: "/places/:kakaoPlaceId",
