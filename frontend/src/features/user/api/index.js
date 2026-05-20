@@ -8,8 +8,12 @@ export const logoutApi = () => {
   return api("POST", "/api/auth/logout");
 };
 
-export const updateCategoriesApi = () => {
+export const updateCategoriesApi = (categories) => {
   return api("POST", "/api/users/categories", {
     preferred_categories: categories,
   });
+};
+
+export const updateNicknameApi = (nickname) => {
+  return api("POST", "/api/users/nickname", { nickname });
 };

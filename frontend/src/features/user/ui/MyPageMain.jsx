@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../app/AuthContext";
-import { locationGetApi } from "../../location";
+import { locationGetApi } from "../../location/api";
 import { favoriteListApi } from "../../places/api";
-import { visitListApi, logoutApi } from "../api";
+import {
+  visitListApi,
+  logoutApi,
+  updateNicknameApi,
+  updateCategoriesApi,
+} from "../api";
 
 const CATEGORY_OPTIONS = [
   { label: "한식", value: "한식", emoji: "🍚" },
@@ -17,13 +22,28 @@ const CATEGORY_OPTIONS = [
 ];
 
 export function MyPageMain() {
-  const { user, logout } = useAuth();
+  const { user, login, logout } = useAuth();
   const navigate = useNavigate();
 
-  const [locationLabel, setLocationLabel] = useState("불러오는 중 ..");
+  const [locationLabel, setLocationLabel] = useState("불러오는 중...");
   const [visits, setVisits] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // 닉네임 편집
+  const [editingNickname, setEditingNickname] = useState(false);
+  const [nicknameInput, setNicknameInput] = useState(user?.nickname || "");
+
+  // 카테고리 편집
+  const [editingCategories, setEditingCategories] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState(
+    user?.preferredCategories
+      ? user.preferredCategories
+          .split(",")
+          .map((c) => c.trim())
+          .filter(Boolean)
+      : [],
+  );
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -49,8 +69,9 @@ export function MyPageMain() {
             });
           });
         }
+
         setVisits(visitRes.data.visits?.block1 || []);
-        setFavorites(visitRes.data.visits?.block1 || []);
+        setFavorites(favRes.data.favorites?.block1 || []);
       } catch (e) {
       } finally {
         setLoading(false);
@@ -59,10 +80,39 @@ export function MyPageMain() {
     fetchAll();
   }, []);
 
+  const handleNicknameSave = async () => {
+    if (!nicknameInput.trim()) return;
+    try {
+      await updateNicknameApi(nicknameInput.trim());
+      login({ ...user, nickname: nicknameInput.trim() });
+      setEditingNickname(false);
+    } catch (e) {}
+  };
+
+  const handleCategoryToggle = (value) => {
+    setSelectedCategories((prev) =>
+      prev.includes(value)
+        ? prev.filter((c) => c !== value)
+        : prev.length < 5
+          ? [...prev, value]
+          : prev,
+    );
+  };
+
+  const handleCategorySave = async () => {
+    try {
+      await updateCategoriesApi(selectedCategories.join(","));
+      login({ ...user, preferredCategories: selectedCategories.join(",") });
+      setEditingCategories(false);
+    } catch (e) {}
+  };
+
   const handleLogout = async () => {
     try {
       await logoutApi();
-    } catch (e) {}
+    } catch (e) {
+      console.error(e);
+    }
     logout();
     navigate("/splash");
   };
@@ -76,7 +126,7 @@ export function MyPageMain() {
 
   return (
     <div className="min-h-screen bg-white pb-20">
-      <div className="flex item-center px-5 py-4 border-b border-gray-100">
+      <div className="flex items-center px-5 py-4 border-b border-gray-100">
         <button onClick={() => navigate(-1)} className="mr-3 text-xl">
           ←
         </button>
@@ -84,54 +134,131 @@ export function MyPageMain() {
       </div>
 
       <div className="px-5 py-4 flex flex-col gap-6">
-        {/* 프로필 */}
+        {/* 프로필 - 닉네임 인라인 편집 */}
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-gray-200" />
+          <div className="w-12 h-12 rounded-full bg-gray-200 flex-shrink-0" />
           <div className="flex-1">
-            <p className="font-bold text-sm">{user?.nickname}</p>
+            {editingNickname ? (
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={nicknameInput}
+                  onChange={(e) => setNicknameInput(e.target.value)}
+                  maxLength={10}
+                  autoFocus
+                  className="border-b border-gray-400 text-sm outline-none py-0.5 w-32"
+                  placeholder="변경할 닉네임을 입력하세요"
+                />
+                <button
+                  onClick={handleNicknameSave}
+                  className="text-xs font-semibold border border-black rounded px-2 py-1"
+                >
+                  확인
+                </button>
+                <button
+                  onClick={() => {
+                    setEditingNickname(false);
+                    setNicknameInput(user?.nickname || "");
+                  }}
+                  className="text-xs bg-black text-white border border-gray-300 rounded px-2 py-1"
+                >
+                  취소
+                </button>
+              </div>
+            ) : (
+              <p className="font-bold text-sm">{user?.nickname}</p>
+            )}
             <p className="text-xs text-gray-400">{user?.email}</p>
           </div>
-          <button className="border border-gray-300 rounded-lg px-3 py-1 text-xs text-gray-600">
-            편집&gt;
-          </button>
+          {!editingNickname && (
+            <button
+              onClick={() => setEditingNickname(true)}
+              className="border border-gray-300 rounded-lg px-3 py-1 text-xs text-gray-600"
+            >
+              편집 &gt;
+            </button>
+          )}
         </div>
 
-        {/*선호 카테고리*/}
+        {/* 선호 카테고리 */}
         <div>
           <div className="flex justify-between items-center mb-2">
             <div>
               <p className="font-bold text-sm">선호 카테고리</p>
-              <p className="text-xs text-gray-400">현재 선택된 카테고리</p>
             </div>
-            <button
-              onClick={() => navigate("/mypage/categories")}
-              className="border border-gray-300 rounded-lg px-3 py-1 text-xs text-gray-600"
-            >
-              편집&gt;
-            </button>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {preferredCategories.length === 0 ? (
-              <p className="text-xs text-gray-400">
-                선택된 카테고리가 없습니다
-              </p>
-            ) : (
-              preferredCategories.map((cat) => {
-                const option = CATEGORY_OPTIONS.find((o) => o.value === cat);
-                return (
-                  <span
-                    key={cat}
-                    className="bg-black text-white text-xs px-3 py-1 rounded-full"
-                  >
-                    {option?.emoji} {cat}
-                  </span>
-                );
-              })
+            {!editingCategories && (
+              <button
+                onClick={() => setEditingCategories(true)}
+                className="border border-gray-300 rounded-lg px-3 py-1 text-xs text-gray-600"
+              >
+                편집 &gt;
+              </button>
             )}
           </div>
+
+          {editingCategories ? (
+            <>
+              <div className="grid grid-cols-2 gap-2 mb-3">
+                {CATEGORY_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => handleCategoryToggle(option.value)}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-medium ${
+                      selectedCategories.includes(option.value)
+                        ? "bg-black text-white border-black"
+                        : "bg-white text-gray-700 border-gray-200"
+                    }`}
+                  >
+                    <span>{option.emoji}</span>
+                    <span>{option.label}</span>
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-gray-400 mb-2">
+                최대 5개 선택 ({selectedCategories.length}/5)
+              </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleCategorySave}
+                  className="flex-1 bg-black text-white rounded-xl py-2 text-sm font-semibold"
+                >
+                  확인
+                </button>
+                <button
+                  onClick={() => {
+                    setEditingCategories(false);
+                    setSelectedCategories(preferredCategories);
+                  }}
+                  className="flex-1 border border-gray-300 rounded-xl py-2 text-sm"
+                >
+                  취소
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {preferredCategories.length === 0 ? (
+                <p className="text-xs text-gray-400">
+                  선택된 카테고리가 없습니다
+                </p>
+              ) : (
+                preferredCategories.map((cat) => {
+                  const option = CATEGORY_OPTIONS.find((o) => o.value === cat);
+                  return (
+                    <span
+                      key={cat}
+                      className="bg-black text-white text-xs px-3 py-1 rounded-full"
+                    >
+                      {option?.emoji} {cat}
+                    </span>
+                  );
+                })
+              )}
+            </div>
+          )}
         </div>
 
-        {/*내 위치*/}
+        {/* 내 위치 */}
         <div>
           <div className="flex justify-between items-center mb-2">
             <p className="font-bold text-sm">내 위치</p>
@@ -150,6 +277,7 @@ export function MyPageMain() {
             </div>
           </div>
         </div>
+
         {/* 방문 기록 */}
         <div>
           <div className="flex justify-between items-center mb-2">
@@ -173,7 +301,7 @@ export function MyPageMain() {
               {visits.slice(0, 2).map((v) => (
                 <div
                   key={v.visit_history_id}
-                  className="min-w-40 border border-gray-100 rounded-xl p-3 bg-gray-50"
+                  className="min-w-40 border border-gray-100 rounded-xl p-3 bg-gray-50 flex-shrink-0"
                 >
                   <p className="text-xs font-bold mb-1">{v.place_name}</p>
                   <p className="text-xs text-yellow-400">
@@ -188,6 +316,7 @@ export function MyPageMain() {
             </div>
           )}
         </div>
+
         {/* 즐겨찾기 */}
         <div>
           <div className="flex justify-between items-center mb-2">
