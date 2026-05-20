@@ -54,8 +54,6 @@ export default function HomePage() {
 
             <p className="text-sm font-bold">{locationLabel}</p>
           </div>
-          {/* 돋보기 버튼 — 추후 검색 기능 연결 */}
-          <button className="text-xl">🔍</button>
         </div>
       </div>
 

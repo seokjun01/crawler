@@ -6,8 +6,6 @@ import {
   reviewSaveApi,
   reviewUpdateApi,
   reviewDeleteApi,
-  favoriteSaveApi,
-  favoriteDeleteApi,
 } from "../api";
 import { useAuth } from "../../../app/AuthContext";
 
