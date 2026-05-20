@@ -111,9 +111,10 @@ export function MyPageMain() {
   const handleLogout = async () => {
     try {
       await logoutApi();
-    } catch (e) {
-      console.error(e);
-    }
+    } catch (e) {}
+    // 브라우저 JSESSIONID 쿠키 직접 삭제
+    document.cookie =
+      "JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     logout();
     navigate("/splash");
   };
