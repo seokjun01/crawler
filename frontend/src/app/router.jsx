@@ -8,6 +8,7 @@ import VerifyEmailPage from "../pages/verify-email";
 import LocationRegisterPage from "../pages/location-register";
 import LocationEditPage from "../pages/location-edit";
 import HomePage from "../pages/home";
+import PlaceDetailPage from "../pages/place-detail";
 
 const router = createBrowserRouter([
   //URL경로랑 컴포넌트를 연결하는 테이블
@@ -49,7 +50,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/places/:kakaoPlaceId",
-    element: <div>식당상세 (임시)</div>,
+    element: <PlaceDetailPage />,
   },
 ]);
 

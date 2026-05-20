@@ -10,7 +10,7 @@ async function getBrowser() {
 }
 
 async function getMenuByPlaceId(placeId) {
-  const url = `https://place.map.kakao.com/${placeId}#menuInfo`;
+  const url = `https://place.map.kakao.com/${placeId}`;
   const b = await getBrowser();
   const page = await b.newPage();
 
@@ -22,6 +22,15 @@ async function getMenuByPlaceId(placeId) {
     const placeName = await page
       .$eval(".tit_place", (el) => el.innerText.trim())
       .catch(() => "");
+
+    // 메뉴 탭 클릭 (탭이 있을 때만)
+    const menuTab = await page.$(
+      "a[href*='menuInfo'], .tab_menu a:has-text('메뉴')",
+    );
+    if (menuTab) {
+      await menuTab.click();
+      await page.waitForTimeout(2000);
+    }
 
     const menuExists = await page.$(".wrap_goods");
     if (!menuExists) return { placeName, menus: [] };
