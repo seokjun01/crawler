@@ -10,6 +10,8 @@ import LocationEditPage from "../pages/location-edit";
 import HomePage from "../pages/home";
 import PlaceDetailPage from "../pages/place-detail";
 import MyPage from "../pages/mypage";
+import VisitsPage from "../pages/mypage/visits";
+import FavoritesPage from "../pages/mypage/favorites";
 
 const router = createBrowserRouter([
   //URL경로랑 컴포넌트를 연결하는 테이블
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
   {
     path: "/location-edit",
     element: <LocationEditPage />,
+  },
+  {
+    path: "/mypage/visits",
+    element: <VisitsPage />,
+  },
+  {
+    path: "/mypage/favorites",
+    element: <FavoritesPage />,
   },
   {
     path: "/recommend",
