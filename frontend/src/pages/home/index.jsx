@@ -17,11 +17,24 @@ export default function HomePage() {
       try {
         const response = await locationGetApi();
         if (response.data.latitude) {
-          setLocation({
-            latitude: response.data.latitude,
-            longitude: response.data.longitude,
+          const lat = parseFloat(response.data.latitude);
+          const lng = parseFloat(response.data.longitude);
+          setLocation({ latitude: lat, longitude: lng });
+
+          // 카카오 역지오코딩으로 도로명주소 변환
+          window.kakao.maps.load(() => {
+            const geocoder = new window.kakao.maps.services.Geocoder();
+            geocoder.coord2Address(lng, lat, (result, status) => {
+              if (status === window.kakao.maps.services.Status.OK) {
+                const addr = result[0].road_address
+                  ? result[0].road_address.address_name
+                  : result[0].address.address_name;
+                setLocationLabel(addr);
+              } else {
+                setLocationLabel(response.data.title || "내 위치");
+              }
+            });
           });
-          setLocationLabel(response.data.title || "내 위치");
         } else {
           navigate("/location-register");
         }
