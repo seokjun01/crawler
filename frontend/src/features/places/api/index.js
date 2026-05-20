@@ -21,13 +21,14 @@ export const reviewSaveApi = (
   kakaoPlaceId,
   placeName,
   categoryName,
+  menuName,
   rating,
   content,
 ) => {
   return api("POST", `/api/places/${kakaoPlaceId}/reviews`, {
     place_name: placeName,
     category_name: categoryName,
-    menu_name: "",
+    menu_name: menuName,
     rating,
     content,
   });
@@ -52,4 +53,22 @@ export const reviewDeleteApi = (kakaoPlaceId, visitHistoryId) => {
   return api("POST", `/api/places/${kakaoPlaceId}/reviews/delete`, {
     visit_history_id: visitHistoryId,
   });
+};
+
+export const favoriteSaveApi = (kakaoPlaceId, placeName, categoryName) => {
+  return api("POST", `/api/users/favorites`, {
+    kakao_place_id: kakaoPlaceId,
+    place_name: placeName,
+    category_name: categoryName,
+  });
+};
+
+export const favoriteDeleteApi = (kakaoPlaceId) => {
+  return api("POST", `/api/users/favorites/delete`, {
+    kakao_place_id: kakaoPlaceId,
+  });
+};
+
+export const favoriteListApi = () => {
+  return api("GET", `/api/users/favorites`);
 };

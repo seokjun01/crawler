@@ -6,6 +6,8 @@ import {
   reviewSaveApi,
   reviewUpdateApi,
   reviewDeleteApi,
+  favoriteSaveApi,
+  favoriteDeleteApi,
 } from "../api";
 import { useAuth } from "../../../app/AuthContext";
 
@@ -216,7 +218,10 @@ export default function PlaceDetail() {
                     className="border-b border-gray-100 pb-3"
                   >
                     <div className="flex justify-between items-center mb-1">
-                      <p className="text-xs text-gray-400">{review.nickname}</p>
+                      <p className="text-xs text-gray-400">
+                        {review.nickname}{" "}
+                        {review.menu_name && `· ${review.menu_name}`}
+                      </p>
                       {review.nickname === user?.nickname && (
                         <div className="flex gap-2">
                           {editingId === review.visit_history_id ? (

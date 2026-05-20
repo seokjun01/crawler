@@ -1,6 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { nearbyApi } from "../api";
+import {
+  nearbyApi,
+  favoriteListApi,
+  favoriteSaveApi,
+  favoriteDeleteApi,
+} from "../api";
 
 const RADIUS_OPTIONS = [
   { label: "300m", value: "300" },
@@ -33,6 +38,8 @@ export function PlaceList({ latitude, longitude }) {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1); // 카카오 API가 page파라미터 지원
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지 여부
+  const [favoriteIds, setFavoriteIds] = useState(new Set());
+
   const navigate = useNavigate();
 
   const observerRef = useRef(null);
@@ -69,6 +76,40 @@ export function PlaceList({ latitude, longitude }) {
     },
     [latitude, longitude, radius, category],
   );
+
+  const handleFavoriteToggle = async (e, place) => {
+    e.stopPropagation();
+    try {
+      if (favoriteIds.has(place.kakaoPlaceId)) {
+        await favoriteDeleteApi(place.kakaoPlaceId);
+        setFavoriteIds((prev) => {
+          const next = new Set(prev);
+          next.delete(place.kakaoPlaceId);
+          return next;
+        });
+      } else {
+        await favoriteSaveApi(
+          place.kakaoPlaceId,
+          place.placeName,
+          place.categoryName.split(">").pop().trim(),
+        );
+        setFavoriteIds((prev) => new Set([...prev, place.kakaoPlaceId]));
+      }
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const res = await favoriteListApi();
+        const ids = (res.data.favorites?.block1 || []).map(
+          (f) => f.kakao_place_id,
+        );
+        setFavoriteIds(new Set(ids));
+      } catch (e) {}
+    };
+    fetchFavorites();
+  }, []);
 
   useEffect(() => {
     //무한 스크롤 (bottomRef있으면 다음페이지 로드)
@@ -154,12 +195,10 @@ export function PlaceList({ latitude, longitude }) {
             >
               <div className="flex items-center gap-3">
                 <span
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  className="text-red-400 text-xl"
+                  onClick={(e) => handleFavoriteToggle(e, place)}
+                  className={`text-xl cursor-pointer ${favoriteIds.has(place.kakaoPlaceId) ? "text-red-500" : "text-gray-300"}`}
                 >
-                  🤍
+                  ♥
                 </span>
                 <div>
                   <p className="font-medium text-sm">{place.placeName}</p>
