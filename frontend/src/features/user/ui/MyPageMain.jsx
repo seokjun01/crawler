@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../app/AuthContext";
-import { locationGetApi } from "../../location/api";
+import { locationGetApi } from "../../location";
 import { favoriteListApi } from "../../places/api";
 import {
   visitListApi,
@@ -73,6 +73,7 @@ export function MyPageMain() {
         setVisits(visitRes.data.visits?.block1 || []);
         setFavorites(favRes.data.favorites?.block1 || []);
       } catch (e) {
+        console.error("fetchAll 에러:", e);
       } finally {
         setLoading(false);
       }

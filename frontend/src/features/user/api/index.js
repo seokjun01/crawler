@@ -1,7 +1,7 @@
 import { api } from "../../../shared/api";
 
 export const visitListApi = () => {
-  return api("GET", "/api/users/visit");
+  return api("GET", "/api/users/visits");
 };
 
 export const logoutApi = () => {
