@@ -32,3 +32,24 @@ export const reviewSaveApi = (
     content,
   });
 };
+
+export const reviewUpdateApi = (
+  kakaoPlaceId,
+  visitHistoryId,
+  menuName,
+  rating,
+  content,
+) => {
+  return api("POST", `/api/places/${kakaoPlaceId}/reviews/update`, {
+    visit_history_id: visitHistoryId,
+    menu_name: menuName,
+    rating,
+    content,
+  });
+};
+
+export const reviewDeleteApi = (kakaoPlaceId, visitHistoryId) => {
+  return api("POST", `/api/places/${kakaoPlaceId}/reviews/delete`, {
+    visit_history_id: visitHistoryId,
+  });
+};
