@@ -112,6 +112,13 @@ export function PlaceList({ latitude, longitude }) {
   }, []);
 
   useEffect(() => {
+    setPlaces([]);
+    setPage(1);
+    setHasMore(true);
+    fetchPlaces(1, true);
+  }, [radius, category]);
+
+  useEffect(() => {
     //무한 스크롤 (bottomRef있으면 다음페이지 로드)
     if (observerRef.current) observerRef.current.disconnect();
 
@@ -135,7 +142,6 @@ export function PlaceList({ latitude, longitude }) {
         <p className="text-sm font-bold mb-2">거리 필터</p>
         <div className="flex gap-2 overflow-x-auto pb-1">
           {" "}
-          //넘치면 가로스크롤
           {RADIUS_OPTIONS.map((option) => (
             <button
               key={option.value}
