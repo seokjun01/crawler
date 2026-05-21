@@ -12,6 +12,7 @@ import PlaceDetailPage from "../pages/place-detail";
 import MyPage from "../pages/mypage";
 import VisitsPage from "../pages/mypage/visits";
 import FavoritesPage from "../pages/mypage/favorites";
+import RecommendPage from "../pages/recommend";
 
 const router = createBrowserRouter([
   //URL경로랑 컴포넌트를 연결하는 테이블
@@ -52,16 +53,16 @@ const router = createBrowserRouter([
     element: <FavoritesPage />,
   },
   {
-    path: "/recommend",
-    element: <div>추천 (임시)</div>,
-  },
-  {
     path: "/mypage",
     element: <MyPage />,
   },
   {
     path: "/places/:kakaoPlaceId",
     element: <PlaceDetailPage />,
+  },
+  {
+    path: "/recommend",
+    element: <RecommendPage />,
   },
 ]);
 
