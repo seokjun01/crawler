@@ -125,7 +125,9 @@ export function LocationForm({ mode = "register" }) {
         title,
       );
       if (response.data.success) {
-        navigate(mode === "register" ? "/" : "/mypage");
+        if (mode === "register" || "edit") {
+          navigate("/");
+        }
       } else {
         setError(response.data.message);
       }
