@@ -17,7 +17,11 @@ export function LoginForm() {
     try {
       const response = await loginApi(email, password);
       if (response.data.success) {
-        login({ nickname: response.data.nickname, email });
+        login({
+          nickname: response.data.nickname,
+          email,
+          preferredCategories: response.data.preferredCategories || "",
+        });
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
         const locationResponse = await locationGetApi();

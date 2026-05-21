@@ -1,16 +1,35 @@
-//로그인 된 유저 정보를 저장하는 Context
-// 유저 인증 상태는 앱 전체에서 사용되어야 함
-
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
 
 const AuthContext = createContext(null);
 
-// 이 컴포넌트로 감싼 하위 컴포넌트들은 전부 유저 정보 접근 가능
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  // 세션 복원 완료 전까지 렌더링 블록
+  const [ready, setReady] = useState(false);
+
+  // 마운트 시 세션 복원
+  useEffect(() => {
+    axios
+      .get("/api/auth/me", { withCredentials: true })
+      .then((res) => {
+        if (res.data.success) {
+          setUser({
+            nickname: res.data.nickname,
+            email: res.data.email,
+            preferredCategories: res.data.preferredCategories,
+          });
+        }
+      })
+      .catch(() => {})
+      .finally(() => setReady(true));
+  }, []);
 
   const login = (userInfo) => setUser(userInfo);
   const logout = () => setUser(null);
+
+  // 세션 확인 전엔 아무것도 렌더링 안 함
+  if (!ready) return null;
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
@@ -19,9 +38,8 @@ export function AuthProvider({ children }) {
   );
 }
 
-// 커스텀 훅 ( Authcontext.Provider로 감싸지 않은 곳에서 쓰면 예외 던짐)
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("AuthProvider 밖에서 useAuth 사용 불가 ");
+  if (!context) throw new Error("AuthProvider 밖에서 useAuth 사용 불가");
   return context;
 }

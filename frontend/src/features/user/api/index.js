@@ -1,7 +1,11 @@
 import { api } from "../../../shared/api";
 
 export const visitListApi = () => {
-  return api("GET", "/api/users/visits");
+  return api("GET", "/api/users/visits/group");
+};
+
+export const visitDetailApi = (kakaoPlaceId) => {
+  return api("GET", `/api/users/visits/${kakaoPlaceId}`);
 };
 
 export const logoutApi = () => {

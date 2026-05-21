@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { visitListApi } from "../api";
+import { visitListApi, visitDetailApi } from "../api";
 
 export function VisitListMain() {
   const navigate = useNavigate();
   const [visits, setVisits] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reviewMap, setReviewMap] = useState({});
 
   useEffect(() => {
     visitListApi()
@@ -14,17 +15,53 @@ export function VisitListMain() {
       .finally(() => setLoading(false));
   }, []);
 
+  const handleToggleReviews = async (kakaoPlaceId) => {
+    // 이미 열려있으면 닫기
+    if (reviewMap[kakaoPlaceId]) {
+      setReviewMap((prev) => {
+        const next = { ...prev };
+        delete next[kakaoPlaceId];
+        return next;
+      });
+      return;
+    }
+
+    // 로딩 상태로 먼저 열기
+    setReviewMap((prev) => ({
+      ...prev,
+      [kakaoPlaceId]: { loading: true, reviews: [] },
+    }));
+
+    try {
+      const res = await visitDetailApi(kakaoPlaceId);
+      const reviews = res.data.visits?.block1 || [];
+      setReviewMap((prev) => ({
+        ...prev,
+        [kakaoPlaceId]: { loading: false, reviews },
+      }));
+    } catch {
+      setReviewMap((prev) => {
+        const next = { ...prev };
+        delete next[kakaoPlaceId];
+        return next;
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white pb-20">
+      {/* 헤더 */}
       <div className="flex items-center px-5 py-4 border-b border-gray-100">
         <button onClick={() => navigate(-1)} className="mr-3 text-xl">
           ←
         </button>
         <h1 className="font-bold text-base">방문기록</h1>
       </div>
+
       <div className="px-5 py-4">
         <p className="font-bold text-sm mb-1">방문 기록</p>
         <p className="text-xs text-gray-400 mb-4">최근 방문한 맛집</p>
+
         {loading ? (
           <div className="flex justify-center py-10">
             <div className="w-6 h-6 rounded-full border-2 border-black border-t-transparent animate-spin" />
@@ -34,29 +71,80 @@ export function VisitListMain() {
             방문 기록이 없습니다
           </p>
         ) : (
-          <div className="flex flex-col gap-3">
-            {visits.map((v) => (
-              <div
-                key={v.visit_history_id}
-                className="border border-gray-100 rounded-xl p-4 bg-gray-50"
-              >
-                <div className="flex justify-between items-start mb-1">
-                  <p className="text-sm font-bold">{v.place_name}</p>
-                  <p className="text-sm text-yellow-400">
-                    {"★".repeat(parseInt(v.rating))}
-                    {"☆".repeat(5 - parseInt(v.rating))}
-                  </p>
+          <div className="flex flex-col">
+            {visits.map((v) => {
+              const isOpen = !!reviewMap[v.kakao_place_id];
+              const reviewState = reviewMap[v.kakao_place_id];
+
+              return (
+                <div
+                  key={v.kakao_place_id}
+                  className="border-b border-gray-100"
+                >
+                  {/* 식당 요약 행 */}
+                  <div className="py-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-sm font-bold">{v.place_name}</p>
+                        {/* visit_count, last_visited는 visit-list-group.xml 응답 */}
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          {v.visit_count}회 방문 · 마지막{" "}
+                          {v.last_visited?.slice(0, 10)}
+                        </p>
+                      </div>
+
+                      {/* 후기 토글 버튼 */}
+                      <button
+                        onClick={() => handleToggleReviews(v.kakao_place_id)}
+                        className="text-xs text-gray-500 border border-gray-200 rounded-lg px-3 py-1 flex-shrink-0"
+                      >
+                        {isOpen ? "후기 닫기 ▲" : "작성한 후기 보기 ▼"}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* 후기 목록 - 토글 */}
+                  {isOpen && (
+                    <div className="pb-4 pl-2">
+                      {reviewState.loading ? (
+                        <div className="flex justify-center py-4">
+                          <div className="w-5 h-5 rounded-full border-2 border-black border-t-transparent animate-spin" />
+                        </div>
+                      ) : reviewState.reviews.length === 0 ? (
+                        <p className="text-xs text-gray-400 py-2">
+                          작성한 후기가 없습니다
+                        </p>
+                      ) : (
+                        <div className="flex flex-col gap-2">
+                          {reviewState.reviews.map((r) => (
+                            <div
+                              key={r.visit_history_id}
+                              className="bg-gray-50 rounded-xl p-3"
+                            >
+                              <div className="flex justify-between items-center mb-1">
+                                <p className="text-xs text-gray-400">
+                                  {r.visited_at?.slice(0, 10)}
+                                  {r.menu_name ? ` · ${r.menu_name}` : ""}
+                                </p>
+                                <p className="text-xs text-yellow-400">
+                                  {"★".repeat(parseInt(r.rating))}
+                                  {"☆".repeat(5 - parseInt(r.rating))}
+                                </p>
+                              </div>
+                              {r.content && (
+                                <p className="text-xs text-gray-600">
+                                  {r.content}
+                                </p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-                <p className="text-xs text-gray-400">
-                  {v.visited_at?.slice(0, 10)}
-                  {v.menu_name ? ` · 메뉴: ${v.menu_name}` : ""}
-                  {v.rating ? ` · 별점: ${v.rating}점` : ""}
-                </p>
-                {v.content && (
-                  <p className="text-xs text-gray-600 mt-1">{v.content}</p>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

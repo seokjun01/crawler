@@ -69,7 +69,6 @@ export function MyPageMain() {
             });
           });
         }
-
         setVisits(visitRes.data.visits?.block1 || []);
         setFavorites(favRes.data.favorites?.block1 || []);
       } catch (e) {
@@ -305,16 +304,15 @@ export function MyPageMain() {
             <div className="flex gap-3 overflow-x-auto pb-1">
               {visits.slice(0, 2).map((v) => (
                 <div
-                  key={v.visit_history_id}
+                  key={v.kakao_place_id}
                   className="min-w-40 border border-gray-100 rounded-xl p-3 bg-gray-50 flex-shrink-0"
                 >
                   <p className="text-xs font-bold mb-1">{v.place_name}</p>
-                  <p className="text-xs text-yellow-400">
-                    {"★".repeat(parseInt(v.rating))}
-                    {"☆".repeat(5 - parseInt(v.rating))}
+                  <p className="text-xs text-gray-400">
+                    {v.visit_count}회 방문
                   </p>
                   <p className="text-xs text-gray-400 mt-1">
-                    {v.visited_at?.slice(0, 10)} · {v.menu_name || "-"}
+                    마지막 {v.last_visited?.slice(0, 10)}
                   </p>
                 </div>
               ))}
