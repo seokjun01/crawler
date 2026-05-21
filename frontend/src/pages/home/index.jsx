@@ -36,10 +36,10 @@ export default function HomePage() {
             });
           });
         } else {
-          navigate("/location-register");
+          navigate("/splash");
         }
       } catch (e) {
-        navigate("/location-register");
+        navigate("/splash");
       }
     };
     fetchLocation();

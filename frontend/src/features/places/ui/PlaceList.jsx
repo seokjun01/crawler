@@ -8,9 +8,11 @@ import {
 } from "../api";
 
 const RADIUS_OPTIONS = [
+  { label: "100m", value: "100" },
   { label: "300m", value: "300" },
   { label: "500m", value: "500" },
   { label: "1km", value: "1000" },
+  { label: "2km", value: "2000" },
 ];
 
 const CATEGORY_OPTIONS = [
@@ -31,7 +33,7 @@ const formatDistance = (distance) => {
 };
 
 export function PlaceList({ latitude, longitude }) {
-  const [radius, setRadius] = useState("500");
+  const [radius, setRadius] = useState("1000");
   const [category, setCategory] = useState("");
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -42,14 +44,25 @@ export function PlaceList({ latitude, longitude }) {
   const observerRef = useRef(null);
   const bottomRef = useRef(null);
   const loadingRef = useRef(false);
-  const pageRef = useRef(1); // page를 ref로 관리
-  const hasMoreRef = useRef(true); // hasMore도 ref로 관리
+  const pageRef = useRef(1);
+  const hasMoreRef = useRef(true);
+
+  // category를 ref로도 들고 있어야 fetchPlaces 클로저에서 최신값 읽힘
+  const categoryRef = useRef(category);
+  useEffect(() => {
+    categoryRef.current = category;
+  }, [category]);
 
   const fetchPlaces = useCallback(
     async (currentPage, reset = false) => {
       if (!latitude || !longitude) return;
       if (loadingRef.current) return;
       if (!hasMoreRef.current && !reset) return;
+      if (currentPage >= 45) {
+        hasMoreRef.current = false;
+        setHasMore(false);
+        return;
+      }
 
       loadingRef.current = true;
       setLoading(true);
@@ -58,31 +71,45 @@ export function PlaceList({ latitude, longitude }) {
           latitude,
           longitude,
           radius,
-          category,
+          // 카테고리 필터는 백엔드에 보내지 않음 - 프론트에서 처리
+          "",
           currentPage,
         );
-        const newPlaces = response.data;
+        const { places: newPlaces, isEnd } = response.data;
 
-        if (!Array.isArray(newPlaces) || newPlaces.length === 0) {
+        // 카테고리 클라이언트 필터링
+        // categoryRef.current: 최신 카테고리 값 (클로저 stale 방지)
+        const filtered = categoryRef.current
+          ? (newPlaces || []).filter((p) =>
+              p.categoryName?.includes(categoryRef.current),
+            )
+          : newPlaces || [];
+
+        // isEnd가 true면 더 이상 페이지 없음
+        if (isEnd) {
+          hasMoreRef.current = false;
+          setHasMore(false);
+        }
+        if (!newPlaces || newPlaces.length === 0) {
           hasMoreRef.current = false;
           setHasMore(false);
           return;
         }
 
-        setPlaces((prev) => (reset ? newPlaces : [...prev, ...newPlaces]));
-
-        if (newPlaces.length < 15 || currentPage >= 3) {
-          hasMoreRef.current = false;
-          setHasMore(false);
-        }
+        // reset=true면 새 목록, false면 기존에 append
+        setPlaces((prev) => (reset ? filtered : [...prev, ...filtered]));
       } catch (e) {
         console.error("식당 목록 조회 실패", e);
       } finally {
         loadingRef.current = false;
         setLoading(false);
+        if (observerRef.current && bottomRef.current) {
+          observerRef.current.unobserve(bottomRef.current);
+          observerRef.current.observe(bottomRef.current);
+        }
       }
     },
-    [latitude, longitude, radius, category],
+    [latitude, longitude, radius],
   );
 
   // 즐겨찾기 초기 로드
@@ -99,14 +126,14 @@ export function PlaceList({ latitude, longitude }) {
     fetchFavorites();
   }, []);
 
-  // radius/category 바뀌면 초기화 후 1페이지 로드
+  // radius/category/위치 바뀌면 초기화 후 1페이지
   useEffect(() => {
     pageRef.current = 1;
     hasMoreRef.current = true;
     setPlaces([]);
     setHasMore(true);
     fetchPlaces(1, true);
-  }, [radius, category, latitude, longitude]);
+  }, [radius, category, latitude, longitude, fetchPlaces]);
 
   // 무한스크롤 observer
   useEffect(() => {
@@ -124,7 +151,7 @@ export function PlaceList({ latitude, longitude }) {
           fetchPlaces(nextPage, false);
         }
       },
-      { threshold: 1.0 },
+      { threshold: 0 },
     );
 
     if (bottomRef.current) observerRef.current.observe(bottomRef.current);
@@ -154,6 +181,7 @@ export function PlaceList({ latitude, longitude }) {
 
   return (
     <div className="pb-20">
+      {/* 거리 필터 */}
       <div className="px-5 pt-5 pb-3">
         <p className="text-sm font-bold mb-2">거리 필터</p>
         <div className="flex gap-2 overflow-x-auto pb-1">
@@ -173,6 +201,7 @@ export function PlaceList({ latitude, longitude }) {
         </div>
       </div>
 
+      {/* 카테고리 필터 */}
       <div className="px-5 pb-4">
         <p className="text-sm font-bold mb-2">음식 카테고리</p>
         <div className="grid grid-cols-2 gap-2">
@@ -193,6 +222,7 @@ export function PlaceList({ latitude, longitude }) {
         </div>
       </div>
 
+      {/* 식당 목록 */}
       <div className="px-5">
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-bold">식당 목록</p>
@@ -216,7 +246,11 @@ export function PlaceList({ latitude, longitude }) {
               <div className="flex items-center gap-3">
                 <span
                   onClick={(e) => handleFavoriteToggle(e, place)}
-                  className={`text-xl cursor-pointer ${favoriteIds.has(place.kakaoPlaceId) ? "text-red-500" : "text-gray-300"}`}
+                  className={`text-xl cursor-pointer ${
+                    favoriteIds.has(place.kakaoPlaceId)
+                      ? "text-red-500"
+                      : "text-gray-300"
+                  }`}
                 >
                   ♥
                 </span>
