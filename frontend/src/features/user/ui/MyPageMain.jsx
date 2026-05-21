@@ -174,7 +174,10 @@ export function MyPageMain() {
           </div>
           {!editingNickname && (
             <button
-              onClick={() => setEditingNickname(true)}
+              onClick={() => {
+                setNicknameInput(user?.nickname || "");
+                setEditingNickname(true);
+              }}
               className="border border-gray-300 rounded-lg px-3 py-1 text-xs text-gray-600"
             >
               편집 &gt;
