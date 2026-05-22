@@ -14,32 +14,33 @@ export function LoginForm() {
   const { login } = useAuth();
 
   const handleLogin = async () => {
+    let response;
     try {
-      const response = await loginApi(email, password);
-      if (response.data.success) {
-        login({
-          userId: response.data.userId,
-          nickname: response.data.nickname,
-          email,
-          preferredCategories: response.data.preferredCategories || "",
-        });
-
-        const locationResponse = await locationGetApi();
-        const hasLocation = locationResponse.data.latitude;
-
-        // 위치 없으면 최초 등록 화면, 있으면 홈
-        navigate(hasLocation ? "/" : "/location-register");
-      } else {
-        if (response.data.message === "이메일 인증이 필요합니다.") {
-          navigate("/verify-email", { state: { email } });
-        } else {
-          setError(response.data.message);
-        }
-      }
+      response = await loginApi(email, password);
     } catch (e) {
-      console.error("locationGet 에러:", e);
-      // 위치 조회 실패 시 일단 홈으로
-      navigate("/location-register");
+      setError("로그인 중 오류가 발생했습니다.");
+      return;
+    }
+
+    if (response.data.success) {
+      login({
+        userId: response.data.userId,
+        nickname: response.data.nickname,
+        email,
+        preferredCategories: response.data.preferredCategories || "",
+      });
+      try {
+        const locationResponse = await locationGetApi();
+        navigate(locationResponse.data.latitude ? "/" : "/location-register");
+      } catch {
+        navigate("/location-register");
+      }
+    } else {
+      if (response.data.message === "이메일 인증이 필요합니다.") {
+        navigate("/verify-email", { state: { email } });
+      } else {
+        setError(response.data.message);
+      }
     }
   };
 
