@@ -1,28 +1,32 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { randomRecommendApi, visitSaveApi } from "../api";
+import { personalRecommendApi, randomRecommendApi, visitSaveApi } from "../api";
 
 export function RecommendResult() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const mode = state?.mode || "random";
+  const exclude = state?.exclude || "";
 
   const [place, setPlace] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [visited, setVisited] = useState(false); // 좋아요(방문기록) 여부
+  const [visited, setVisited] = useState(false);
 
   const fetchRecommend = useCallback(async () => {
     setLoading(true);
     setVisited(false); // 다시 추천 시 초기화
     try {
-      const res = await randomRecommendApi();
+      const res =
+        mode === "personal"
+          ? await personalRecommendApi(exclude)
+          : await randomRecommendApi();
       setPlace(res.data);
     } catch {
       alert("추천을 불러오지 못했습니다.");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [mode, exclude]);
 
   useEffect(() => {
     fetchRecommend();
@@ -53,7 +57,9 @@ export function RecommendResult() {
         >
           ‹
         </button>
-        <h1 className="text-base font-bold">🎲 랜덤 추천</h1>
+        <h1 className="text-base font-bold">
+          {mode === "personal" ? "✨ 개인화 추천" : "🎲 랜덤 추천"}
+        </h1>
       </div>
 
       {/* 본문 */}
@@ -112,7 +118,7 @@ export function RecommendResult() {
             disabled={visited}
             className="flex-1 border border-black text-black rounded-xl py-4 text-sm font-semibold disabled:opacity-40"
           >
-            {visited ? "기록됨 ♥" : "방문할게요!"}
+            {visited ? "기록됨 " : "방문할게요!"}
           </button>
           {/* 메뉴 보기 - 상세 페이지 이동 */}
           <button

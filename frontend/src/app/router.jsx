@@ -14,6 +14,7 @@ import VisitsPage from "../pages/mypage/visits";
 import FavoritesPage from "../pages/mypage/favorites";
 import RecommendPage from "../pages/recommend";
 import RecommendResultPage from "../pages/recommend-result";
+import RecommendExcludePage from "../pages/recommend-exclude";
 
 const router = createBrowserRouter([
   //URL경로랑 컴포넌트를 연결하는 테이블
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
   {
     path: "/recommend/result",
     element: <RecommendResultPage />,
+  },
+  {
+    path: "/recommend/exclude",
+    element: <RecommendExcludePage />,
   },
 ]);
 

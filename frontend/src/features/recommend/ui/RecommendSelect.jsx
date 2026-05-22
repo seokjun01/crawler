@@ -23,10 +23,14 @@ export function RecommendSelect() {
           <p className="text-2xl mb-2">🎲</p>
           <p className="text-lg font-bold mb-1">랜덤 추천</p>
         </button>
-        {/*커스텀 버튼
-                <button>
-
-                </button>*/}
+        <button
+          onClick={() => navigate("/recommend/exclude")}
+          className="w-full bg-black text-white rounded-2xl p-6 text-left active:scale-95 transition-transform"
+        >
+          <p className="text-2xl mb-2">🧑 </p>
+          <p className="text-lg font-bold mb-1">정밀 추천</p>
+          <p className="text-sm text-gray-300">내 취향 + 먹기 싫은 거 빼고</p>
+        </button>
       </div>
     </div>
   );

@@ -13,11 +13,9 @@ export const visitSaveApi = (kakaoPlaceId, placeName, categoryName) => {
     content: "",
   });
 };
-/* 
+
 export const personalRecommendApi = (exclude) => {
-   let url = "/api/places/recommend"
-   
-    return api (
-        
-    )
-}*/
+  let url = "/api/places/recommend/personal";
+  if (exclude) url += `?exclude=${encodeURIComponent(exclude)}`;
+  return api("GET", url);
+};
