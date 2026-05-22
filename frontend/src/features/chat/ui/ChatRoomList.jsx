@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../app/AuthContext";
-import { getRoomsApi, joinRoomApi } from "../api";
+import { getRoomsApi, joinRoomApi, deleteRoomApi } from "../api";
 import { ChatRoomCreate } from "./ChatRoomCreate";
 
 export function ChatRoomList() {
@@ -42,6 +42,19 @@ export function ChatRoomList() {
     }
   };
 
+  const handleDelete = async (roomId) => {
+    try {
+      const res = await deleteRoomApi(roomId);
+      if (res.data.success) {
+        fetchRooms();
+      } else {
+        setError(res.data.message);
+      }
+    } catch {
+      setError("방 삭제 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white pb-20">
       <div className="flex items-center justify-between px-5 py-4 border-b">
@@ -67,32 +80,50 @@ export function ChatRoomList() {
       )}
 
       <ul>
-        {rooms.map((room) => (
-          <li
-            key={room.room_id}
-            className="px-5 py-4 border-b active:bg-gray-50"
-          >
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="font-medium text-sm">{room.title}</p>
-                <p className="text-xs text-gray-400 mt-1">
-                  {room.host_nickname} · {room.current_members}/
-                  {room.max_members}명
-                </p>
+        {rooms.map((room) => {
+          console.log(
+            "host_user_id:",
+            room.host_user_id,
+            typeof room.host_user_id,
+          );
+          console.log("user.userId:", user?.userId, typeof user?.userId);
+          return (
+            <li
+              key={room.room_id}
+              className="px-5 py-4 border-b active:bg-gray-50"
+            >
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="font-medium text-sm">{room.title}</p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    {room.host_nickname} · {room.current_members}/
+                    {room.max_members}명
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  {String(user?.userId) === String(room.host_user_id) && (
+                    <button
+                      onClick={() => handleDelete(room.room_id)}
+                      className="text-xs text-red-400 border border-red-300 rounded-lg px-3 py-1"
+                    >
+                      삭제
+                    </button>
+                  )}
+                  {room.status === "OPEN" ? (
+                    <button
+                      onClick={() => handleJoin(room.room_id)}
+                      className="text-sm border border-black rounded-lg px-3 py-1"
+                    >
+                      입장
+                    </button>
+                  ) : (
+                    <span className="text-xs text-gray-400">마감</span>
+                  )}
+                </div>
               </div>
-              {room.status === "OPEN" ? (
-                <button
-                  onClick={() => handleJoin(room.room_id)}
-                  className="text-sm border border-black rounded-lg px-3 py-1"
-                >
-                  입장
-                </button>
-              ) : (
-                <span className="text-xs text-gray-400">마감</span>
-              )}
-            </div>
-          </li>
-        ))}
+            </li>
+          );
+        })}
       </ul>
 
       {!loading && rooms.length === 0 && (
