@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 const NAV_ITEMS = [
   { path: "/", label: "홈", emoji: "🏠" },
   { path: "/recommend", label: "추천", emoji: "✨" },
+  { path: "/chat", label: "같이먹어요", emoji: "🍱" },
   { path: "/mypage", label: "마이페이지", emoji: "👤" },
 ];
 
@@ -12,7 +13,7 @@ export function BottomNav() {
 
   return (
     <nav className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-100 z-50">
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-4">
         {NAV_ITEMS.map((item) => {
           const isActive = location.pathname === item.path;
 

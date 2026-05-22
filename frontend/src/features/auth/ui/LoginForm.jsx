@@ -18,12 +18,12 @@ export function LoginForm() {
       const response = await loginApi(email, password);
       if (response.data.success) {
         login({
+          userId: response.data.userId,
           nickname: response.data.nickname,
           email,
           preferredCategories: response.data.preferredCategories || "",
         });
 
-        await new Promise((resolve) => setTimeout(resolve, 1000));
         const locationResponse = await locationGetApi();
         const hasLocation = locationResponse.data.latitude;
 
@@ -37,7 +37,7 @@ export function LoginForm() {
         }
       }
     } catch (e) {
-      console.error("locationGet 에러:", locError);
+      console.error("locationGet 에러:", e);
       // 위치 조회 실패 시 일단 홈으로
       navigate("/location-register");
     }

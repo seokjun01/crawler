@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
       .then((res) => {
         if (res.data.success) {
           setUser({
+            userId: res.data.userId,
             nickname: res.data.nickname,
             email: res.data.email,
             preferredCategories: res.data.preferredCategories,
