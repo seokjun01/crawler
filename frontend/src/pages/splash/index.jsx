@@ -9,7 +9,7 @@ export default function SplashPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* 중앙 영역*/}
-      <div className="flex-1 flex flex-col items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center animate-fade-in">
         <img src={logo} alt="DISHPATCH" className="h-20 mb-4" />
         <p className="text-gray-400 text-xl">오늘 뭐먹지?</p>
       </div>

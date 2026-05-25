@@ -41,6 +41,17 @@ export function ChatRoom() {
     const ws = new WebSocket("ws://localhost:8081/websocket");
     wsRef.current = ws;
 
+    ws.onopen = () => {
+      ws.send(
+        JSON.stringify({
+          type: "JOIN",
+          roomId: Number(roomId),
+          userId: Number(user.userId),
+          nickname: user.nickname,
+        }),
+      );
+    };
+
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data);
       setMessages((prev) => [...prev, data]);
@@ -57,6 +68,7 @@ export function ChatRoom() {
   const handleSend = () => {
     if (!input.trim() || wsRef.current?.readyState !== WebSocket.OPEN) return;
     const payload = {
+      type: "MESSAGE",
       roomId: Number(roomId),
       userId: Number(user.userId),
       nickname: user.nickname,
