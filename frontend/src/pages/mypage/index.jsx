@@ -5,7 +5,6 @@ export default function mypage() {
   return (
     <>
       <MyPageMain />
-      <BottomNav />
     </>
   );
 }

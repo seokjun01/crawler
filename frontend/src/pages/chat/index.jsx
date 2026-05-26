@@ -5,7 +5,6 @@ export default function ChatPage() {
   return (
     <div>
       <ChatRoomList />
-      <BottomNav />
     </div>
   );
 }

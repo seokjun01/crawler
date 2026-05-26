@@ -58,7 +58,7 @@ export function ChatRoomList() {
   return (
     <div className="min-h-screen bg-white pb-20">
       <div className="flex items-center justify-between px-5 py-4 border-b border-primary-light">
-        <h1 className="text-lg  text-primary font-bold">같이먹기</h1>
+        <h1 className="text-lg  -ml-2 text-primary font-bold">채팅방 목록 </h1>
         <button
           onClick={() => setShowCreate(true)}
           className="bg-primary text-white text-sm px-4 py-2 rounded-lg"

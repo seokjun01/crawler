@@ -5,7 +5,6 @@ export default function FavoritesPage() {
   return (
     <>
       <FavoriteListMain />
-      <BottomNav />
     </>
   );
 }

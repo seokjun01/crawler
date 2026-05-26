@@ -6,7 +6,6 @@ export default function VisitsPage() {
   return (
     <>
       <VisitListMain />
-      <BottomNav />
     </>
   );
 }

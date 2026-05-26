@@ -28,7 +28,7 @@ export function FavoriteListMain() {
   };
 
   return (
-    <div className="min-h-screen bg-white pb-20">
+    <div className="min-h-screen bg-white pb-20 lg:pb-4">
       <div className="flex items-center px-5 py-4 border-b border-gray-100">
         <button onClick={() => navigate(-1)} className="mr-3 text-xl">
           ←
