@@ -191,7 +191,7 @@ export function PlaceList({ latitude, longitude }) {
               onClick={() => setRadius(option.value)}
               className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium border ${
                 radius === option.value
-                  ? "bg-black text-white border-black"
+                  ? "bg-primary-cream text-primary-light font-semibold"
                   : "bg-white text-gray-500 border-gray-200"
               }`}
             >
@@ -211,8 +211,8 @@ export function PlaceList({ latitude, longitude }) {
               onClick={() => setCategory(option.value)}
               className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium ${
                 category === option.value
-                  ? "bg-black text-white border-black"
-                  : "bg-white text-gray-700 border-gray-200"
+                  ? "bg-primary-cream text-primary-light font-semibold"
+                  : "bg-white text-gray-500 border-gray-200"
               }`}
             >
               <span>{option.emoji}</span>

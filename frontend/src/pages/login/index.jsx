@@ -8,7 +8,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col ">
       <div className="w-full max-w-[480px] mx-auto flex flex-col flex-1 bg-white shadow-xl">
-        <div className="px-5 pt-5 pb-3 border-b border-gray-100 flex items-center">
+        <div className="px-1 pt-5 pb-3 border-b border-gray-100 flex items-center">
           <svg
             width="44"
             height="44"
@@ -88,7 +88,7 @@ export default function LoginPage() {
               />
             </g>
           </svg>
-          DISHPATCH
+          <p className="text-primary"> DishPatch </p>
         </div>
 
         <LoginForm />

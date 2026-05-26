@@ -76,7 +76,7 @@ export function LoginForm() {
         <button
           onClick={handleLogin}
           className="w-full bg-primary text-white rounded-xl py-4 text-base font-semibold
-          hover:bg-gray-800 active:scale-95 transition-all
+          hover:bg-primary-light active:scale-95 transition-all
           "
         >
           로그인
@@ -84,7 +84,7 @@ export function LoginForm() {
         <button
           onClick={() => navigate("/register")}
           className="w-full bg-white text-primary border border-primary-light rounded-xl py-4 text-base font-semibold
-          hover:bg-gray-200 active:scale-95 transition-all
+          hover:bg-primary-cream active:scale-95 transition-all
           "
         >
           가입하기

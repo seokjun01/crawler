@@ -21,84 +21,92 @@ export function TopNav() {
   return (
     <>
       <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-[#f5f5f5]">
-        <div className="mx-auto flex w-full max-w-screen-xl items-center bg-white justify-between px-4 py-4">
+        <div className="mx-auto flex w-full bg-white max-w-screen-xl items-center  justify-between px-4 py-4">
           <div className="flex items-center gap-2">
             <svg
-              width="32"
-              height="37"
-              viewBox="0 0 680 780"
+              width="23"
+              height="30"
+              viewBox="0 0 680 680"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <g transform="translate(340, 300)">
+              <rect
+                x="120"
+                y="20"
+                width="440"
+                height="440"
+                rx="120"
+                fill="#FF6B35"
+              />
+              <g transform="translate(340, 250)">
                 <path
-                  d="M0,-200 C110,-200 190,-120 190,-30 C190,80 80,180 0,260 C-80,180 -190,80 -190,-30 C-190,-120 -110,-200 0,-200 Z"
-                  fill="#111"
+                  d="M0,-155 C90,-155 155,-88 155,-18 C155,72 58,155 0,210 C-58,155 -155,72 -155,-18 C-155,-88 -90,-155 0,-155 Z"
+                  fill="white"
                 />
-                <circle cx="0" cy="310" r="22" fill="#111" />
-                <g transform="rotate(-30)">
-                  <line
-                    x1="0"
-                    y1="-160"
-                    x2="0"
-                    y2="160"
-                    stroke="white"
-                    stroke-width="16"
-                    stroke-linecap="round"
-                  />
-                  <line
-                    x1="-18"
-                    y1="-160"
-                    x2="-18"
-                    y2="-90"
-                    stroke="white"
-                    stroke-width="14"
-                    stroke-linecap="round"
-                  />
-                  <line
-                    x1="18"
-                    y1="-160"
-                    x2="18"
-                    y2="-90"
-                    stroke="white"
-                    stroke-width="14"
-                    stroke-linecap="round"
-                  />
-                  <path
-                    d="M-22,-90 Q0,-60 22,-90"
-                    fill="none"
-                    stroke="white"
-                    stroke-width="14"
-                    stroke-linecap="round"
-                  />
-                </g>
-                <g transform="rotate(30)">
-                  <ellipse
-                    cx="0"
-                    cy="-130"
-                    rx="22"
-                    ry="30"
-                    fill="none"
-                    stroke="white"
-                    stroke-width="14"
-                  />
-                  <line
-                    x1="0"
-                    y1="-100"
-                    x2="0"
-                    y2="160"
-                    stroke="white"
-                    stroke-width="16"
-                    stroke-linecap="round"
-                  />
-                </g>
+                <circle cx="0" cy="248" r="22" fill="white" />
+              </g>
+              <g transform="translate(340, 248) rotate(-28)">
+                <line
+                  x1="0"
+                  y1="-118"
+                  x2="0"
+                  y2="118"
+                  stroke="#FF6B35"
+                  strokeWidth="15"
+                  strokeLinecap="round"
+                />
+                <line
+                  x1="-16"
+                  y1="-118"
+                  x2="-16"
+                  y2="-64"
+                  stroke="#FF6B35"
+                  strokeWidth="13"
+                  strokeLinecap="round"
+                />
+                <line
+                  x1="16"
+                  y1="-118"
+                  x2="16"
+                  y2="-64"
+                  stroke="#FF6B35"
+                  strokeWidth="13"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M-20,-64 Q0,-40 20,-64"
+                  fill="none"
+                  stroke="#FF6B35"
+                  strokeWidth="13"
+                  strokeLinecap="round"
+                />
+              </g>
+              <g transform="translate(340, 248) rotate(28)">
+                <ellipse
+                  cx="0"
+                  cy="-98"
+                  rx="19"
+                  ry="26"
+                  fill="none"
+                  stroke="#FF6B35"
+                  strokeWidth="13"
+                />
+                <line
+                  x1="0"
+                  y1="-72"
+                  x2="0"
+                  y2="118"
+                  stroke="#FF6B35"
+                  strokeWidth="15"
+                  strokeLinecap="round"
+                />
               </g>
             </svg>
-            <span className="text-lg font-bold">DishPatch</span>
+            <span className="text-sm font-bold text-primary">DishPatch</span>
           </div>
 
           <button
             onClick={() => setOpen(true)}
-            className="hidden lg:block text-2xl text-gray-600 hover:text-black"
+            className="hidden lg:block text-2xl text-primary hover:text-black"
           >
             ☰
           </button>
