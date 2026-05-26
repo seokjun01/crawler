@@ -75,7 +75,7 @@ export function LoginForm() {
       <div className="flex flex-col gap-3 mt-6">
         <button
           onClick={handleLogin}
-          className="w-full bg-black text-white rounded-xl py-4 text-base font-semibold
+          className="w-full bg-primary text-white rounded-xl py-4 text-base font-semibold
           hover:bg-gray-800 active:scale-95 transition-all
           "
         >
@@ -83,7 +83,7 @@ export function LoginForm() {
         </button>
         <button
           onClick={() => navigate("/register")}
-          className="w-full bg-white text-black border border-black rounded-xl py-4 text-base font-semibold
+          className="w-full bg-white text-primary border border-primary-light rounded-xl py-4 text-base font-semibold
           hover:bg-gray-200 active:scale-95 transition-all
           "
         >

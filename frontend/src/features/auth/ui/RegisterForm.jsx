@@ -102,7 +102,7 @@ export function RegisterForm() {
         <p className="text-xs text-gray-400 mt-1">예: name@cyber-i.com</p>
         <button
           onClick={handleCheckEmail}
-          className="w-full bg-black text-white rounded-lg py-3 text-sm font-semibold mt-2"
+          className="w-full bg-primary text-white rounded-lg py-3 text-sm font-semibold mt-2"
         >
           중복확인
         </button>
@@ -146,7 +146,7 @@ export function RegisterForm() {
               className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-sm transition-all
               ${
                 selectedCategories.includes(cat.label)
-                  ? "border-black bg-gray-800 text-white font-semibold"
+                  ? " bg-primary-cream text-primary-light font-semibold"
                   : "border-gray-200 text-gray-500 bg-white"
               }`}
             >
@@ -163,7 +163,7 @@ export function RegisterForm() {
       <div className="flex gap-3 mt-2">
         <button
           onClick={() => navigate(-1)}
-          className="flex-1 border border-black text-black rounded-xl py-4 text-base font-semibold
+          className="flex-1 border border-primary-light text-primary rounded-xl py-4 text-base font-semibold
           hover:bg-gray-200 active:scale-95 transition-all
           "
         >
@@ -171,7 +171,7 @@ export function RegisterForm() {
         </button>
         <button
           onClick={handleRegister}
-          className="flex-1 bg-black text-white rounded-xl py-4 text-base font-semibold
+          className="flex-1 bg-primary text-white rounded-xl py-4 text-base font-semibold
           hover:bg-gray-900 active:scale-95 transition-all"
         >
           가입하기
