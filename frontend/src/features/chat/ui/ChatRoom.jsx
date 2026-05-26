@@ -131,8 +131,8 @@ export function ChatRoom() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* 헤더 */}
-      <div className="flex items-center justify-between px-5 py-4 border-b">
-        <h1 className="text-base font-semibold truncate">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-primary-light ">
+        <h1 className="text-base  text-primary font-semibold truncate">
           {roomInfo?.title || "채팅방"}
         </h1>
         <div className="flex items-center gap-3">
@@ -190,7 +190,7 @@ export function ChatRoom() {
       </div>
 
       {/* 입력창 */}
-      <div className="flex items-center gap-2 px-4 py-3 border-t">
+      <div className="flex items-center mb-20 lg:mb-0 gap-2 px-4 py-3 border-t border-primary-light">
         <input
           type="text"
           value={input}
@@ -201,7 +201,7 @@ export function ChatRoom() {
         />
         <button
           onClick={handleSend}
-          className="bg-black text-white text-sm px-4 py-2 rounded-lg"
+          className="bg-black text-white bg-primary text-sm px-4 py-2 rounded-lg"
         >
           전송
         </button>

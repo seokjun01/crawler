@@ -58,7 +58,7 @@ export function ChatRoomList() {
   return (
     <div className="min-h-screen bg-white pb-20">
       <div className="flex items-center justify-between px-5 py-4 border-b border-primary-light">
-        <h1 className="text-lg  text-primary font-semibold">같이먹기</h1>
+        <h1 className="text-lg  text-primary font-bold">같이먹기</h1>
         <button
           onClick={() => setShowCreate(true)}
           className="bg-primary text-white text-sm px-4 py-2 rounded-lg"
@@ -83,11 +83,13 @@ export function ChatRoomList() {
         {rooms.map((room) => (
           <li
             key={room.room_id}
-            className="px-5 py-4 border-b active:bg-gray-50"
+            className="px-5 py-4 border-b border-primary-light active:bg-gray-50"
           >
             <div className="flex justify-between items-center">
               <div>
-                <p className="font-medium text-sm">{room.title}</p>
+                <p className="font-medium  text-primary text-sm">
+                  {room.title}
+                </p>
                 <p className="text-xs text-gray-400 mt-1">
                   {room.host_nickname} · {room.current_members}/
                   {room.max_members}명
@@ -105,7 +107,7 @@ export function ChatRoomList() {
                 {room.status === "OPEN" ? (
                   <button
                     onClick={() => handleJoin(room.room_id)}
-                    className="text-sm border border-black rounded-lg px-3 py-1"
+                    className="text-sm bg-primary text-primary-cream rounded-lg px-3 py-1"
                   >
                     입장
                   </button>
