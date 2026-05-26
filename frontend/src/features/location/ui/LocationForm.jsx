@@ -219,14 +219,14 @@ export function LocationForm({ mode = "register" }) {
       <div className="mt-auto px-5 pb-8 flex gap-3">
         <button
           onClick={() => navigate(-1)}
-          className="flex-1 border border-black text-black rounded-xl py-4 text-base font-semibold"
+          className="flex-1 border border-primary-middle text-primary-middle rounded-xl py-4 text-base font-semibold"
         >
           취소
         </button>
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="flex-1 bg-black text-white rounded-xl py-4 text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 bg-primary text-white rounded-xl py-4 text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "저장 중..." : buttonLabel}
         </button>
