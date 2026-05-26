@@ -17,73 +17,47 @@ import RecommendResultPage from "../pages/recommend-result";
 import RecommendExcludePage from "../pages/recommend-exclude";
 import ChatPage from "../pages/chat";
 import ChatRoomPage from "../pages/chat-room";
+import { TopNav } from "../shared/ui/TopNav";
+import { BottomNav } from "../shared/ui/BottomNav";
+
+import { Outlet } from "react-router-dom"; // 2번째 줄 import에 Outlet 추가
+
+function MainLayout() {
+  return (
+    <>
+      <TopNav />
+      <div className="mx-auto max-w-screen-xl">
+        <Outlet />
+      </div>
+      <BottomNav />
+    </>
+  );
+}
 
 const router = createBrowserRouter([
-  //URL경로랑 컴포넌트를 연결하는 테이블
-  {
-    path: "/",
-    element: <HomePage />,
-  },
-  {
-    path: "/splash",
-    element: <SplashPage />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />,
-  },
-  {
-    path: "/verify-email",
-    element: <VerifyEmailPage />,
-  },
-  {
-    path: "/location-register",
-    element: <LocationRegisterPage />,
-  },
-  {
-    path: "/location-edit",
-    element: <LocationEditPage />,
-  },
-  {
-    path: "/mypage/visits",
-    element: <VisitsPage />,
-  },
-  {
-    path: "/mypage/favorites",
-    element: <FavoritesPage />,
-  },
-  {
-    path: "/mypage",
-    element: <MyPage />,
-  },
-  {
-    path: "/places/:kakaoPlaceId",
-    element: <PlaceDetailPage />,
-  },
-  {
-    path: "/recommend",
-    element: <RecommendPage />,
-  },
-  {
-    path: "/recommend/result",
-    element: <RecommendResultPage />,
-  },
-  {
-    path: "/recommend/exclude",
-    element: <RecommendExcludePage />,
-  },
-  {
-    path: "/chat",
-    element: <ChatPage />,
-  },
+  // 네비 없는 페이지
+  { path: "/splash", element: <SplashPage /> },
+  { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <RegisterPage /> },
+  { path: "/verify-email", element: <VerifyEmailPage /> },
+  { path: "/location-register", element: <LocationRegisterPage /> },
+  { path: "/location-edit", element: <LocationEditPage /> },
 
+  // 네비 있는 페이지
   {
-    path: "/chat/:roomId",
-    element: <ChatRoomPage />,
+    element: <MainLayout />,
+    children: [
+      { path: "/", element: <HomePage /> },
+      { path: "/places/:kakaoPlaceId", element: <PlaceDetailPage /> },
+      { path: "/mypage", element: <MyPage /> },
+      { path: "/mypage/visits", element: <VisitsPage /> },
+      { path: "/mypage/favorites", element: <FavoritesPage /> },
+      { path: "/recommend", element: <RecommendPage /> },
+      { path: "/recommend/result", element: <RecommendResultPage /> },
+      { path: "/recommend/exclude", element: <RecommendExcludePage /> },
+      { path: "/chat", element: <ChatPage /> },
+      { path: "/chat/:roomId", element: <ChatRoomPage /> },
+    ],
   },
 ]);
 

@@ -12,7 +12,7 @@ export function BottomNav() {
   const location = useLocation(); //현재 URL 경로 확인용
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-100 z-50">
+    <nav className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-100 z-50 lg:hidden">
       <div className="grid grid-cols-4">
         {NAV_ITEMS.map((item) => {
           const isActive = location.pathname === item.path;
