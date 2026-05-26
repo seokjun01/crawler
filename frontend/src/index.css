@@ -4,3 +4,8 @@
 body {
   font-family: "Pretendard", sans-serif;
 }
+
+@theme {
+  --color-primary: #ff6b35;
+  --color-primary-light: #ffb899;
+}

@@ -28,10 +28,15 @@ export function RegisterForm() {
   const navigate = useNavigate();
 
   const handleCheckEmail = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("올바른 이메일 형식이 아닙니다.");
+      return;
+    }
     try {
       const response = await checkEmailApi(email);
       if (response.data.duplicate) {
-        setError("이미 사용중인 이메일입니다.");
+        alert("이미 사용중인 이메일입니다.");
         setEmailChecked(false);
       } else {
         setError("");
@@ -57,6 +62,10 @@ export function RegisterForm() {
   };
 
   const handleRegister = async () => {
+    if (!emailChecked) {
+      alert("이메일 중복확인을 해주세요.");
+      return;
+    }
     try {
       const response = await registerApi(
         email,
@@ -67,10 +76,10 @@ export function RegisterForm() {
       if (response.data.success) {
         navigate("/verify-email", { state: { email } }); // (인증 재발송에 필요하기 때문에 상태로 넘겨줌)
       } else {
-        setError(response.data.message);
+        alert(response.data.message);
       }
     } catch (e) {
-      setError("회원가입 중 오류가 발생했습니다.");
+      alert("회원가입 중 오류가 발생했습니다.");
     }
   };
 
@@ -154,13 +163,16 @@ export function RegisterForm() {
       <div className="flex gap-3 mt-2">
         <button
           onClick={() => navigate(-1)}
-          className="flex-1 border border-black text-black rounded-xl py-4 text-base font-semibold"
+          className="flex-1 border border-black text-black rounded-xl py-4 text-base font-semibold
+          hover:bg-gray-200 active:scale-95 transition-all
+          "
         >
           취소
         </button>
         <button
           onClick={handleRegister}
-          className="flex-1 bg-black text-white rounded-xl py-4 text-base font-semibold"
+          className="flex-1 bg-black text-white rounded-xl py-4 text-base font-semibold
+          hover:bg-gray-900 active:scale-95 transition-all"
         >
           가입하기
         </button>

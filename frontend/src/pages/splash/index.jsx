@@ -27,7 +27,7 @@ export default function SplashPage() {
             width="400"
             height="400"
             rx="88"
-            fill="#111"
+            fill="#FF6B35"
           />
           <path
             className={styles.pinPath}
@@ -48,7 +48,7 @@ export default function SplashPage() {
               y1="-124"
               x2="0"
               y2="124"
-              stroke="#111"
+              stroke="#FF6B35"
               strokeWidth="13"
               strokeLinecap="round"
             />
@@ -57,7 +57,7 @@ export default function SplashPage() {
               y1="-124"
               x2="-15"
               y2="-70"
-              stroke="#111"
+              stroke="#FF6B35"
               strokeWidth="11"
               strokeLinecap="round"
             />
@@ -66,14 +66,14 @@ export default function SplashPage() {
               y1="-124"
               x2="15"
               y2="-70"
-              stroke="#111"
+              stroke="#FF6B35"
               strokeWidth="11"
               strokeLinecap="round"
             />
             <path
               d="M-18,-70 Q0,-46 18,-70"
               fill="none"
-              stroke="#111"
+              stroke="#FF6B35"
               strokeWidth="11"
               strokeLinecap="round"
             />
@@ -88,7 +88,7 @@ export default function SplashPage() {
               rx="18"
               ry="24"
               fill="none"
-              stroke="#111"
+              stroke="#FF6B35"
               strokeWidth="11"
             />
             <line
@@ -96,7 +96,7 @@ export default function SplashPage() {
               y1="-78"
               x2="0"
               y2="124"
-              stroke="#111"
+              stroke="#FF6B35"
               strokeWidth="13"
               strokeLinecap="round"
             />
@@ -118,13 +118,13 @@ export default function SplashPage() {
       >
         <button
           onClick={() => navigate("/login")}
-          className="flex-1 border border-black text-black rounded-xl py-4 text-base font-semibold"
+          className="flex-1 border border-primary-light text-primary rounded-xl py-4 text-base font-semibold"
         >
           로그인
         </button>
         <button
           onClick={() => navigate("/register")}
-          className="flex-1 bg-black text-white rounded-xl py-4 text-base font-semibold"
+          className="flex-1 bg-primary text-white rounded-xl py-4 text-base font-semibold"
         >
           가입하기
         </button>
