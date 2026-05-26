@@ -20,8 +20,8 @@ export function TopNav() {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white">
-        <div className="mx-auto flex w-full max-w-screen-xl items-center justify-between px-4 py-4">
+      <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-[#f5f5f5]">
+        <div className="mx-auto flex w-full max-w-screen-xl items-center bg-white justify-between px-4 py-4">
           <div className="flex items-center gap-2">
             <svg
               width="32"
