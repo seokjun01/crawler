@@ -6,6 +6,7 @@ import {
   leaveRoomApi,
   deleteRoomApi,
   getRoomInfoApi,
+  saveMessageApi,
 } from "../api";
 
 export function ChatRoom() {
@@ -65,17 +66,26 @@ export function ChatRoom() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim() || wsRef.current?.readyState !== WebSocket.OPEN) return;
-    const payload = {
-      type: "MESSAGE",
-      roomId: Number(roomId),
-      userId: Number(user.userId),
-      nickname: user.nickname,
-      message: input.trim(),
-    };
-    console.log("전송 payload:", payload);
-    wsRef.current.send(JSON.stringify(payload));
+    const message = input.trim();
+
+    wsRef.current.send(
+      JSON.stringify({
+        type: "MESSAGE",
+        roomId: Number(roomId),
+        userId: Number(user.userId),
+        nickname: user.nickname,
+        message,
+      }),
+    );
+
+    try {
+      await saveMessageApi(roomId, message);
+    } catch (e) {
+      console.error("메시지 저장 실패", e);
+    }
+
     setInput("");
   };
 
@@ -106,15 +116,16 @@ export function ChatRoom() {
         <h1 className="text-base font-semibold truncate">
           {roomInfo?.title || "채팅방"}
         </h1>
-        {isHost ? (
-          <button onClick={handleDelete} className="text-red-500 text-sm">
-            방 삭제
-          </button>
-        ) : (
+        <div className="flex items-center gap-3">
+          {isHost && (
+            <button onClick={handleDelete} className="text-red-500 text-sm">
+              방 삭제
+            </button>
+          )}
           <button onClick={handleLeave} className="text-gray-500 text-sm">
             나가기
           </button>
-        )}
+        </div>
       </div>
 
       {error && <p className="text-red-500 text-sm px-5 py-2">{error}</p>}
@@ -122,6 +133,15 @@ export function ChatRoom() {
       {/* 메시지 목록 */}
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
         {messages.map((msg, i) => {
+          if (msg.type === "NOTIFY") {
+            return (
+              <div key={i} className="flex justify-center my-1">
+                <span className="text-xs text-gray-400 bg-gray-100 px-3 py-1 rounded-full">
+                  {msg.message}
+                </span>
+              </div>
+            );
+          }
           const isMine =
             Number(msg.userId || msg.user_id) === Number(user?.userId);
           return (

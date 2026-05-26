@@ -27,3 +27,7 @@ export const deleteRoomApi = (roomId) => {
 export const getMessagesApi = (roomId) => {
   return api("GET", `/api/chat/rooms/${roomId}/messages`);
 };
+
+export const saveMessageApi = (roomId, message) => {
+  return api("POST", `/api/chat/rooms/${roomId}/messages`, { message });
+};
