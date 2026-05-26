@@ -128,10 +128,13 @@ export function MyPageMain() {
   return (
     <div className="min-h-screen bg-white pb-20">
       <div className="flex items-center px-5 py-4 border-b border-gray-100">
-        <button onClick={() => navigate(-1)} className="mr-3 text-xl">
+        <button
+          onClick={() => navigate(-1)}
+          className="mr-3 text-xl text-primary-middle"
+        >
           ←
         </button>
-        <h1 className="font-bold text-base">마이페이지</h1>
+        <h1 className="font-bold text-primary text-base">마이페이지</h1>
       </div>
 
       <div className="px-5 py-4 flex flex-col gap-6">
@@ -152,7 +155,7 @@ export function MyPageMain() {
                 />
                 <button
                   onClick={handleNicknameSave}
-                  className="text-xs font-semibold border border-black rounded px-2 py-1"
+                  className="text-xs text-primary font-semibold border border-primary rounded px-2 py-1"
                 >
                   확인
                 </button>
@@ -161,7 +164,7 @@ export function MyPageMain() {
                     setEditingNickname(false);
                     setNicknameInput(user?.nickname || "");
                   }}
-                  className="text-xs bg-black text-white border border-gray-300 rounded px-2 py-1"
+                  className="text-xs bg-primary text-white border border-none rounded px-2 py-1"
                 >
                   취소
                 </button>
@@ -177,7 +180,7 @@ export function MyPageMain() {
                 setNicknameInput(user?.nickname || "");
                 setEditingNickname(true);
               }}
-              className="border border-gray-300 rounded-lg px-3 py-1 text-xs text-gray-600"
+              className="border border-primary-light rounded-lg px-3 py-1 text-xs text-primary"
             >
               편집 &gt;
             </button>
@@ -188,12 +191,12 @@ export function MyPageMain() {
         <div>
           <div className="flex justify-between items-center mb-2">
             <div>
-              <p className="font-bold text-sm">선호 카테고리</p>
+              <p className="font-bold  text-sm">선호 카테고리</p>
             </div>
             {!editingCategories && (
               <button
                 onClick={() => setEditingCategories(true)}
-                className="border border-gray-300 rounded-lg px-3 py-1 text-xs text-gray-600"
+                className="border border-primary-light rounded-lg px-3 py-1 text-xs text-primary"
               >
                 편집 &gt;
               </button>
@@ -209,8 +212,8 @@ export function MyPageMain() {
                     onClick={() => handleCategoryToggle(option.value)}
                     className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-medium ${
                       selectedCategories.includes(option.value)
-                        ? "bg-black text-white border-black"
-                        : "bg-white text-gray-700 border-gray-200"
+                        ? "bg-primary-middle text-primary-cream border-primary-light"
+                        : "bg-white text-gray-400 border-primary-light"
                     }`}
                   >
                     <span>{option.emoji}</span>
@@ -224,7 +227,7 @@ export function MyPageMain() {
               <div className="flex gap-2">
                 <button
                   onClick={handleCategorySave}
-                  className="flex-1 bg-black text-white rounded-xl py-2 text-sm font-semibold"
+                  className="flex-1 bg-primary text-white rounded-xl py-2 text-sm font-semibold"
                 >
                   확인
                 </button>
@@ -233,7 +236,7 @@ export function MyPageMain() {
                     setEditingCategories(false);
                     setSelectedCategories(preferredCategories);
                   }}
-                  className="flex-1 border border-gray-300 rounded-xl py-2 text-sm"
+                  className="flex-1 border border-primary text-primary rounded-xl py-2 text-sm"
                 >
                   취소
                 </button>
@@ -251,7 +254,7 @@ export function MyPageMain() {
                   return (
                     <span
                       key={cat}
-                      className="bg-black text-white text-xs px-3 py-1 rounded-full"
+                      className="bg-primary text-white text-xs px-3 py-1 rounded-full"
                     >
                       {option?.emoji} {cat}
                     </span>
@@ -268,7 +271,7 @@ export function MyPageMain() {
             <p className="font-bold text-sm">내 위치</p>
             <button
               onClick={() => navigate("/location-edit")}
-              className="border border-gray-300 rounded-lg px-3 py-1 text-xs text-gray-600"
+              className="border border-primary-light rounded-lg px-3 py-1 text-xs text-primary"
             >
               편집 &gt;
             </button>
@@ -291,7 +294,7 @@ export function MyPageMain() {
             </div>
             <button
               onClick={() => navigate("/mypage/visits")}
-              className="border border-gray-300 rounded-lg px-3 py-1 text-xs text-gray-600"
+              className="border border-primary-light rounded-lg px-3 py-1 text-xs text-primary"
             >
               전체보기 &gt;
             </button>
@@ -329,7 +332,7 @@ export function MyPageMain() {
             </div>
             <button
               onClick={() => navigate("/mypage/favorites")}
-              className="border border-gray-300 rounded-lg px-3 py-1 text-xs text-gray-600"
+              className="border border-primary-light rounded-lg px-3 py-1 text-xs text-primary"
             >
               전체보기 &gt;
             </button>
@@ -364,7 +367,7 @@ export function MyPageMain() {
         {/* 로그아웃 */}
         <button
           onClick={handleLogout}
-          className="w-full bg-black text-white rounded-xl py-4 text-base font-semibold mt-4"
+          className="w-full bg-primary text-white rounded-xl py-4 text-base font-semibold mt-4"
         >
           로그아웃
         </button>

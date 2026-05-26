@@ -63,8 +63,8 @@ export function RecommendExclude() {
                 onClick={() => toggle(cat.label)}
                 className={`flex items-center gap-3 px-4 py-4 rounded-xl border text-sm font-medium transition-colors ${
                   isSelected
-                    ? "bg-black text-white border-black"
-                    : "bg-white text-gray-700 border-gray-200"
+                    ? "bg-primary-cream text-primary-light font-semibold"
+                    : "bg-white text-gray-500 border-gray-200"
                 }`}
               >
                 <span className="text-xl">{cat.emoji}</span>
@@ -75,10 +75,10 @@ export function RecommendExclude() {
         </div>
       </div>
 
-      <div className="px-5 py-4 border-t border-gray-100">
+      <div className="px-5 py-4 border-t lg:pb-4 mb-20 border-gray-100">
         <button
           onClick={handleConfirm}
-          className="w-full bg-black text-white rounded-xl py-4 text-base font-semibold"
+          className="w-full bg-primary text-white rounded-xl py-4 text-base font-semibold"
         >
           확인
         </button>

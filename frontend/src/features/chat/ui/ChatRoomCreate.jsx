@@ -34,7 +34,7 @@ export function ChatRoomCreate({ onClose, onCreated }) {
         {/* 헤더 */}
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-base font-semibold">방 만들기</h2>
-          <button onClick={onClose} className="text-gray-400 text-xl">
+          <button onClick={onClose} className="text-gray-400text-xl">
             ✕
           </button>
         </div>
@@ -58,7 +58,7 @@ export function ChatRoomCreate({ onClose, onCreated }) {
                 onClick={() => setMaxMembers(n)}
                 className={`w-10 h-10 rounded-full text-sm border ${
                   maxMembers === n
-                    ? "bg-black text-white border-black"
+                    ? "bg-primary text-white border-primary-light"
                     : "border-gray-200"
                 }`}
               >
@@ -69,7 +69,7 @@ export function ChatRoomCreate({ onClose, onCreated }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-black text-white rounded-xl py-4 text-base font-semibold disabled:opacity-50"
+            className="w-full bg-primary text-white rounded-xl py-4 text-base font-semibold disabled:opacity-50"
           >
             {loading ? "생성 중..." : "만들기"}
           </button>

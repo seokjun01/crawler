@@ -8,6 +8,7 @@ import {
   reviewDeleteApi,
 } from "../api";
 import { useAuth } from "../../../app/AuthContext";
+import { RunnerLoader } from "../../../shared/ui/RunnerLoading";
 
 export default function PlaceDetail() {
   const { kakaoPlaceId } = useParams();
@@ -141,9 +142,7 @@ export default function PlaceDetail() {
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-10">
-          <div className="w-6 h-6 rounded-full border-2 border-black border-t-transparent animate-spin" />
-        </div>
+        <RunnerLoader text="메뉴 정보를 가져오는 중입니다 . . ." />
       ) : (
         <div className="px-5 py-4 flex flex-col gap-6 pb-20">
           {/* 메뉴 */}

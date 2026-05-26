@@ -70,14 +70,16 @@ export function RecommendResult() {
             <p className="text-sm text-gray-400">맛집 고르는 중...</p>
           </div>
         ) : place ? (
-          <div className="w-full bg-white border border-gray-200 rounded-2xl shadow-lg p-6">
+          <div className="w-full bg-primary-cream border border-primary-light rounded-2xl shadow-lg p-6">
             {/* 식당명 + 좋아요 */}
-            <div className="flex items-start justify-between mb-1">
+            <div className="flex items-start  justify-between mb-1">
               <div className="flex-1">
-                <p className="text-xs text-gray-400 mb-1">
+                <p className="text-xs text-gray-300 mb-1">
                   오늘 점심으로 딱이에요
                 </p>
-                <h2 className="text-xl font-bold">{place.placeName}</h2>
+                <h2 className="text-xl text-primary font-bold">
+                  {place.placeName}
+                </h2>
               </div>
               {/* 좋아요 - 방문기록 저장 */}
               <button
@@ -99,11 +101,26 @@ export function RecommendResult() {
             <div className="border-t border-gray-100 my-4" />
 
             {/* 주소 */}
-            <div className="flex items-start gap-2">
-              <span className="text-gray-400 text-sm mt-0.5">📍</span>
-              <p className="text-sm text-gray-600">
-                {place.roadAddressName || place.addressName}
-              </p>
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-start gap-2 flex-1">
+                <span className="text-gray-400 text-sm mt-0.5">📍</span>
+                <p className="text-sm text-gray-600">
+                  {place.roadAddressName || place.addressName}
+                </p>
+              </div>
+              <button
+                onClick={() =>
+                  navigate(`/places/${place.kakaoPlaceId}`, {
+                    state: {
+                      placeName: place.placeName,
+                      categoryName: place.categoryName,
+                    },
+                  })
+                }
+                className="text-xs bg-primary-middle text-primary-cream border border-primary-light rounded-lg px-3 py-1.5 shrink-0 "
+              >
+                메뉴 보기
+              </button>
             </div>
           </div>
         ) : null}
@@ -111,33 +128,20 @@ export function RecommendResult() {
 
       {/* 하단 버튼 3개 */}
       {!loading && place && (
-        <div className="flex gap-3 px-5 py-4 border-t border-gray-100">
+        <div className="flex gap-3 px-5 py-4 pb-24 lg:pb-4 border-t border-gray-100">
           {/* 좋아요 - 방문기록 */}
           <button
             onClick={handleVisit}
             disabled={visited}
-            className="flex-1 border border-black text-black rounded-xl py-4 text-sm font-semibold disabled:opacity-40"
+            className="flex-1 border border-primary text-primary rounded-xl py-4 text-sm font-semibold disabled:opacity-40"
           >
             {visited ? "기록됨 " : "방문할게요!"}
           </button>
-          {/* 메뉴 보기 - 상세 페이지 이동 */}
-          <button
-            onClick={() =>
-              navigate(`/places/${place.kakaoPlaceId}`, {
-                state: {
-                  placeName: place.placeName,
-                  categoryName: place.categoryName,
-                },
-              })
-            }
-            className="flex-1 border border-black text-black rounded-xl py-4 text-sm font-semibold"
-          >
-            메뉴 보기
-          </button>
+
           {/* 다시 추천 */}
           <button
             onClick={fetchRecommend}
-            className="flex-1 bg-black text-white rounded-xl py-4 text-sm font-semibold"
+            className="flex-1 bg-primary text-white rounded-xl py-4 text-sm font-semibold"
           >
             다시 추천
           </button>
