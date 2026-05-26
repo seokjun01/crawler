@@ -7,10 +7,16 @@ import { resendVerificationEmailApi } from "../api";
 export function VerifyEmailForm() {
   const [loading, setLoading] = useState(false); //재발송 요청 중인지 표시
   const [message, setMessage] = useState("");
+  const [verified, setVerified] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation(); //이전 페이지에서 넘겨준 state 값을 꺼내올 때 사용
   const email = location.state?.email ?? "";
+
+  const handleVerified = () => {
+    alert("인증 성공");
+    setVerified(true);
+  };
 
   const handleResend = async () => {
     if (!email) {
@@ -36,7 +42,7 @@ export function VerifyEmailForm() {
   };
 
   return (
-    <div className="flex-1 flex flex-col px-5 pt-12">
+    <div className="  max-w-[1280px] bg-white shadow-xl mx-auto flex-1 flex flex-col px-5 pt-12">
       <div className="mb-12">
         <h2 className="text-2xl font-bold mb-2">이메일을 확인해주세요</h2>
         <p className="text-gray-400 text-sm leading-relaxed">
@@ -56,16 +62,25 @@ export function VerifyEmailForm() {
       )}
 
       <div className="mt-auto pb-8 flex flex-col gap-3">
-        <button
-          onClick={() => navigate("/login")}
-          className="w-full bg-black text-white rounded-xl py-4 text-base font-semibold"
-        >
-          인증 완료 후 로그인하기
-        </button>
+        {verified ? (
+          <button
+            onClick={() => navigate("/login")}
+            className="w-full bg-primary text-white rounded-xl py-4 text-base font-semibold"
+          >
+            인증 완료 후 로그인하기
+          </button>
+        ) : (
+          <button
+            onClick={handleVerified}
+            className="w-full bg-primary text-white rounded-xl py-4 text-base font-semibold"
+          >
+            인증 완료
+          </button>
+        )}
         <button
           onClick={handleResend}
           disabled={loading}
-          className="w-full border border-black text-black rounded-xl py-4 text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full border border-primary-light text-primary rounded-xl py-4 text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {" "}
           {loading ? "발송 중..." : "인증 메일 재발송하기"}
