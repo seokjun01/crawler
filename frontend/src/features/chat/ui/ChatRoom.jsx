@@ -55,6 +55,11 @@ export function ChatRoom() {
 
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data);
+      if (data.type === "ROOM_DELETED") {
+        alert(data.message);
+        navigate("/chat");
+        return;
+      }
       setMessages((prev) => [...prev, data]);
     };
 
@@ -100,8 +105,22 @@ export function ChatRoom() {
 
   const handleDelete = async () => {
     try {
-      await deleteRoomApi(roomId);
-      navigate("/chat");
+      const res = await deleteRoomApi(roomId);
+      if (res.data.success) {
+        // 삭제 성공 후 방 전체에 브로드캐스트
+        if (wsRef.current?.readyState === WebSocket.OPEN) {
+          wsRef.current.send(
+            JSON.stringify({
+              type: "ROOM_DELETED",
+              roomId: Number(roomId),
+              userId: Number(user.userId),
+              nickname: user.nickname,
+              message: "방장에 의해 방이 삭제되었습니다.",
+            }),
+          );
+        }
+        navigate("/chat");
+      }
     } catch {
       setError("방 삭제 중 오류가 발생했습니다.");
     }
