@@ -6,6 +6,7 @@ export {
   checkEmailApi,
   registerApi,
   resendVerificationEmailApi,
+  verifyEmailApi,
 } from "./api";
 export { RegisterForm } from "./ui/RegisterForm";
 export { VerifyEmailForm } from "./ui/VerifyEmailForm";
