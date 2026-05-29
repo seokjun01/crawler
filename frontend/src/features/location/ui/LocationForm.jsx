@@ -77,12 +77,12 @@ export function LocationForm({ mode = "register" }) {
     });
   }, []); // 마운트 시 한 번만
 
-  // 주소 입력 → 지도 이동
+  // 장소명·상호명·주소로 키워드 검색
   const handleAddressSearch = () => {
     if (!query || !window.kakao) return;
 
-    const geocoder = new window.kakao.maps.services.Geocoder();
-    geocoder.addressSearch(query, (result, status) => {
+    const places = new window.kakao.maps.services.Places();
+    places.keywordSearch(query, (result, status) => {
       if (status === window.kakao.maps.services.Status.OK) {
         setSearchResults(result);
         setError("");
@@ -101,10 +101,12 @@ export function LocationForm({ mode = "register" }) {
     kakaoMapRef.current.setCenter(latlng);
     markerRef.current.setPosition(latlng);
 
+    const addr = item.road_address_name || item.address_name;
     setSelectedLocation({
       latitude: lat,
       longitude: lng,
-      address: item.address_name,
+      address: addr,
+      placeName: item.place_name,
     });
     setSearchResults([]);
   };
@@ -148,7 +150,7 @@ export function LocationForm({ mode = "register" }) {
         <div className="flex gap-2">
           <input
             type="text"
-            placeholder="도로명 또는 지번 주소 입력"
+            placeholder="장소명, 상호명 또는 주소 입력"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAddressSearch()}
@@ -170,10 +172,13 @@ export function LocationForm({ mode = "register" }) {
                 onClick={() => handleSelectResult(item)}
                 className="w-full text-left px-4 py-3 text-sm border-b border-gray-100 last:border-b-0 hover:bg-gray-50"
               >
-                <p className="font-medium">{item.address_name}</p>
-                {item.road_address && (
-                  <p className="text-xs text-gray-400 mt-0.5">
-                    {item.road_address.address_name}
+                <p className="font-medium">{item.place_name}</p>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {item.road_address_name || item.address_name}
+                </p>
+                {item.road_address_name && (
+                  <p className="text-xs text-gray-400">
+                    지번: {item.address_name}
                   </p>
                 )}
               </button>
@@ -192,6 +197,11 @@ export function LocationForm({ mode = "register" }) {
               <div className="flex items-center gap-2">
                 <span>📌</span>
                 <div>
+                  {selectedLocation.placeName && (
+                    <p className="text-sm font-semibold">
+                      {selectedLocation.placeName}
+                    </p>
+                  )}
                   <p className="text-xs text-gray-400">주소</p>
                   <p className="text-sm font-medium">
                     {selectedLocation.address}
