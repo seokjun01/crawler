@@ -54,21 +54,7 @@ export function MyPageMain() {
           favoriteListApi(),
         ]);
 
-        const lat = parseFloat(locRes.data.latitude);
-        const lng = parseFloat(locRes.data.longitude);
-        if (lat && lng) {
-          window.kakao?.maps?.load(() => {
-            const geocoder = new window.kakao.maps.services.Geocoder();
-            geocoder.coord2Address(lng, lat, (result, status) => {
-              if (status === window.kakao.maps.services.Status.OK) {
-                const addr =
-                  result[0].road_address?.address_name ||
-                  result[0].address.address_name;
-                setLocationLabel(addr);
-              }
-            });
-          });
-        }
+        setLocationLabel(locRes.data.title || "내 위치");
         setVisits(visitRes.data.visits?.block1 || []);
         setFavorites(favRes.data.favorites?.block1 || []);
       } catch (e) {

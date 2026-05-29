@@ -119,7 +119,11 @@ export function LocationForm({ mode = "register" }) {
     setLoading(true);
     setError("");
     try {
-      const title = detail || "내 위치";
+      const title = selectedLocation.address
+        ? detail
+          ? `${selectedLocation.address} (${detail})`
+          : selectedLocation.address
+        : detail || "내 위치";
       const response = await submitApi(
         // 내가 정한 키로 꺼냄 (setSelectedLocation에서 담은 키와 동일)
         selectedLocation.latitude,
