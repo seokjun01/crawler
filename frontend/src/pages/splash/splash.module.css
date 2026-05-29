@@ -46,14 +46,18 @@
   font-weight: 700;
   font-size: 28px;
   letter-spacing: 6px;
-  color: #111;
-  margin-top: 20px;
+  color: #cc3d00;
+  margin-top: 12px;
 }
 
 .buttons {
   transition:
     opacity 0.4s ease,
     transform 0.4s ease;
+}
+
+.container {
+  background: linear-gradient(160deg, #fff8f0 0%, #ffffff 40%, #fff4ec 100%);
 }
 
 @keyframes bgScale {

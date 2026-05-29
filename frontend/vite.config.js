@@ -11,6 +11,7 @@ export default defineConfig({
         changeOrigin: true,
         withCredentials: true,
         secure: false,
+        cookieDomainRewrite: "localhost",
       },
     },
   },

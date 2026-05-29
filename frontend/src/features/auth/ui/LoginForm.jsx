@@ -29,6 +29,7 @@ export function LoginForm() {
         email,
         preferredCategories: response.data.preferredCategories || "",
       });
+
       try {
         const locationResponse = await locationGetApi();
         navigate(locationResponse.data.latitude ? "/" : "/location-register");

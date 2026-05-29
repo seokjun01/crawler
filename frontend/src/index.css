@@ -12,3 +12,12 @@ body {
   --color-primary-middle: #f97b4b;
   --color-primary-cream: #fff8f0;
 }
+
+@layer utilities {
+  .bg-btn-primary {
+    background: linear-gradient(135deg, #ff6b35, #f97b4b);
+  }
+  .text-primary-dark {
+    color: #cc3d00;
+  }
+}
