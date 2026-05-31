@@ -45,9 +45,9 @@ export default function PlaceDetail() {
           placeDetailApi(kakaoPlaceId, placeName),
         ]);
         const rawMenus = detailRes.data.menus;
-        setMenus(
-          typeof rawMenus === "string" ? JSON.parse(rawMenus) : rawMenus || [],
-        );
+        const parsedMenus =
+          typeof rawMenus === "string" ? JSON.parse(rawMenus) : rawMenus;
+        setMenus(Array.isArray(parsedMenus) ? parsedMenus : []);
         await fetchReviews();
       } catch (e) {
         setError("정보를 불러오지 못했습니다.");
