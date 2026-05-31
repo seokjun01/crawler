@@ -195,7 +195,9 @@ export function ChatRoom() {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
+          onKeyDown={(e) =>
+            e.key === "Enter" && !e.nativeEvent.isComposing && handleSend()
+          }
           placeholder="메시지를 입력하세요"
           className="flex-1 border border-gray-200 rounded-lg px-4 py-2 text-sm outline-none focus:border-black"
         />
