@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { Dices, UserStar } from "lucide-react";
 
 export function RecommendSelect() {
   const navigate = useNavigate();
@@ -20,14 +21,22 @@ export function RecommendSelect() {
           }
           className="w-full border-2 border-primary-middle bg-primary-cream rounded-2xl p-6 text-left active:scale-95 transition-transform"
         >
-          <p className="text-2xl mb-2">🎲</p>
+          <p className="text-2xl mb-2">
+            <Dices size={28} strokeWidth={1.5} className="text-primary mb-2" />
+          </p>
           <p className="text-lg text-primary font-bold mb-1">랜덤 추천</p>
         </button>
         <button
           onClick={() => navigate("/recommend/exclude")}
           className="w-full border-2 border-primary-middle bg-primary-cream rounded-2xl p-6 text-left active:scale-95 transition-transform"
         >
-          <p className="text-2xl mb-2">🧑 </p>
+          <p className="text-2xl mb-2">
+            <UserStar
+              size={28}
+              strokeWidth={1.5}
+              className="text-primary mb-2"
+            />
+          </p>
           <p className="text-lg  text-primary font-bold mb-1">정밀 추천</p>
           <p className="text-sm text-gray-400">내 취향 + 먹기 싫은 거 빼고</p>
         </button>

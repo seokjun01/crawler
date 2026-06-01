@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { personalRecommendApi, randomRecommendApi, visitSaveApi } from "../api";
+import { Heart, UserStar, Dices, MapPin } from "lucide-react";
 
 export function RecommendResult() {
   const navigate = useNavigate();
@@ -57,8 +58,10 @@ export function RecommendResult() {
         >
           ‹
         </button>
-        <h1 className="text-base font-bold">
-          {mode === "personal" ? "✨ 개인화 추천" : "🎲 랜덤 추천"}
+        <h1 className="text-base font-bold flex items-center gap-2">
+          {mode === "personal"
+            ? <><UserStar size={18} strokeWidth={1.5} className="text-primary" /> 개인화 추천</>
+            : <><Dices size={18} strokeWidth={1.5} className="text-primary" /> 랜덤 추천</>}
         </h1>
       </div>
 
@@ -82,13 +85,14 @@ export function RecommendResult() {
                 </h2>
               </div>
               {/* 좋아요 - 방문기록 저장 */}
-              <button
-                onClick={handleVisit}
-                className={`text-2xl ml-3 transition-colors ${
-                  visited ? "text-red-500" : "text-gray-300"
-                }`}
-              >
-                ♥
+              <button onClick={handleVisit} className="ml-3">
+                <Heart
+                  size={22}
+                  strokeWidth={1.5}
+                  className={`transition-colors ${
+                    visited ? "text-red-500 fill-red-500" : "text-gray-300"
+                  }`}
+                />
               </button>
             </div>
 
@@ -103,7 +107,7 @@ export function RecommendResult() {
             {/* 주소 */}
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-start gap-2 flex-1">
-                <span className="text-gray-400 text-sm mt-0.5">📍</span>
+                <MapPin size={16} strokeWidth={1.5} className="text-gray-400 mt-0.5 shrink-0" />
                 <p className="text-sm text-gray-600">
                   {place.roadAddressName || place.addressName}
                 </p>
