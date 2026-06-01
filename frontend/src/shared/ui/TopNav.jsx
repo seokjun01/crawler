@@ -25,8 +25,8 @@ export function TopNav() {
         <div className="mx-auto flex w-full bg-white max-w-screen-xl items-center  justify-between px-4 py-4">
           <div className="flex items-center gap-2">
             <svg
-              width="23"
-              height="30"
+              width="25"
+              height="25"
               viewBox="0 0 680 680"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -102,7 +102,7 @@ export function TopNav() {
                 />
               </g>
             </svg>
-            <span className="text-sm font-bold text-primary">DishPatch</span>
+            <span className="text-body font-bold text-primary">DishPatch</span>
           </div>
 
           <button
@@ -126,7 +126,7 @@ export function TopNav() {
         }`}
       >
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-          <span className="font-bold text-base">메뉴</span>
+          <span className="font-bold text-heading">메뉴</span>
           <button
             onClick={() => setOpen(false)}
             className="text-gray-400 text-xl hover:text-black"

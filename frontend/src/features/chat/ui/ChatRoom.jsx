@@ -136,22 +136,22 @@ export function ChatRoom() {
     <div className="h-screen bg-white flex flex-col ">
       {/* 헤더 */}
       <div className="flex-shrink-0 flex items-center justify-between px-5 py-4 border-b border-primary-light ">
-        <h1 className="text-base  text-primary font-semibold truncate">
+        <h1 className="text-heading  text-primary font-semibold truncate">
           {roomInfo?.title || "채팅방"}
         </h1>
         <div className="flex items-center gap-3">
           {isHost && (
-            <button onClick={handleDelete} className="text-red-500 text-sm">
+            <button onClick={handleDelete} className="text-red-500 text-body">
               방 삭제
             </button>
           )}
-          <button onClick={handleLeave} className="text-gray-500 text-sm">
+          <button onClick={handleLeave} className="text-gray-500 text-body">
             나가기
           </button>
         </div>
       </div>
 
-      {error && <p className="text-red-500 text-sm px-5 py-2">{error}</p>}
+      {error && <p className="text-red-500 text-body px-5 py-2">{error}</p>}
 
       {/* 메시지 목록 */}
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
@@ -159,7 +159,7 @@ export function ChatRoom() {
           if (msg.type === "NOTIFY") {
             return (
               <div key={i} className="flex justify-center my-1">
-                <span className="text-xs text-gray-400 bg-gray-100 px-3 py-1 rounded-full">
+                <span className="text-caption text-gray-400 bg-gray-100 px-3 py-1 rounded-full">
                   {msg.message}
                 </span>
               </div>
@@ -173,18 +173,18 @@ export function ChatRoom() {
               className={`flex flex-col ${isMine ? "items-end" : "items-start"}`}
             >
               {!isMine && (
-                <span className="text-xs text-gray-400 mb-1">
+                <span className="text-caption text-gray-400 mb-1">
                   {msg.nickname}
                 </span>
               )}
               <div
-                className={`px-4 py-2 rounded-2xl text-sm max-w-[70%] ${
+                className={`px-4 py-2 rounded-2xl text-body max-w-[70%] ${
                   isMine ? "bg-black text-white" : "bg-gray-100 text-black"
                 }`}
               >
                 {msg.message}
               </div>
-              <span className="text-xs text-gray-300 mt-1">
+              <span className="text-caption text-gray-300 mt-1">
                 {msg.sentAt || msg.sent_at}
               </span>
             </div>
@@ -203,11 +203,11 @@ export function ChatRoom() {
             e.key === "Enter" && !e.nativeEvent.isComposing && handleSend()
           }
           placeholder="메시지를 입력하세요"
-          className="flex-1 border border-gray-200 rounded-lg px-4 py-2 text-sm outline-none focus:border-black"
+          className="flex-1 border border-gray-200 rounded-lg px-4 py-2 text-body outline-none focus:border-black"
         />
         <button
           onClick={handleSend}
-          className="bg-black text-white bg-primary text-sm px-4 py-2 rounded-lg"
+          className="bg-black text-white bg-primary text-body px-4 py-2 rounded-lg"
         >
           전송
         </button>

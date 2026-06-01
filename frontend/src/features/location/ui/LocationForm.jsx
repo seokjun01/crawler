@@ -148,8 +148,8 @@ export function LocationForm({ mode = "register" }) {
     <div className="flex-1 flex flex-col">
       <div ref={mapContainerRef} className="w-full h-52" />
       <div className="px-5 py-5 flex flex-col gap-4">
-        <h3 className="text-base font-bold">직접 입력하기</h3>
-        <h3 className="text-base font-bold">주소 검색</h3>
+        <h3 className="text-heading font-bold">직접 입력하기</h3>
+        <h3 className="text-heading font-bold">주소 검색</h3>
 
         <div className="flex gap-2">
           <input
@@ -158,11 +158,11 @@ export function LocationForm({ mode = "register" }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAddressSearch()}
-            className="flex-1 border border-gray-200 rounded-lg px-4 py-3 text-sm outline-none focus:border-black"
+            className="flex-1 border border-gray-200 rounded-lg px-4 py-3 text-body outline-none focus:border-black"
           />
           <button
             onClick={handleAddressSearch}
-            className="bg-black text-white rounded-lg px-4 text-sm font-semibold"
+            className="bg-black text-white rounded-lg px-4 text-body font-semibold"
           >
             검색
           </button>
@@ -174,14 +174,14 @@ export function LocationForm({ mode = "register" }) {
               <button
                 key={idx}
                 onClick={() => handleSelectResult(item)}
-                className="w-full text-left px-4 py-3 text-sm border-b border-gray-100 last:border-b-0 hover:bg-gray-50"
+                className="w-full text-left px-4 py-3 text-body border-b border-gray-100 last:border-b-0 hover:bg-gray-50"
               >
                 <p className="font-medium">{item.place_name}</p>
-                <p className="text-xs text-gray-500 mt-0.5">
+                <p className="text-caption text-gray-500 mt-0.5">
                   {item.road_address_name || item.address_name}
                 </p>
                 {item.road_address_name && (
-                  <p className="text-xs text-gray-400">
+                  <p className="text-caption text-gray-400">
                     지번: {item.address_name}
                   </p>
                 )}
@@ -193,7 +193,7 @@ export function LocationForm({ mode = "register" }) {
         <div>
           <h3 className="text-base font-bold mb-2">검색 결과</h3>
           {!selectedLocation ? (
-            <p className="text-sm text-gray-400">
+            <p className="text-sub text-gray-400">
               입력 또는 지도 선택 결과가 표시됩니다
             </p>
           ) : (
@@ -202,12 +202,12 @@ export function LocationForm({ mode = "register" }) {
                 <span>📌</span>
                 <div>
                   {selectedLocation.placeName && (
-                    <p className="text-sm font-semibold">
+                    <p className="text-body font-semibold">
                       {selectedLocation.placeName}
                     </p>
                   )}
-                  <p className="text-xs text-gray-400">주소</p>
-                  <p className="text-sm font-medium">
+                  <p className="text-caption text-gray-400">주소</p>
+                  <p className="text-body font-medium">
                     {selectedLocation.address}
                   </p>
                 </div>
@@ -226,21 +226,21 @@ export function LocationForm({ mode = "register" }) {
           )}
         </div>
 
-        {error && <p className="text-red-500 text-xs">{error}</p>}
+        {error && <p className="text-red-500 text-caption">{error}</p>}
       </div>
 
       {/* 하단 버튼 */}
       <div className="mt-auto px-5 pb-8 flex gap-3">
         <button
           onClick={() => navigate(-1)}
-          className="flex-1 border border-primary-middle text-primary-middle rounded-xl py-4 text-base font-semibold"
+          className="flex-1 border border-primary-middle text-primary-middle rounded-xl py-4 text-heading font-semibold"
         >
           취소
         </button>
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="flex-1 bg-primary text-white rounded-xl py-4 text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 bg-primary text-white rounded-xl py-4 text-heading font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "저장 중..." : buttonLabel}
         </button>

@@ -11,6 +11,12 @@ body {
   --color-primary-light: #ffb899;
   --color-primary-middle: #f97b4b;
   --color-primary-cream: #fff8f0;
+
+  --text-display: 1.625rem;
+  --text-heading: 1.125rem;
+  --text-body: 0.9375rem;
+  --text-sub: 0.8125rem;
+  --text-caption: 0.75rem;
 }
 
 @layer utilities {

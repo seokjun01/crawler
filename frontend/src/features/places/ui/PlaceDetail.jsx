@@ -136,8 +136,8 @@ export default function PlaceDetail() {
           ←
         </button>
         <div>
-          <h1 className="font-bold text-base">{placeName}</h1>
-          <p className="text-xs text-gray-400">{categoryName}</p>
+          <h1 className="font-bold text-heading">{placeName}</h1>
+          <p className="text-caption text-gray-400">{categoryName}</p>
         </div>
       </div>
 
@@ -147,9 +147,11 @@ export default function PlaceDetail() {
         <div className="px-5 py-4 flex flex-col gap-6 pb-20">
           {/* 메뉴 */}
           <div>
-            <h2 className="font-bold text-sm mb-3">메뉴</h2>
+            <h2 className="font-bold text-body mb-3">메뉴</h2>
             {menus.length === 0 ? (
-              <p className="text-xs text-gray-400">등록된 메뉴가 없습니다.</p>
+              <p className="text-caption text-gray-400">
+                등록된 메뉴가 없습니다.
+              </p>
             ) : (
               <div className="flex flex-col gap-2">
                 {menus.map((menu, idx) => (
@@ -157,8 +159,8 @@ export default function PlaceDetail() {
                     key={idx}
                     className="flex justify-between items-center py-2 border-b border-gray-100"
                   >
-                    <span className="text-sm">{menu.name}</span>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-body">{menu.name}</span>
+                    <span className="text-body text-gray-500">
                       {menu.price ? `${menu.price.toLocaleString()}원` : ""}
                     </span>
                   </div>
@@ -169,11 +171,11 @@ export default function PlaceDetail() {
 
           {/* 후기 작성 */}
           <div>
-            <h2 className="font-bold text-sm mb-3">후기 작성</h2>
+            <h2 className="font-bold text-body mb-3">후기 작성</h2>
             <select
               value={selectedMenu}
               onChange={(e) => setSelectedMenu(e.target.value)}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-black mb-2"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-body outline-none focus:border-black mb-2"
             >
               <option value="">메뉴 선택 (선택사항)</option>
               {menus.map((menu, idx) => (
@@ -190,23 +192,27 @@ export default function PlaceDetail() {
                 value={reviewText}
                 onChange={(e) => setReviewText(e.target.value)}
                 maxLength={100}
-                className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-black"
+                className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-body outline-none focus:border-black"
               />
               <button
                 onClick={handleReviewSubmit}
-                className="bg-black text-white px-4 rounded-lg text-sm font-semibold"
+                className="bg-black text-white px-4 rounded-lg text-body font-semibold"
               >
                 등록
               </button>
             </div>
-            {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+            {error && <p className="text-red-500 text-caption mt-1">{error}</p>}
           </div>
 
           {/* 후기 목록 */}
           <div>
-            <h2 className="font-bold text-sm mb-3">후기 ({reviews.length})</h2>
+            <h2 className="font-bold text-body mb-3">
+              후기 ({reviews.length})
+            </h2>
             {reviews.length === 0 ? (
-              <p className="text-xs text-gray-400">아직 후기가 없습니다.</p>
+              <p className="text-caption text-gray-400">
+                아직 후기가 없습니다.
+              </p>
             ) : (
               <div className="flex flex-col gap-3">
                 {reviews.map((review) => (
@@ -215,7 +221,7 @@ export default function PlaceDetail() {
                     className="border-b border-gray-100 pb-3"
                   >
                     <div className="flex justify-between items-center mb-1">
-                      <p className="text-xs text-gray-400">
+                      <p className="text-caption text-gray-400">
                         {review.nickname}{" "}
                         {review.menu_name && `· ${review.menu_name}`}
                       </p>
@@ -227,13 +233,13 @@ export default function PlaceDetail() {
                                 onClick={() =>
                                   handleEditSubmit(review.visit_history_id)
                                 }
-                                className="text-xs text-black underline"
+                                className="text-caption text-black underline"
                               >
                                 저장
                               </button>
                               <button
                                 onClick={() => setEditingId(null)}
-                                className="text-xs text-gray-400 underline"
+                                className="text-caption text-gray-400 underline"
                               >
                                 취소
                               </button>
@@ -242,7 +248,7 @@ export default function PlaceDetail() {
                             <>
                               <button
                                 onClick={() => handleEditStart(review)}
-                                className="text-xs text-gray-500 underline"
+                                className="text-caption text-gray-500 underline"
                               >
                                 수정
                               </button>
@@ -250,7 +256,7 @@ export default function PlaceDetail() {
                                 onClick={() =>
                                   handleDelete(review.visit_history_id)
                                 }
-                                className="text-xs text-red-400 underline"
+                                className="text-caption text-red-400 underline"
                               >
                                 삭제
                               </button>
@@ -291,10 +297,10 @@ export default function PlaceDetail() {
                         onChange={(e) => setEditText(e.target.value)}
                         maxLength={100}
                         autoFocus
-                        className="w-full border-b border-gray-300 text-sm outline-none py-1"
+                        className="w-full border-b border-gray-300 text-body outline-none py-1"
                       />
                     ) : (
-                      <p className="text-sm">{review.content}</p>
+                      <p className="text-body">{review.content}</p>
                     )}
                   </div>
                 ))}

@@ -55,19 +55,19 @@ export function VisitListMain() {
         <button onClick={() => navigate(-1)} className="mr-3 text-xl">
           ←
         </button>
-        <h1 className="font-bold text-base">방문기록</h1>
+        <h1 className="font-bold text-heading">방문기록</h1>
       </div>
 
       <div className="px-5 py-4">
-        <p className="font-bold text-sm mb-1">방문 기록</p>
-        <p className="text-xs text-gray-400 mb-4">최근 방문한 맛집</p>
+        <p className="font-bold text-body mb-1">방문 기록</p>
+        <p className="text-caption text-gray-400 mb-4">최근 방문한 맛집</p>
 
         {loading ? (
           <div className="flex justify-center py-10">
             <div className="w-6 h-6 rounded-full border-2 border-black border-t-transparent animate-spin" />
           </div>
         ) : visits.length === 0 ? (
-          <p className="text-center text-xs text-gray-400 py-10">
+          <p className="text-center text-caption text-gray-400 py-10">
             방문 기록이 없습니다
           </p>
         ) : (
@@ -85,9 +85,9 @@ export function VisitListMain() {
                   <div className="py-4">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="text-sm font-bold">{v.place_name}</p>
+                        <p className="text-body font-bold">{v.place_name}</p>
                         {/* visit_count, last_visited는 visit-list-group.xml 응답 */}
-                        <p className="text-xs text-gray-400 mt-0.5">
+                        <p className="text-caption text-gray-400 mt-0.5">
                           {v.visit_count}회 방문 · 마지막{" "}
                           {v.last_visited?.slice(0, 10)}
                         </p>
@@ -96,7 +96,7 @@ export function VisitListMain() {
                       {/* 후기 토글 버튼 */}
                       <button
                         onClick={() => handleToggleReviews(v.kakao_place_id)}
-                        className="text-xs text-gray-500 border border-gray-200 rounded-lg px-3 py-1 flex-shrink-0"
+                        className="text-caption text-gray-500 border border-gray-200 rounded-lg px-3 py-1 flex-shrink-0"
                       >
                         {isOpen ? "후기 닫기 ▲" : "작성한 후기 보기 ▼"}
                       </button>
@@ -111,7 +111,7 @@ export function VisitListMain() {
                           <div className="w-5 h-5 rounded-full border-2 border-black border-t-transparent animate-spin" />
                         </div>
                       ) : reviewState.reviews.length === 0 ? (
-                        <p className="text-xs text-gray-400 py-2">
+                        <p className="text-caption text-gray-400 py-2">
                           작성한 후기가 없습니다
                         </p>
                       ) : (
@@ -122,17 +122,17 @@ export function VisitListMain() {
                               className="bg-gray-50 rounded-xl p-3"
                             >
                               <div className="flex justify-between items-center mb-1">
-                                <p className="text-xs text-gray-400">
+                                <p className="text-caption text-gray-400">
                                   {r.visited_at?.slice(0, 10)}
                                   {r.menu_name ? ` · ${r.menu_name}` : ""}
                                 </p>
-                                <p className="text-xs text-yellow-400">
+                                <p className="text-caption text-yellow-400">
                                   {"★".repeat(parseInt(r.rating))}
                                   {"☆".repeat(5 - parseInt(r.rating))}
                                 </p>
                               </div>
                               {r.content && (
-                                <p className="text-xs text-gray-600">
+                                <p className="text-caption text-gray-600">
                                   {r.content}
                                 </p>
                               )}
