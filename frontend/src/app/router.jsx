@@ -42,6 +42,7 @@ const router = createBrowserRouter([
   { path: "/verify-email", element: <VerifyEmailPage /> },
   { path: "/location-register", element: <LocationRegisterPage /> },
   { path: "/location-edit", element: <LocationEditPage /> },
+  { path: "/chat/:roomId", element: <ChatRoomPage /> },
 
   // 네비 있는 페이지
   {
@@ -56,7 +57,6 @@ const router = createBrowserRouter([
       { path: "/recommend/result", element: <RecommendResultPage /> },
       { path: "/recommend/exclude", element: <RecommendExcludePage /> },
       { path: "/chat", element: <ChatPage /> },
-      { path: "/chat/:roomId", element: <ChatRoomPage /> },
     ],
   },
 ]);

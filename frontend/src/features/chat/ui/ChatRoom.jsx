@@ -30,6 +30,10 @@ export function ChatRoom() {
         ]);
         setMessages(msgRes.data?.messages?.block1 || []);
         setRoomInfo(roomRes.data?.room);
+        setMessages((prev) => [
+          ...prev,
+          { type: "NOTIFY", message: `${user.nickname}님이 입장했습니다.` },
+        ]);
       } catch {
         setError("채팅방 정보를 불러오지 못했습니다.");
       }
@@ -129,9 +133,9 @@ export function ChatRoom() {
   const isHost = roomInfo && Number(user?.userId) === roomInfo.host_user_id;
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="h-screen bg-white flex flex-col ">
       {/* 헤더 */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-primary-light ">
+      <div className="flex-shrink-0 flex items-center justify-between px-5 py-4 border-b border-primary-light ">
         <h1 className="text-base  text-primary font-semibold truncate">
           {roomInfo?.title || "채팅방"}
         </h1>
@@ -190,7 +194,7 @@ export function ChatRoom() {
       </div>
 
       {/* 입력창 */}
-      <div className="flex items-center mb-20 lg:mb-0 gap-2 px-4 py-3 border-t border-primary-light">
+      <div className="flex flex-shrink-0 items-center gap-2 px-4 py-3 border-t border-primary-light">
         <input
           type="text"
           value={input}
