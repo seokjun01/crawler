@@ -1,10 +1,11 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import { Home, Sparkles, Users, User } from "lucide-react";
 
 const NAV_ITEMS = [
-  { path: "/", label: "홈", emoji: "🏠" },
-  { path: "/recommend", label: "추천", emoji: "✨" },
-  { path: "/chat", label: "같이먹어요", emoji: "🍱" },
-  { path: "/mypage", label: "마이페이지", emoji: "👤" },
+  { path: "/", label: "홈", icon: Home },
+  { path: "/recommend", label: "추천", icon: Sparkles },
+  { path: "/chat", label: "같이먹어요", icon: Users },
+  { path: "/mypage", label: "마이페이지", icon: User },
 ];
 
 export function BottomNav() {
@@ -21,11 +22,17 @@ export function BottomNav() {
             <button
               key={item.path}
               onClick={() => navigate(item.path)}
-              className={`flex flex-col items-center py-3 gap-1 ${
-                isActive ? "text-black" : "text-gray-400"
+              className={`flex flex-col items-center py-3 gap-1 rounded-xl transition-all duration-150 active:scale-90 ${
+                isActive
+                  ? "text-black"
+                  : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
               }`}
             >
-              <span className="text-xl">{item.emoji}</span>
+              <item.icon
+                size={22}
+                strokeWidth={2}
+                className="text-orange-500"
+              />
               <span className="text-xs">{item.label}</span>
             </button>
           );

@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Home, Sparkles, Users, User, Menu, X } from "lucide-react";
 
 const NAV_ITEMS = [
-  { path: "/", label: "홈", emoji: "🏠" },
-  { path: "/recommend", label: "추천", emoji: "✨" },
-  { path: "/chat", label: "같이먹어요", emoji: "🍱" },
-  { path: "/mypage", label: "마이페이지", emoji: "👤" },
+  { path: "/", label: "홈", icon: Home },
+  { path: "/recommend", label: "추천", icon: Sparkles },
+  { path: "/chat", label: "같이먹어요", icon: Users },
+  { path: "/mypage", label: "마이페이지", icon: User },
 ];
 
 export function TopNav() {
@@ -106,9 +107,9 @@ export function TopNav() {
 
           <button
             onClick={() => setOpen(true)}
-            className="hidden lg:block text-2xl text-primary hover:text-black"
+            className="hidden lg:block text-orange-500 hover:text-orange-600 transition-colors"
           >
-            ☰
+            <Menu size={22} strokeWidth={1.5} />
           </button>
         </div>
       </nav>
@@ -130,7 +131,7 @@ export function TopNav() {
             onClick={() => setOpen(false)}
             className="text-gray-400 text-xl hover:text-black"
           >
-            ✕
+            <X size={20} strokeWidth={1.5} />
           </button>
         </div>
         <div className="flex flex-col py-2">
@@ -140,11 +141,17 @@ export function TopNav() {
               <button
                 key={item.path}
                 onClick={() => handleNavigate(item.path)}
-                className={`flex items-center gap-3 px-6 py-4 text-sm font-medium hover:bg-gray-50 ${
-                  isActive ? "text-black" : "text-gray-500"
+                className={`flex items-center gap-3 px-6 py-3 gap-1 rounded-xl transition-all duration-150 active:scale-90 ${
+                  isActive
+                    ? "text-black"
+                    : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
                 }`}
               >
-                <span className="text-lg">{item.emoji}</span>
+                <item.icon
+                  size={18}
+                  strokeWidth={1.5}
+                  className="text-orange-500"
+                />
                 {item.label}
               </button>
             );

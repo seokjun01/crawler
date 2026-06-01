@@ -6,6 +6,7 @@ import {
   favoriteSaveApi,
   favoriteDeleteApi,
 } from "../api";
+import { Heart } from "lucide-react";
 
 const RADIUS_OPTIONS = [
   { label: "100m", value: "100" },
@@ -244,16 +245,11 @@ export function PlaceList({ latitude, longitude }) {
               className="flex items-center justify-between py-4 border-b border-gray-100 text-left active:bg-gray-50"
             >
               <div className="flex items-center gap-3">
-                <span
+                <Heart
+                  size={20}
                   onClick={(e) => handleFavoriteToggle(e, place)}
-                  className={`text-xl cursor-pointer ${
-                    favoriteIds.has(place.kakaoPlaceId)
-                      ? "text-red-500"
-                      : "text-gray-300"
-                  }`}
-                >
-                  ♥
-                </span>
+                  className={`cursor-pointer transition-colors ${favoriteIds.has(place.kakaoPlaceId) ? "text-red-500 fill-red-500" : "text-gray-300"}`}
+                />
                 <div>
                   <p className="font-medium text-sm">{place.placeName}</p>
                   <p className="text-xs text-gray-400 mt-0.5">
