@@ -226,7 +226,7 @@ export function RunnerLoader({ text = "메뉴 정보를 가져오는 중입니�
         height={280}
         style={{ width: "100%", maxWidth: "340px" }}
       />
-      <p className="text-sm text-gray-400 mt-2">{text}</p>
+      <p className="text-sm text-muted mt-2">{text}</p>
     </div>
   );
 }

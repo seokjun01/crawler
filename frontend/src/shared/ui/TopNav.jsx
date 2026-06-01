@@ -21,7 +21,7 @@ export function TopNav() {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-[#f5f5f5]">
+      <nav className="sticky top-0 z-50 w-full border-b border-line bg-[#f5f5f5]">
         <div className="mx-auto flex w-full bg-white max-w-screen-xl items-center  justify-between px-4 py-4">
           <div className="flex items-center gap-2">
             <svg
@@ -125,11 +125,11 @@ export function TopNav() {
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-line">
           <span className="font-bold text-heading">메뉴</span>
           <button
             onClick={() => setOpen(false)}
-            className="text-gray-400 text-xl hover:text-black"
+            className="text-muted text-xl hover:text-black"
           >
             <X size={20} strokeWidth={1.5} />
           </button>
@@ -144,7 +144,7 @@ export function TopNav() {
                 className={`flex items-center gap-3 px-6 py-3 gap-1 rounded-xl transition-all duration-150 active:scale-90 ${
                   isActive
                     ? "text-black"
-                    : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                    : "text-muted hover:text-secondary hover:bg-hover"
                 }`}
               >
                 <item.icon

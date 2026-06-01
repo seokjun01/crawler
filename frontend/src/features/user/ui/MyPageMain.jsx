@@ -114,7 +114,7 @@ export function MyPageMain() {
 
   return (
     <div className="min-h-screen bg-white pb-20 lg:pb-4">
-      <div className="flex items-center px-5 py-4 border-b border-gray-100">
+      <div className="flex items-center px-5 py-4 border-b border-line">
         <button
           onClick={() => navigate(-1)}
           className="mr-3 text-xl text-primary-middle"
@@ -159,7 +159,7 @@ export function MyPageMain() {
             ) : (
               <p className="font-bold text-body">{user?.nickname}</p>
             )}
-            <p className="text-caption text-gray-400">{user?.email}</p>
+            <p className="text-caption text-muted">{user?.email}</p>
           </div>
           {!editingNickname && (
             <button
@@ -200,7 +200,7 @@ export function MyPageMain() {
                     className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-body font-medium ${
                       selectedCategories.includes(option.value)
                         ? "bg-primary-middle text-primary-cream border-primary-light"
-                        : "bg-white text-gray-400 border-primary-light"
+                        : "bg-white text-muted border-primary-light"
                     }`}
                   >
                     <span>{option.emoji}</span>
@@ -208,7 +208,7 @@ export function MyPageMain() {
                   </button>
                 ))}
               </div>
-              <p className="text-caption text-gray-400 mb-2">
+              <p className="text-caption text-muted mb-2">
                 최대 5개 선택 ({selectedCategories.length}/5)
               </p>
               <div className="flex gap-2">
@@ -232,7 +232,7 @@ export function MyPageMain() {
           ) : (
             <div className="flex flex-wrap gap-2">
               {preferredCategories.length === 0 ? (
-                <p className="text-caption text-gray-400">
+                <p className="text-caption text-muted">
                   선택된 카테고리가 없습니다
                 </p>
               ) : (
@@ -267,7 +267,7 @@ export function MyPageMain() {
             <span>📍</span>
             <div>
               <p className="text-body font-medium">{locationLabel}</p>
-              <p className="text-caption text-gray-400">현재 위치</p>
+              <p className="text-caption text-muted">현재 위치</p>
             </div>
           </div>
         </div>
@@ -277,7 +277,7 @@ export function MyPageMain() {
           <div className="flex justify-between items-center mb-2">
             <div>
               <p className="font-bold text-body">방문 기록</p>
-              <p className="text-caption text-gray-400">최근 방문한 맛집</p>
+              <p className="text-caption text-muted">최근 방문한 맛집</p>
             </div>
             <button
               onClick={() => navigate("/mypage/visits")}
@@ -287,21 +287,21 @@ export function MyPageMain() {
             </button>
           </div>
           {loading ? (
-            <p className="text-caption text-gray-400">불러오는 중...</p>
+            <p className="text-caption text-muted">불러오는 중...</p>
           ) : visits.length === 0 ? (
-            <p className="text-caption text-gray-400">방문 기록이 없습니다</p>
+            <p className="text-caption text-muted">방문 기록이 없습니다</p>
           ) : (
             <div className="flex gap-3 overflow-x-auto pb-1">
               {visits.slice(0, 2).map((v) => (
                 <div
                   key={v.kakao_place_id}
-                  className="min-w-40 border border-gray-100 rounded-xl p-3 bg-gray-50 flex-shrink-0"
+                  className="min-w-40 border border-line rounded-xl p-3 bg-hover flex-shrink-0"
                 >
                   <p className="text-caption font-bold mb-1">{v.place_name}</p>
-                  <p className="text-caption text-gray-400">
+                  <p className="text-caption text-muted">
                     {v.visit_count}회 방문
                   </p>
-                  <p className="text-caption text-gray-400 mt-1">
+                  <p className="text-caption text-muted mt-1">
                     마지막 {v.last_visited?.slice(0, 10)}
                   </p>
                 </div>
@@ -315,7 +315,7 @@ export function MyPageMain() {
           <div className="flex justify-between items-center mb-2">
             <div>
               <p className="font-bold text-body">즐겨찾기</p>
-              <p className="text-caption text-gray-400">저장한 곳</p>
+              <p className="text-caption text-muted">저장한 곳</p>
             </div>
             <button
               onClick={() => navigate("/mypage/favorites")}
@@ -325,30 +325,30 @@ export function MyPageMain() {
             </button>
           </div>
           {loading ? (
-            <p className="text-caption text-gray-400">불러오는 중...</p>
+            <p className="text-caption text-muted">불러오는 중...</p>
           ) : favorites.length === 0 ? (
-            <p className="text-caption text-gray-400">즐겨찾기가 없습니다</p>
+            <p className="text-caption text-muted">즐겨찾기가 없습니다</p>
           ) : (
             <div className="flex flex-col">
               {favorites.slice(0, 3).map((f) => (
                 <div
                   key={f.favorite_id}
-                  className="flex items-center justify-between py-3 border-b border-gray-100"
+                  className="flex items-center justify-between py-3 border-b border-line"
                 >
                   <div className="flex items-center gap-2">
                     <Heart
                       size={18}
                       strokeWidth={1.5}
-                      className="text-red-400 fill-red-400"
+                      className="text-danger fill-red-400"
                     />
                     <div>
                       <p className="text-body font-medium">{f.place_name}</p>
-                      <p className="text-caption text-gray-400">
+                      <p className="text-caption text-muted">
                         {f.category_name}
                       </p>
                     </div>
                   </div>
-                  <p className="text-caption text-gray-400">
+                  <p className="text-caption text-muted">
                     {f.created_at?.slice(0, 10)}
                   </p>
                 </div>

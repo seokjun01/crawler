@@ -51,7 +51,7 @@ export function VerifyEmailForm() {
     <div className="max-w-[1280px] bg-white shadow-xl mx-auto flex-1 flex flex-col px-5 pt-12">
       <div className="mb-12">
         <h2 className="text-display font-bold mb-2">이메일을 확인해주세요</h2>
-        <p className="text-gray-400 text-sub leading-relaxed">
+        <p className="text-muted text-sub leading-relaxed">
           {email || "입력하신 이메일"}으로 인증 메일을 발송했습니다.{"\n"}
           메일함을 확인하고 인증 링크를 클릭해주세요.
         </p>
@@ -60,7 +60,7 @@ export function VerifyEmailForm() {
       {message && (
         <p
           className={`text-body text-center mt-2 ${
-            verified ? "text-green-500" : "text-red-500"
+            verified ? "text-green-500" : "text-error"
           }`}
         >
           {message}

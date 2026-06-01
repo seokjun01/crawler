@@ -37,10 +37,10 @@ export function RecommendExclude() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <div className="flex items-center px-5 py-4 border-b border-gray-100">
+      <div className="flex items-center px-5 py-4 border-b border-line">
         <button
           onClick={() => navigate(-1)}
-          className="mr-3 text-xl text-gray-500"
+          className="mr-3 text-xl text-secondary"
         >
           ‹
         </button>
@@ -49,7 +49,7 @@ export function RecommendExclude() {
 
       <div className="flex-1 px-5 pt-6">
         <p className="text-lg font-bold mb-1">안 땡기는 카테고리 선택</p>
-        <p className="text-sm text-gray-400 mb-5">
+        <p className="text-sm text-muted mb-5">
           선택한 카테고리는 추천에서 제외돼요!
         </p>
 
@@ -64,7 +64,7 @@ export function RecommendExclude() {
                 className={`flex items-center gap-3 px-4 py-4 rounded-xl border text-sm font-medium transition-colors ${
                   isSelected
                     ? "bg-primary-cream text-primary-light font-semibold"
-                    : "bg-white text-gray-500 border-gray-200"
+                    : "bg-white text-secondary border-input"
                 }`}
               >
                 <span className="text-xl">{cat.emoji}</span>
@@ -75,7 +75,7 @@ export function RecommendExclude() {
         </div>
       </div>
 
-      <div className="px-5 py-4 border-t lg:pb-4 mb-20 border-gray-100">
+      <div className="px-5 py-4 border-t lg:pb-4 mb-20 border-line">
         <button
           onClick={handleConfirm}
           className="w-full bg-primary text-white rounded-xl py-4 text-base font-semibold"

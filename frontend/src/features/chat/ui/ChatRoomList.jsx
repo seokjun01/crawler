@@ -67,7 +67,7 @@ export function ChatRoomList() {
         </button>
       </div>
 
-      {error && <p className="text-red-500 text-body px-5 py-2">{error}</p>}
+      {error && <p className="text-error text-body px-5 py-2">{error}</p>}
 
       {showCreate && (
         <ChatRoomCreate
@@ -83,14 +83,14 @@ export function ChatRoomList() {
         {rooms.map((room) => (
           <li
             key={room.room_id}
-            className="px-5 py-4 border-b border-primary-light active:bg-gray-50"
+            className="px-5 py-4 border-b border-primary-light active:bg-hover"
           >
             <div className="flex justify-between items-center">
               <div>
                 <p className="font-medium  text-primary text-body">
                   {room.title}
                 </p>
-                <p className="text-caption text-gray-400 mt-1">
+                <p className="text-caption text-muted mt-1">
                   {room.host_nickname} · {room.current_members}/
                   {room.max_members}명
                 </p>
@@ -99,7 +99,7 @@ export function ChatRoomList() {
                 {String(user?.userId) === String(room.host_user_id) && (
                   <button
                     onClick={() => handleDelete(room.room_id)}
-                    className="text-caption text-red-400 border border-red-300 rounded-lg px-3 py-1"
+                    className="text-caption text-danger border border-red-300 rounded-lg px-3 py-1"
                   >
                     삭제
                   </button>
@@ -112,7 +112,7 @@ export function ChatRoomList() {
                     입장
                   </button>
                 ) : (
-                  <span className="text-caption text-gray-400">마감</span>
+                  <span className="text-caption text-muted">마감</span>
                 )}
               </div>
             </div>
@@ -121,7 +121,7 @@ export function ChatRoomList() {
       </ul>
 
       {!loading && rooms.length === 0 && (
-        <p className="text-center text-gray-400 text-body mt-20">
+        <p className="text-center text-muted text-body mt-20">
           아직 열린 방이 없어요
         </p>
       )}

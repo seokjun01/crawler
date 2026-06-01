@@ -193,7 +193,7 @@ export function PlaceList({ latitude, longitude }) {
               className={`flex-shrink-0 px-4 py-2 rounded-full text-body font-medium border ${
                 radius === option.value
                   ? "bg-primary-cream text-primary-light font-semibold"
-                  : "bg-white text-gray-500 border-gray-200"
+                  : "bg-white text-secondary border-input"
               }`}
             >
               {option.label}
@@ -213,7 +213,7 @@ export function PlaceList({ latitude, longitude }) {
               className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-body font-medium ${
                 category === option.value
                   ? "bg-primary-cream text-primary-light font-semibold"
-                  : "bg-white text-gray-500 border-gray-200"
+                  : "bg-white text-secondary border-input"
               }`}
             >
               <span>{option.emoji}</span>
@@ -227,7 +227,7 @@ export function PlaceList({ latitude, longitude }) {
       <div className="px-5">
         <div className="flex items-center justify-between mb-3">
           <p className="text-body font-bold">식당 목록</p>
-          <p className="text-caption text-gray-400">스크롤하여 더 보기</p>
+          <p className="text-caption text-muted">스크롤하여 더 보기</p>
         </div>
 
         <div className="flex flex-col">
@@ -242,22 +242,22 @@ export function PlaceList({ latitude, longitude }) {
                   },
                 })
               }
-              className="flex items-center justify-between py-4 border-b border-gray-100 text-left active:bg-gray-50"
+              className="flex items-center justify-between py-4 border-b border-line text-left active:bg-hover"
             >
               <div className="flex items-center gap-3">
                 <Heart
                   size={20}
                   onClick={(e) => handleFavoriteToggle(e, place)}
-                  className={`cursor-pointer transition-colors ${favoriteIds.has(place.kakaoPlaceId) ? "text-red-500 fill-red-500" : "text-gray-300"}`}
+                  className={`cursor-pointer transition-colors ${favoriteIds.has(place.kakaoPlaceId) ? "text-error fill-red-500" : "text-faint"}`}
                 />
                 <div>
                   <p className="font-medium text-body">{place.placeName}</p>
-                  <p className="text-caption text-gray-400 mt-0.5">
+                  <p className="text-caption text-muted mt-0.5">
                     {place.categoryName}
                   </p>
                 </div>
               </div>
-              <p className="text-sub text-gray-500 flex-shrink-0">
+              <p className="text-sub text-secondary flex-shrink-0">
                 {formatDistance(place.distance)}
               </p>
             </button>
@@ -270,12 +270,12 @@ export function PlaceList({ latitude, longitude }) {
           </div>
         )}
         {!hasMore && places.length > 0 && (
-          <p className="text-center text-caption text-gray-400 py-6">
+          <p className="text-center text-caption text-muted py-6">
             주변 식당을 모두 불러왔어요
           </p>
         )}
         {!loading && places.length === 0 && (
-          <p className="text-center text-caption text-gray-400 py-10">
+          <p className="text-center text-caption text-muted py-10">
             주변에 식당이 없어요
           </p>
         )}

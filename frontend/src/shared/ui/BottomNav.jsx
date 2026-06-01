@@ -13,7 +13,7 @@ export function BottomNav() {
   const location = useLocation(); //현재 URL 경로 확인용
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-100 z-50 lg:hidden">
+    <nav className="fixed bottom-0 left-0 w-full bg-white border-t border-line z-50 lg:hidden">
       <div className="grid grid-cols-4">
         {NAV_ITEMS.map((item) => {
           const isActive = location.pathname === item.path;
@@ -25,7 +25,7 @@ export function BottomNav() {
               className={`flex flex-col items-center py-3 gap-1 rounded-xl transition-all duration-150 active:scale-90 ${
                 isActive
                   ? "text-black"
-                  : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                  : "text-muted hover:text-secondary hover:bg-hover"
               }`}
             >
               <item.icon

@@ -6,7 +6,7 @@ export default function LocationEditPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-2">
+      <div className="px-5 py-4 border-b border-line flex items-center gap-2">
         <button onClick={() => navigate(-1)} className="text-xl">
           ←
         </button>

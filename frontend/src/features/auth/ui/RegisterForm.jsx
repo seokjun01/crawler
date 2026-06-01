@@ -97,9 +97,9 @@ export function RegisterForm() {
             setEmail(e.target.value);
             setEmailChecked(false);
           }}
-          className="w-full border border-gray-200 rounded-lg px-4 py-3 text-body outline-none focus:border-black"
+          className="w-full border border-input rounded-lg px-4 py-3 text-body outline-none focus:border-black"
         />
-        <p className="text-caption text-gray-400 mt-1">예: name@cyber-i.com</p>
+        <p className="text-caption text-muted mt-1">예: name@cyber-i.com</p>
         <button
           onClick={handleCheckEmail}
           className="w-full bg-primary text-white rounded-lg py-3 text-sm font-semibold mt-2"
@@ -116,9 +116,9 @@ export function RegisterForm() {
           placeholder="비밀번호를 입력하세요"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-4 py-3 text-body outline-none focus:border-black"
+          className="w-full border border-input rounded-lg px-4 py-3 text-body outline-none focus:border-black"
         />
-        <p className="text-caption text-gray-400 mt-1">영문/숫자 조합 등</p>
+        <p className="text-caption text-muted mt-1">영문/숫자 조합 등</p>
       </div>
 
       {/* 닉네임 섹션 */}
@@ -129,15 +129,15 @@ export function RegisterForm() {
           placeholder="닉네임을 입력하세요"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-4 py-3 text-body outline-none focus:border-black"
+          className="w-full border border-input rounded-lg px-4 py-3 text-body outline-none focus:border-black"
         />
-        <p className="text-caption text-gray-400 mt-1">2~10자 권장</p>
+        <p className="text-caption text-muted mt-1">2~10자 권장</p>
       </div>
 
       {/* 카테고리 선택 섹션 */}
       <div>
         <p className="text-body font-semibold mb-1">카테고리 선택</p>
-        <p className="text-caption text-gray-400 mb-3">최대 5개 선택 가능</p>
+        <p className="text-caption text-muted mb-3">최대 5개 선택 가능</p>
         <div className="grid grid-cols-2 gap-2">
           {CATEGORIES.map((cat) => (
             <button
@@ -147,7 +147,7 @@ export function RegisterForm() {
               ${
                 selectedCategories.includes(cat.label)
                   ? " bg-primary-cream text-primary-light font-semibold"
-                  : "border-gray-200 text-gray-500 bg-white"
+                  : "border-input text-secondary bg-white"
               }`}
             >
               <span className="text-xl">{cat.emoji}</span>
@@ -157,7 +157,7 @@ export function RegisterForm() {
         </div>
       </div>
 
-      {error && <p className="text-red-500 text-caption">{error}</p>}
+      {error && <p className="text-error text-caption">{error}</p>}
 
       {/* 하단 버튼 */}
       <div className="flex gap-3 mt-2">

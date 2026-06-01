@@ -30,7 +30,7 @@ export function FavoriteListMain() {
 
   return (
     <div className="min-h-screen bg-white pb-20 lg:pb-4">
-      <div className="flex items-center px-5 py-4 border-b border-gray-100">
+      <div className="flex items-center px-5 py-4 border-b border-line">
         <button onClick={() => navigate(-1)} className="mr-3 text-xl">
           ←
         </button>
@@ -38,13 +38,13 @@ export function FavoriteListMain() {
       </div>
       <div className="px-5 py-4">
         <p className="font-bold text-body mb-1">즐겨찾기</p>
-        <p className="text-caption text-gray-400 mb-4">저장한 곳</p>
+        <p className="text-caption text-muted mb-4">저장한 곳</p>
         {loading ? (
           <div className="flex justify-center py-10">
             <div className="w-6 h-6 rounded-full border-2 border-black border-t-transparent animate-spin" />
           </div>
         ) : favorites.length === 0 ? (
-          <p className="text-center text-caption text-gray-400 py-10">
+          <p className="text-center text-caption text-muted py-10">
             즐겨찾기가 없습니다
           </p>
         ) : (
@@ -52,24 +52,24 @@ export function FavoriteListMain() {
             {favorites.map((f) => (
               <div
                 key={f.favorite_id}
-                className="flex items-center justify-between py-3 border-b border-gray-100"
+                className="flex items-center justify-between py-3 border-b border-line"
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-yellow-400 text-lg">⭐</span>
+                  <span className="text-rating text-lg">⭐</span>
                   <div>
                     <p className="text-body font-medium">{f.place_name}</p>
-                    <p className="text-caption text-gray-400">
+                    <p className="text-caption text-muted">
                       {f.category_name}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <p className="text-caption text-gray-400">
+                  <p className="text-caption text-muted">
                     {f.created_at?.slice(0, 10)}
                   </p>
                   <button
                     onClick={() => handleDelete(f.kakao_place_id)}
-                    className="text-caption text-red-400"
+                    className="text-caption text-danger"
                   >
                     삭제
                   </button>

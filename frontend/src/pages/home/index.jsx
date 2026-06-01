@@ -32,16 +32,16 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="sticky top-0 bg-white z-40 px-5 py-3 border-b border-gray-100">
+      <div className="sticky top-0 bg-white z-40 px-5 py-3 border-b border-line">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-caption text-gray-400">현재 위치</p>
+            <p className="text-caption text-muted">현재 위치</p>
             <p className="text-body font-bold">{locationLabel}</p>
           </div>
           <div>
             <button
               onClick={() => navigate("/location-edit")}
-              className="p-2 text-gray-400 hover:text-black"
+              className="p-2 text-muted hover:text-black"
             >
               <svg
                 width="23"

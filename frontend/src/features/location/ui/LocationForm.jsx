@@ -158,7 +158,7 @@ export function LocationForm({ mode = "register" }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAddressSearch()}
-            className="flex-1 border border-gray-200 rounded-lg px-4 py-3 text-body outline-none focus:border-black"
+            className="flex-1 border border-input rounded-lg px-4 py-3 text-body outline-none focus:border-black"
           />
           <button
             onClick={handleAddressSearch}
@@ -169,19 +169,19 @@ export function LocationForm({ mode = "register" }) {
         </div>
 
         {searchResults.length > 0 && (
-          <div className="border border-gray-200 rounded-lg overflow-hidden">
+          <div className="border border-input rounded-lg overflow-hidden">
             {searchResults.map((item, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSelectResult(item)}
-                className="w-full text-left px-4 py-3 text-body border-b border-gray-100 last:border-b-0 hover:bg-gray-50"
+                className="w-full text-left px-4 py-3 text-body border-b border-line last:border-b-0 hover:bg-hover"
               >
                 <p className="font-medium">{item.place_name}</p>
-                <p className="text-caption text-gray-500 mt-0.5">
+                <p className="text-caption text-secondary mt-0.5">
                   {item.road_address_name || item.address_name}
                 </p>
                 {item.road_address_name && (
-                  <p className="text-caption text-gray-400">
+                  <p className="text-caption text-muted">
                     지번: {item.address_name}
                   </p>
                 )}
@@ -193,11 +193,11 @@ export function LocationForm({ mode = "register" }) {
         <div>
           <h3 className="text-base font-bold mb-2">검색 결과</h3>
           {!selectedLocation ? (
-            <p className="text-sub text-gray-400">
+            <p className="text-sub text-muted">
               입력 또는 지도 선택 결과가 표시됩니다
             </p>
           ) : (
-            <div className="border border-gray-200 rounded-lg p-3 flex flex-col gap-2">
+            <div className="border border-input rounded-lg p-3 flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <span>📌</span>
                 <div>
@@ -206,7 +206,7 @@ export function LocationForm({ mode = "register" }) {
                       {selectedLocation.placeName}
                     </p>
                   )}
-                  <p className="text-caption text-gray-400">주소</p>
+                  <p className="text-caption text-muted">주소</p>
                   <p className="text-body font-medium">
                     {selectedLocation.address}
                   </p>
@@ -219,14 +219,14 @@ export function LocationForm({ mode = "register" }) {
                   placeholder="예: 1층 / 출입구 기준"
                   value={detail}
                   onChange={(e) => setDetail(e.target.value)}
-                  className="flex-1 text-sm outline-none border-b border-gray-200 py-1"
+                  className="flex-1 text-sm outline-none border-b border-input py-1"
                 />
               </div>
             </div>
           )}
         </div>
 
-        {error && <p className="text-red-500 text-caption">{error}</p>}
+        {error && <p className="text-error text-caption">{error}</p>}
       </div>
 
       {/* 하단 버튼 */}
