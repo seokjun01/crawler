@@ -59,6 +59,53 @@ body {
 }
 
 @layer utilities {
+  /* H 스케일 — GMarketSans */
+  .h1 {
+    font-family: "GMarketSans", sans-serif;
+    font-size: var(--text-display);
+    font-weight: 700;
+  }
+  .h2 {
+    font-family: "GMarketSans", sans-serif;
+    font-size: var(--text-heading);
+    font-weight: 700;
+  }
+  .h2-semi {
+    font-family: "GMarketSans", sans-serif;
+    font-size: var(--text-heading);
+    font-weight: 600;
+  }
+
+  /* Body 스케일 — Pretendard */
+  .body1 {
+    font-size: var(--text-body);
+    font-weight: 700;
+  }
+  .body2 {
+    font-size: var(--text-body);
+    font-weight: 500;
+  }
+  .body3 {
+    font-size: var(--text-body);
+    font-weight: 400;
+  }
+
+  /* 기타 스케일 */
+  .sub1 {
+    font-size: var(--text-sub);
+    font-weight: 400;
+  }
+  .btn1 {
+    font-size: var(--text-body);
+    font-weight: 600;
+  }
+  .caption1 {
+    font-size: var(--text-caption);
+    font-weight: 400;
+  }
+}
+
+@layer utilities {
   .bg-btn-primary {
     background: linear-gradient(135deg, #ff6b35, #f97b4b);
   }

@@ -10,7 +10,7 @@ export function RecommendSelect() {
       <div className="mb-16 text-center">
         <p className="text-display mb-3">🍽️</p>
         <h1 className="text-display text-primary font-bold mb-2">오늘 뭐 먹지?</h1>
-        <p className="text-sub text-muted">추천 방식을 선택해주세요</p>
+        <p className="sub1 text-muted">추천 방식을 선택해주세요</p>
       </div>
       {/*선택 카드 2개*/}
       <div className="w-full flex flex-col gap-4">
@@ -38,7 +38,7 @@ export function RecommendSelect() {
             />
           </p>
           <p className="text-heading  text-primary font-bold mb-1">정밀 추천</p>
-          <p className="text-sub text-muted">내 취향 + 먹기 싫은 거 빼고</p>
+          <p className="sub1 text-muted">내 취향 + 먹기 싫은 거 빼고</p>
         </button>
       </div>
     </div>

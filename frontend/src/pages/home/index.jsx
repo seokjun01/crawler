@@ -35,8 +35,8 @@ export default function HomePage() {
       <div className="sticky top-0 bg-white z-40 px-5 py-3 border-b border-line">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-caption text-muted">현재 위치</p>
-            <p className="text-body font-bold">{locationLabel}</p>
+            <p className="caption1 text-muted">현재 위치</p>
+            <p className="body1">{locationLabel}</p>
           </div>
           <div>
             <button

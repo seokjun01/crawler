@@ -33,7 +33,7 @@ export function BottomNav() {
                 strokeWidth={2}
                 className="text-orange-500"
               />
-              <span className="text-caption">{item.label}</span>
+              <span className="caption1">{item.label}</span>
             </button>
           );
         })}

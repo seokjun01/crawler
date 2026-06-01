@@ -137,7 +137,7 @@ export default function PlaceDetail() {
         </button>
         <div>
           <h1 className="font-bold text-heading">{placeName}</h1>
-          <p className="text-caption text-muted">{categoryName}</p>
+          <p className="caption1 text-muted">{categoryName}</p>
         </div>
       </div>
 
@@ -147,9 +147,9 @@ export default function PlaceDetail() {
         <div className="px-5 py-4 flex flex-col gap-6 pb-20">
           {/* 메뉴 */}
           <div>
-            <h2 className="font-bold text-body mb-3">메뉴</h2>
+            <h2 className="font-bold body3 mb-3">메뉴</h2>
             {menus.length === 0 ? (
-              <p className="text-caption text-muted">
+              <p className="caption1 text-muted">
                 등록된 메뉴가 없습니다.
               </p>
             ) : (
@@ -159,8 +159,8 @@ export default function PlaceDetail() {
                     key={idx}
                     className="flex justify-between items-center py-2 border-b border-line"
                   >
-                    <span className="text-body">{menu.name}</span>
-                    <span className="text-body text-secondary">
+                    <span className="body3">{menu.name}</span>
+                    <span className="body3 text-secondary">
                       {menu.price ? `${menu.price.toLocaleString()}원` : ""}
                     </span>
                   </div>
@@ -171,11 +171,11 @@ export default function PlaceDetail() {
 
           {/* 후기 작성 */}
           <div>
-            <h2 className="font-bold text-body mb-3">후기 작성</h2>
+            <h2 className="font-bold body3 mb-3">후기 작성</h2>
             <select
               value={selectedMenu}
               onChange={(e) => setSelectedMenu(e.target.value)}
-              className="w-full border border-input rounded-lg px-3 py-2 text-body outline-none focus:border-black mb-2"
+              className="w-full border border-input rounded-lg px-3 py-2 body3 outline-none focus:border-black mb-2"
             >
               <option value="">메뉴 선택 (선택사항)</option>
               {menus.map((menu, idx) => (
@@ -192,25 +192,25 @@ export default function PlaceDetail() {
                 value={reviewText}
                 onChange={(e) => setReviewText(e.target.value)}
                 maxLength={100}
-                className="flex-1 border border-input rounded-lg px-3 py-2 text-body outline-none focus:border-black"
+                className="flex-1 border border-input rounded-lg px-3 py-2 body3 outline-none focus:border-black"
               />
               <button
                 onClick={handleReviewSubmit}
-                className="bg-black text-white px-4 rounded-lg text-body font-semibold"
+                className="bg-black text-white px-4 rounded-lg btn1"
               >
                 등록
               </button>
             </div>
-            {error && <p className="text-error text-caption mt-1">{error}</p>}
+            {error && <p className="text-error caption1 mt-1">{error}</p>}
           </div>
 
           {/* 후기 목록 */}
           <div>
-            <h2 className="font-bold text-body mb-3">
+            <h2 className="font-bold body3 mb-3">
               후기 ({reviews.length})
             </h2>
             {reviews.length === 0 ? (
-              <p className="text-caption text-muted">
+              <p className="caption1 text-muted">
                 아직 후기가 없습니다.
               </p>
             ) : (
@@ -221,7 +221,7 @@ export default function PlaceDetail() {
                     className="border-b border-line pb-3"
                   >
                     <div className="flex justify-between items-center mb-1">
-                      <p className="text-caption text-muted">
+                      <p className="caption1 text-muted">
                         {review.nickname}{" "}
                         {review.menu_name && `· ${review.menu_name}`}
                       </p>
@@ -233,13 +233,13 @@ export default function PlaceDetail() {
                                 onClick={() =>
                                   handleEditSubmit(review.visit_history_id)
                                 }
-                                className="text-caption text-black underline"
+                                className="caption1 text-black underline"
                               >
                                 저장
                               </button>
                               <button
                                 onClick={() => setEditingId(null)}
-                                className="text-caption text-muted underline"
+                                className="caption1 text-muted underline"
                               >
                                 취소
                               </button>
@@ -248,7 +248,7 @@ export default function PlaceDetail() {
                             <>
                               <button
                                 onClick={() => handleEditStart(review)}
-                                className="text-caption text-secondary underline"
+                                className="caption1 text-secondary underline"
                               >
                                 수정
                               </button>
@@ -256,7 +256,7 @@ export default function PlaceDetail() {
                                 onClick={() =>
                                   handleDelete(review.visit_history_id)
                                 }
-                                className="text-caption text-danger underline"
+                                className="caption1 text-danger underline"
                               >
                                 삭제
                               </button>
@@ -297,10 +297,10 @@ export default function PlaceDetail() {
                         onChange={(e) => setEditText(e.target.value)}
                         maxLength={100}
                         autoFocus
-                        className="w-full border-b border-gray-300 text-body outline-none py-1"
+                        className="w-full border-b border-gray-300 body3 outline-none py-1"
                       />
                     ) : (
-                      <p className="text-body">{review.content}</p>
+                      <p className="body3">{review.content}</p>
                     )}
                   </div>
                 ))}

@@ -47,8 +47,8 @@ export function LoginForm() {
 
   return (
     <div className="flex-1 px-5 pt-8">
-      <h2 className="text-display font-bold mb-1">로그인</h2>
-      <p className="text-muted text-sub mb-8">
+      <h2 className="h1 mb-1">로그인</h2>
+      <p className="text-muted sub1 mb-8">
         이메일과 비밀번호로 로그인하세요
       </p>
 
@@ -58,25 +58,25 @@ export function LoginForm() {
           placeholder="예) user@cyber-i.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border border-input rounded-lg px-4 py-3 text-body outline-none focus:border-black"
+          className="border border-input rounded-lg px-4 py-3 body3 outline-none focus:border-black"
         />
         <input
           type="password"
           placeholder="비밀번호"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border border-input rounded-lg px-4 py-3 text-body outline-none focus:border-black"
+          className="border border-input rounded-lg px-4 py-3 body3 outline-none focus:border-black"
         />
-        <div className="text-caption text-muted mt-1">
+        <div className="caption1 text-muted mt-1">
           · <button className="underline">ID/PW 찾기</button>
         </div>
-        {error && <p className="text-error text-caption">{error}</p>}
+        {error && <p className="text-error caption1">{error}</p>}
       </div>
 
       <div className="flex flex-col gap-3 mt-6">
         <button
           onClick={handleLogin}
-          className="w-full bg-primary text-white rounded-xl py-4 text-heading font-semibold
+          className="w-full bg-primary text-white rounded-xl py-4 h2-semi
           hover:bg-primary-light active:scale-95 transition-all
           "
         >
@@ -84,7 +84,7 @@ export function LoginForm() {
         </button>
         <button
           onClick={() => navigate("/register")}
-          className="w-full bg-white text-primary border border-primary-light rounded-xl py-4 text-heading font-semibold
+          className="w-full bg-white text-primary border border-primary-light rounded-xl py-4 h2-semi
           hover:bg-primary-cream active:scale-95 transition-all
           "
         >

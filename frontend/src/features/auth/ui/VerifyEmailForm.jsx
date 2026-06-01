@@ -50,8 +50,8 @@ export function VerifyEmailForm() {
   return (
     <div className="max-w-[1280px] bg-white shadow-xl mx-auto flex-1 flex flex-col px-5 pt-12">
       <div className="mb-12">
-        <h2 className="text-display font-bold mb-2">이메일을 확인해주세요</h2>
-        <p className="text-muted text-sub leading-relaxed">
+        <h2 className="h1 mb-2">이메일을 확인해주세요</h2>
+        <p className="text-muted sub1 leading-relaxed">
           {email || "입력하신 이메일"}으로 인증 메일을 발송했습니다.{"\n"}
           메일함을 확인하고 인증 링크를 클릭해주세요.
         </p>
@@ -59,7 +59,7 @@ export function VerifyEmailForm() {
 
       {message && (
         <p
-          className={`text-body text-center mt-2 ${
+          className={`body3 text-center mt-2 ${
             verified ? "text-green-500" : "text-error"
           }`}
         >
@@ -72,7 +72,7 @@ export function VerifyEmailForm() {
           // 인증 완료 → 로그인 버튼만
           <button
             onClick={() => navigate("/login")}
-            className="w-full bg-primary text-white rounded-xl py-4 text-heading font-semibold"
+            className="w-full bg-primary text-white rounded-xl py-4 h2-semi"
           >
             로그인하러 가기
           </button>
@@ -81,7 +81,7 @@ export function VerifyEmailForm() {
           <button
             onClick={handleResend}
             disabled={loading}
-            className="w-full border border-primary-light text-primary rounded-xl py-4 text-heading font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full border border-primary-light text-primary rounded-xl py-4 h2-semi disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "발송 중..." : "인증 메일 재발송하기"}
           </button>

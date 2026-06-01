@@ -37,14 +37,14 @@ export function FavoriteListMain() {
         <h1 className="font-bold text-heading">즐겨찾기 목록</h1>
       </div>
       <div className="px-5 py-4">
-        <p className="font-bold text-body mb-1">즐겨찾기</p>
-        <p className="text-caption text-muted mb-4">저장한 곳</p>
+        <p className="font-bold body3 mb-1">즐겨찾기</p>
+        <p className="caption1 text-muted mb-4">저장한 곳</p>
         {loading ? (
           <div className="flex justify-center py-10">
             <div className="w-6 h-6 rounded-full border-2 border-black border-t-transparent animate-spin" />
           </div>
         ) : favorites.length === 0 ? (
-          <p className="text-center text-caption text-muted py-10">
+          <p className="text-center caption1 text-muted py-10">
             즐겨찾기가 없습니다
           </p>
         ) : (
@@ -57,19 +57,19 @@ export function FavoriteListMain() {
                 <div className="flex items-center gap-2">
                   <span className="text-rating text-lg">⭐</span>
                   <div>
-                    <p className="text-body font-medium">{f.place_name}</p>
-                    <p className="text-caption text-muted">
+                    <p className="body2">{f.place_name}</p>
+                    <p className="caption1 text-muted">
                       {f.category_name}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <p className="text-caption text-muted">
+                  <p className="caption1 text-muted">
                     {f.created_at?.slice(0, 10)}
                   </p>
                   <button
                     onClick={() => handleDelete(f.kakao_place_id)}
-                    className="text-caption text-danger"
+                    className="caption1 text-danger"
                   >
                     삭제
                   </button>

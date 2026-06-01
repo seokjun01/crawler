@@ -58,7 +58,7 @@ export function RecommendResult() {
         >
           ‹
         </button>
-        <h1 className="text-heading font-bold flex items-center gap-2">
+        <h1 className="h2 flex items-center gap-2">
           {mode === "personal"
             ? <><UserStar size={18} strokeWidth={1.5} className="text-primary" /> 개인화 추천</>
             : <><Dices size={18} strokeWidth={1.5} className="text-primary" /> 랜덤 추천</>}
@@ -70,14 +70,14 @@ export function RecommendResult() {
         {loading ? (
           <div className="flex flex-col items-center gap-4">
             <div className="w-10 h-10 rounded-full border-4 border-black border-t-transparent animate-spin" />
-            <p className="text-sub text-muted">맛집 고르는 중...</p>
+            <p className="sub1 text-muted">맛집 고르는 중...</p>
           </div>
         ) : place ? (
           <div className="w-full bg-primary-cream border border-primary-light rounded-2xl shadow-lg p-6">
             {/* 식당명 + 좋아요 */}
             <div className="flex items-start  justify-between mb-1">
               <div className="flex-1">
-                <p className="text-caption text-faint mb-1">
+                <p className="caption1 text-faint mb-1">
                   오늘 점심으로 딱이에요
                 </p>
                 <h2 className="text-heading text-primary font-bold">
@@ -97,10 +97,10 @@ export function RecommendResult() {
             </div>
 
             {/* 카테고리 전체 표시 */}
-            <p className="text-sub text-secondary mb-1">{place.categoryName}</p>
+            <p className="sub1 text-secondary mb-1">{place.categoryName}</p>
 
             {/* 거리 */}
-            <p className="text-caption text-muted mb-4">{place.distance}m</p>
+            <p className="caption1 text-muted mb-4">{place.distance}m</p>
 
             <div className="border-t border-line my-4" />
 
@@ -108,7 +108,7 @@ export function RecommendResult() {
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-start gap-2 flex-1">
                 <MapPin size={16} strokeWidth={1.5} className="text-muted mt-0.5 shrink-0" />
-                <p className="text-sub text-secondary">
+                <p className="sub1 text-secondary">
                   {place.roadAddressName || place.addressName}
                 </p>
               </div>
@@ -121,7 +121,7 @@ export function RecommendResult() {
                     },
                   })
                 }
-                className="text-caption bg-primary-middle text-primary-cream border border-primary-light rounded-lg px-3 py-1.5 shrink-0 "
+                className="caption1 bg-primary-middle text-primary-cream border border-primary-light rounded-lg px-3 py-1.5 shrink-0 "
               >
                 메뉴 보기
               </button>
@@ -137,7 +137,7 @@ export function RecommendResult() {
           <button
             onClick={handleVisit}
             disabled={visited}
-            className="flex-1 border border-primary text-primary rounded-xl py-4 text-body font-semibold disabled:opacity-40"
+            className="flex-1 border border-primary text-primary rounded-xl py-4 btn1 disabled:opacity-40"
           >
             {visited ? "기록됨 " : "방문할게요!"}
           </button>
@@ -145,7 +145,7 @@ export function RecommendResult() {
           {/* 다시 추천 */}
           <button
             onClick={fetchRecommend}
-            className="flex-1 bg-primary text-white rounded-xl py-4 text-body font-semibold"
+            className="flex-1 bg-primary text-white rounded-xl py-4 btn1"
           >
             다시 추천
           </button>

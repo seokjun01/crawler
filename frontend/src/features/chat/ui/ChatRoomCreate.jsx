@@ -33,13 +33,13 @@ export function ChatRoomCreate({ onClose, onCreated }) {
       <div className="bg-white w-full rounded-2xl px-5 py-6">
         {/* 헤더 */}
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-heading font-semibold">방 만들기</h2>
+          <h2 className="h2-semi">방 만들기</h2>
           <button onClick={onClose} className="text-muted text-xl">
             ✕
           </button>
         </div>
 
-        {error && <p className="text-error text-body mb-2">{error}</p>}
+        {error && <p className="text-error body3 mb-2">{error}</p>}
 
         <form onSubmit={handleSubmit}>
           <input
@@ -47,16 +47,16 @@ export function ChatRoomCreate({ onClose, onCreated }) {
             placeholder="방 제목 (예: 12시 삼성역 순대국 같이 먹어요)"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full border border-input rounded-lg px-4 py-3 text-body outline-none focus:border-black mb-4"
+            className="w-full border border-input rounded-lg px-4 py-3 body3 outline-none focus:border-black mb-4"
           />
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-body text-secondary">최대 인원</span>
+            <span className="body3 text-secondary">최대 인원</span>
             {[2, 3, 4, 5].map((n) => (
               <button
                 type="button"
                 key={n}
                 onClick={() => setMaxMembers(n)}
-                className={`w-10 h-10 rounded-full text-body border ${
+                className={`w-10 h-10 rounded-full body3 border ${
                   maxMembers === n
                     ? "bg-primary text-white border-primary-light"
                     : "border-input"
@@ -69,7 +69,7 @@ export function ChatRoomCreate({ onClose, onCreated }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary text-white rounded-xl py-4 text-heading font-semibold disabled:opacity-50"
+            className="w-full bg-primary text-white rounded-xl py-4 h2-semi disabled:opacity-50"
           >
             {loading ? "생성 중..." : "만들기"}
           </button>

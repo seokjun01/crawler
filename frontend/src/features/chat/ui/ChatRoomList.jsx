@@ -61,13 +61,13 @@ export function ChatRoomList() {
         <h1 className="text-heading  -ml-2 text-primary font-bold">채팅방 목록 </h1>
         <button
           onClick={() => setShowCreate(true)}
-          className="bg-primary text-white text-body px-4 py-2 rounded-lg"
+          className="bg-primary text-white body3 px-4 py-2 rounded-lg"
         >
           방 만들기
         </button>
       </div>
 
-      {error && <p className="text-error text-body px-5 py-2">{error}</p>}
+      {error && <p className="text-error body3 px-5 py-2">{error}</p>}
 
       {showCreate && (
         <ChatRoomCreate
@@ -87,10 +87,10 @@ export function ChatRoomList() {
           >
             <div className="flex justify-between items-center">
               <div>
-                <p className="font-medium  text-primary text-body">
+                <p className="font-medium  text-primary body3">
                   {room.title}
                 </p>
-                <p className="text-caption text-muted mt-1">
+                <p className="caption1 text-muted mt-1">
                   {room.host_nickname} · {room.current_members}/
                   {room.max_members}명
                 </p>
@@ -99,7 +99,7 @@ export function ChatRoomList() {
                 {String(user?.userId) === String(room.host_user_id) && (
                   <button
                     onClick={() => handleDelete(room.room_id)}
-                    className="text-caption text-danger border border-red-300 rounded-lg px-3 py-1"
+                    className="caption1 text-danger border border-red-300 rounded-lg px-3 py-1"
                   >
                     삭제
                   </button>
@@ -107,12 +107,12 @@ export function ChatRoomList() {
                 {room.status === "OPEN" ? (
                   <button
                     onClick={() => handleJoin(room.room_id)}
-                    className="text-body bg-primary text-primary-cream rounded-lg px-3 py-1"
+                    className="body3 bg-primary text-primary-cream rounded-lg px-3 py-1"
                   >
                     입장
                   </button>
                 ) : (
-                  <span className="text-caption text-muted">마감</span>
+                  <span className="caption1 text-muted">마감</span>
                 )}
               </div>
             </div>
@@ -121,7 +121,7 @@ export function ChatRoomList() {
       </ul>
 
       {!loading && rooms.length === 0 && (
-        <p className="text-center text-muted text-body mt-20">
+        <p className="text-center text-muted body3 mt-20">
           아직 열린 방이 없어요
         </p>
       )}

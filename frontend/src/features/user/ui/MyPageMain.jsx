@@ -137,12 +137,12 @@ export function MyPageMain() {
                   onChange={(e) => setNicknameInput(e.target.value)}
                   maxLength={10}
                   autoFocus
-                  className="border-b border-gray-400 text-body outline-none py-0.5 w-32"
+                  className="border-b border-gray-400 body3 outline-none py-0.5 w-32"
                   placeholder="변경할 닉네임을 입력하세요"
                 />
                 <button
                   onClick={handleNicknameSave}
-                  className="text-caption text-primary font-semibold border border-primary rounded px-2 py-1"
+                  className="caption1 text-primary font-semibold border border-primary rounded px-2 py-1"
                 >
                   확인
                 </button>
@@ -151,15 +151,15 @@ export function MyPageMain() {
                     setEditingNickname(false);
                     setNicknameInput(user?.nickname || "");
                   }}
-                  className="text-caption bg-primary text-white border border-none rounded px-2 py-1"
+                  className="caption1 bg-primary text-white border border-none rounded px-2 py-1"
                 >
                   취소
                 </button>
               </div>
             ) : (
-              <p className="font-bold text-body">{user?.nickname}</p>
+              <p className="font-bold body3">{user?.nickname}</p>
             )}
-            <p className="text-caption text-muted">{user?.email}</p>
+            <p className="caption1 text-muted">{user?.email}</p>
           </div>
           {!editingNickname && (
             <button
@@ -167,7 +167,7 @@ export function MyPageMain() {
                 setNicknameInput(user?.nickname || "");
                 setEditingNickname(true);
               }}
-              className="border border-primary-light rounded-lg px-3 py-1 text-caption text-primary"
+              className="border border-primary-light rounded-lg px-3 py-1 caption1 text-primary"
             >
               편집 &gt;
             </button>
@@ -178,12 +178,12 @@ export function MyPageMain() {
         <div>
           <div className="flex justify-between items-center mb-2">
             <div>
-              <p className="font-bold  text-body">선호 카테고리</p>
+              <p className="font-bold  body3">선호 카테고리</p>
             </div>
             {!editingCategories && (
               <button
                 onClick={() => setEditingCategories(true)}
-                className="border border-primary-light rounded-lg px-3 py-1 text-caption text-primary"
+                className="border border-primary-light rounded-lg px-3 py-1 caption1 text-primary"
               >
                 편집 &gt;
               </button>
@@ -197,7 +197,7 @@ export function MyPageMain() {
                   <button
                     key={option.value}
                     onClick={() => handleCategoryToggle(option.value)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-body font-medium ${
+                    className={`flex items-center gap-2 px-3 py-2 rounded-xl border body2 ${
                       selectedCategories.includes(option.value)
                         ? "bg-primary-middle text-primary-cream border-primary-light"
                         : "bg-white text-muted border-primary-light"
@@ -208,13 +208,13 @@ export function MyPageMain() {
                   </button>
                 ))}
               </div>
-              <p className="text-caption text-muted mb-2">
+              <p className="caption1 text-muted mb-2">
                 최대 5개 선택 ({selectedCategories.length}/5)
               </p>
               <div className="flex gap-2">
                 <button
                   onClick={handleCategorySave}
-                  className="flex-1 bg-primary text-white rounded-xl py-2 text-body font-semibold"
+                  className="flex-1 bg-primary text-white rounded-xl py-2 btn1"
                 >
                   확인
                 </button>
@@ -223,7 +223,7 @@ export function MyPageMain() {
                     setEditingCategories(false);
                     setSelectedCategories(preferredCategories);
                   }}
-                  className="flex-1 border border-primary text-primary rounded-xl py-2 text-body"
+                  className="flex-1 border border-primary text-primary rounded-xl py-2 body3"
                 >
                   취소
                 </button>
@@ -232,7 +232,7 @@ export function MyPageMain() {
           ) : (
             <div className="flex flex-wrap gap-2">
               {preferredCategories.length === 0 ? (
-                <p className="text-caption text-muted">
+                <p className="caption1 text-muted">
                   선택된 카테고리가 없습니다
                 </p>
               ) : (
@@ -241,7 +241,7 @@ export function MyPageMain() {
                   return (
                     <span
                       key={cat}
-                      className="bg-orange-50 text-primary text-caption px-3 py-1 rounded-full"
+                      className="bg-orange-50 text-primary caption1 px-3 py-1 rounded-full"
                     >
                       {option?.emoji} {cat}
                     </span>
@@ -255,10 +255,10 @@ export function MyPageMain() {
         {/* 내 위치 */}
         <div>
           <div className="flex justify-between items-center mb-2">
-            <p className="font-bold text-body">내 위치</p>
+            <p className="font-bold body3">내 위치</p>
             <button
               onClick={() => navigate("/location-edit")}
-              className="border border-primary-light rounded-lg px-3 py-1 text-caption text-primary"
+              className="border border-primary-light rounded-lg px-3 py-1 caption1 text-primary"
             >
               편집 &gt;
             </button>
@@ -266,8 +266,8 @@ export function MyPageMain() {
           <div className="flex items-center gap-2">
             <span>📍</span>
             <div>
-              <p className="text-body font-medium">{locationLabel}</p>
-              <p className="text-caption text-muted">현재 위치</p>
+              <p className="body2">{locationLabel}</p>
+              <p className="caption1 text-muted">현재 위치</p>
             </div>
           </div>
         </div>
@@ -276,20 +276,20 @@ export function MyPageMain() {
         <div>
           <div className="flex justify-between items-center mb-2">
             <div>
-              <p className="font-bold text-body">방문 기록</p>
-              <p className="text-caption text-muted">최근 방문한 맛집</p>
+              <p className="font-bold body3">방문 기록</p>
+              <p className="caption1 text-muted">최근 방문한 맛집</p>
             </div>
             <button
               onClick={() => navigate("/mypage/visits")}
-              className="border border-primary-light rounded-lg px-3 py-1 text-caption text-primary"
+              className="border border-primary-light rounded-lg px-3 py-1 caption1 text-primary"
             >
               전체보기 &gt;
             </button>
           </div>
           {loading ? (
-            <p className="text-caption text-muted">불러오는 중...</p>
+            <p className="caption1 text-muted">불러오는 중...</p>
           ) : visits.length === 0 ? (
-            <p className="text-caption text-muted">방문 기록이 없습니다</p>
+            <p className="caption1 text-muted">방문 기록이 없습니다</p>
           ) : (
             <div className="flex gap-3 overflow-x-auto pb-1">
               {visits.slice(0, 2).map((v) => (
@@ -297,11 +297,11 @@ export function MyPageMain() {
                   key={v.kakao_place_id}
                   className="min-w-40 border border-line rounded-xl p-3 bg-hover flex-shrink-0"
                 >
-                  <p className="text-caption font-bold mb-1">{v.place_name}</p>
-                  <p className="text-caption text-muted">
+                  <p className="caption1 font-bold mb-1">{v.place_name}</p>
+                  <p className="caption1 text-muted">
                     {v.visit_count}회 방문
                   </p>
-                  <p className="text-caption text-muted mt-1">
+                  <p className="caption1 text-muted mt-1">
                     마지막 {v.last_visited?.slice(0, 10)}
                   </p>
                 </div>
@@ -314,20 +314,20 @@ export function MyPageMain() {
         <div>
           <div className="flex justify-between items-center mb-2">
             <div>
-              <p className="font-bold text-body">즐겨찾기</p>
-              <p className="text-caption text-muted">저장한 곳</p>
+              <p className="font-bold body3">즐겨찾기</p>
+              <p className="caption1 text-muted">저장한 곳</p>
             </div>
             <button
               onClick={() => navigate("/mypage/favorites")}
-              className="border border-primary-light rounded-lg px-3 py-1 text-caption text-primary"
+              className="border border-primary-light rounded-lg px-3 py-1 caption1 text-primary"
             >
               전체보기 &gt;
             </button>
           </div>
           {loading ? (
-            <p className="text-caption text-muted">불러오는 중...</p>
+            <p className="caption1 text-muted">불러오는 중...</p>
           ) : favorites.length === 0 ? (
-            <p className="text-caption text-muted">즐겨찾기가 없습니다</p>
+            <p className="caption1 text-muted">즐겨찾기가 없습니다</p>
           ) : (
             <div className="flex flex-col">
               {favorites.slice(0, 3).map((f) => (
@@ -342,13 +342,13 @@ export function MyPageMain() {
                       className="text-danger fill-red-400"
                     />
                     <div>
-                      <p className="text-body font-medium">{f.place_name}</p>
-                      <p className="text-caption text-muted">
+                      <p className="body2">{f.place_name}</p>
+                      <p className="caption1 text-muted">
                         {f.category_name}
                       </p>
                     </div>
                   </div>
-                  <p className="text-caption text-muted">
+                  <p className="caption1 text-muted">
                     {f.created_at?.slice(0, 10)}
                   </p>
                 </div>
@@ -360,7 +360,7 @@ export function MyPageMain() {
         {/* 로그아웃 */}
         <button
           onClick={handleLogout}
-          className="w-full bg-primary text-white rounded-xl py-4 text-heading font-semibold mt-4"
+          className="w-full bg-primary text-white rounded-xl py-4 h2-semi mt-4"
         >
           로그아웃
         </button>

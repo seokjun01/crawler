@@ -87,7 +87,7 @@ export function RegisterForm() {
     <div className="px-5 py-6 flex flex-col gap-5">
       {/* 이메일 섹션 */}
       <div>
-        <label className="text-body font-semibold mb-1 block">이메일</label>
+        <label className="btn1 mb-1 block">이메일</label>
         <input
           type="email"
           placeholder="이메일을 입력하세요"
@@ -97,9 +97,9 @@ export function RegisterForm() {
             setEmail(e.target.value);
             setEmailChecked(false);
           }}
-          className="w-full border border-input rounded-lg px-4 py-3 text-body outline-none focus:border-black"
+          className="w-full border border-input rounded-lg px-4 py-3 body3 outline-none focus:border-black"
         />
-        <p className="text-caption text-muted mt-1">예: name@cyber-i.com</p>
+        <p className="caption1 text-muted mt-1">예: name@cyber-i.com</p>
         <button
           onClick={handleCheckEmail}
           className="w-full bg-primary text-white rounded-lg py-3 text-sm font-semibold mt-2"
@@ -110,40 +110,40 @@ export function RegisterForm() {
 
       {/* 비밀번호 섹션 */}
       <div>
-        <label className="text-body font-semibold mb-1 block">비밀번호</label>
+        <label className="btn1 mb-1 block">비밀번호</label>
         <input
           type="password"
           placeholder="비밀번호를 입력하세요"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full border border-input rounded-lg px-4 py-3 text-body outline-none focus:border-black"
+          className="w-full border border-input rounded-lg px-4 py-3 body3 outline-none focus:border-black"
         />
-        <p className="text-caption text-muted mt-1">영문/숫자 조합 등</p>
+        <p className="caption1 text-muted mt-1">영문/숫자 조합 등</p>
       </div>
 
       {/* 닉네임 섹션 */}
       <div>
-        <label className="text-body font-semibold mb-1 block">닉네임</label>
+        <label className="btn1 mb-1 block">닉네임</label>
         <input
           type="text"
           placeholder="닉네임을 입력하세요"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
-          className="w-full border border-input rounded-lg px-4 py-3 text-body outline-none focus:border-black"
+          className="w-full border border-input rounded-lg px-4 py-3 body3 outline-none focus:border-black"
         />
-        <p className="text-caption text-muted mt-1">2~10자 권장</p>
+        <p className="caption1 text-muted mt-1">2~10자 권장</p>
       </div>
 
       {/* 카테고리 선택 섹션 */}
       <div>
-        <p className="text-body font-semibold mb-1">카테고리 선택</p>
-        <p className="text-caption text-muted mb-3">최대 5개 선택 가능</p>
+        <p className="btn1 mb-1">카테고리 선택</p>
+        <p className="caption1 text-muted mb-3">최대 5개 선택 가능</p>
         <div className="grid grid-cols-2 gap-2">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.label}
               onClick={() => handleCategoryToggle(cat.label)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-body transition-all
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl border body3 transition-all
               ${
                 selectedCategories.includes(cat.label)
                   ? " bg-primary-cream text-primary-light font-semibold"
@@ -157,13 +157,13 @@ export function RegisterForm() {
         </div>
       </div>
 
-      {error && <p className="text-error text-caption">{error}</p>}
+      {error && <p className="text-error caption1">{error}</p>}
 
       {/* 하단 버튼 */}
       <div className="flex gap-3 mt-2">
         <button
           onClick={() => navigate(-1)}
-          className="flex-1 border border-primary-light text-primary rounded-xl py-4 text-heading font-semibold
+          className="flex-1 border border-primary-light text-primary rounded-xl py-4 h2-semi
           hover:bg-gray-200 active:scale-95 transition-all
           "
         >
@@ -171,7 +171,7 @@ export function RegisterForm() {
         </button>
         <button
           onClick={handleRegister}
-          className="flex-1 bg-primary text-white rounded-xl py-4 text-heading font-semibold
+          className="flex-1 bg-primary text-white rounded-xl py-4 h2-semi
           hover:bg-gray-900 active:scale-95 transition-all"
         >
           가입하기

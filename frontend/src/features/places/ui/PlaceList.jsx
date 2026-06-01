@@ -184,13 +184,13 @@ export function PlaceList({ latitude, longitude }) {
     <div className="pb-20">
       {/* 거리 필터 */}
       <div className="px-5 pt-5 pb-3">
-        <p className="text-body font-bold mb-2">거리 필터</p>
+        <p className="body1 mb-2">거리 필터</p>
         <div className="flex gap-2 overflow-x-auto pb-1">
           {RADIUS_OPTIONS.map((option) => (
             <button
               key={option.value}
               onClick={() => setRadius(option.value)}
-              className={`flex-shrink-0 px-4 py-2 rounded-full text-body font-medium border ${
+              className={`flex-shrink-0 px-4 py-2 rounded-full body2 border ${
                 radius === option.value
                   ? "bg-primary-cream text-primary-light font-semibold"
                   : "bg-white text-secondary border-input"
@@ -204,13 +204,13 @@ export function PlaceList({ latitude, longitude }) {
 
       {/* 카테고리 필터 */}
       <div className="px-5 pb-4">
-        <p className="text-body font-bold mb-2">음식 카테고리</p>
+        <p className="body1 mb-2">음식 카테고리</p>
         <div className="grid grid-cols-2 gap-2">
           {CATEGORY_OPTIONS.map((option) => (
             <button
               key={option.value}
               onClick={() => setCategory(option.value)}
-              className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-body font-medium ${
+              className={`flex items-center gap-2 px-4 py-3 rounded-xl border body2 ${
                 category === option.value
                   ? "bg-primary-cream text-primary-light font-semibold"
                   : "bg-white text-secondary border-input"
@@ -226,8 +226,8 @@ export function PlaceList({ latitude, longitude }) {
       {/* 식당 목록 */}
       <div className="px-5">
         <div className="flex items-center justify-between mb-3">
-          <p className="text-body font-bold">식당 목록</p>
-          <p className="text-caption text-muted">스크롤하여 더 보기</p>
+          <p className="body1">식당 목록</p>
+          <p className="caption1 text-muted">스크롤하여 더 보기</p>
         </div>
 
         <div className="flex flex-col">
@@ -251,13 +251,13 @@ export function PlaceList({ latitude, longitude }) {
                   className={`cursor-pointer transition-colors ${favoriteIds.has(place.kakaoPlaceId) ? "text-error fill-red-500" : "text-faint"}`}
                 />
                 <div>
-                  <p className="font-medium text-body">{place.placeName}</p>
-                  <p className="text-caption text-muted mt-0.5">
+                  <p className="font-medium body3">{place.placeName}</p>
+                  <p className="caption1 text-muted mt-0.5">
                     {place.categoryName}
                   </p>
                 </div>
               </div>
-              <p className="text-sub text-secondary flex-shrink-0">
+              <p className="sub1 text-secondary flex-shrink-0">
                 {formatDistance(place.distance)}
               </p>
             </button>
@@ -270,12 +270,12 @@ export function PlaceList({ latitude, longitude }) {
           </div>
         )}
         {!hasMore && places.length > 0 && (
-          <p className="text-center text-caption text-muted py-6">
+          <p className="text-center caption1 text-muted py-6">
             주변 식당을 모두 불러왔어요
           </p>
         )}
         {!loading && places.length === 0 && (
-          <p className="text-center text-caption text-muted py-10">
+          <p className="text-center caption1 text-muted py-10">
             주변에 식당이 없어요
           </p>
         )}

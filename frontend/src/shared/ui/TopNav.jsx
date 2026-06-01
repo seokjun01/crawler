@@ -102,7 +102,7 @@ export function TopNav() {
                 />
               </g>
             </svg>
-            <span className="text-body font-bold text-primary">DishPatch</span>
+            <span className="body1 text-primary">DishPatch</span>
           </div>
 
           <button
