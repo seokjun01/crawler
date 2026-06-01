@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlaceList } from "../../features/places";
 import { locationGetApi } from "../../features/location";
-import { Heart } from "lucide-react";
 
 export default function HomePage() {
   const [location, setLocation] = useState(null);

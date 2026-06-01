@@ -9,6 +9,7 @@ import {
   updateNicknameApi,
   updateCategoriesApi,
 } from "../api";
+import { Heart } from "lucide-react";
 
 const CATEGORY_OPTIONS = [
   { label: "한식", value: "한식", emoji: "🍚" },
@@ -240,7 +241,7 @@ export function MyPageMain() {
                   return (
                     <span
                       key={cat}
-                      className="bg-primary text-white text-xs px-3 py-1 rounded-full"
+                      className="bg-orange-50 text-primary text-xs px-3 py-1 rounded-full"
                     >
                       {option?.emoji} {cat}
                     </span>
@@ -335,7 +336,11 @@ export function MyPageMain() {
                   className="flex items-center justify-between py-3 border-b border-gray-100"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-yellow-400">⭐</span>
+                    <Heart
+                      size={18}
+                      strokeWidth={1.5}
+                      className="text-red-400 fill-red-400"
+                    />
                     <div>
                       <p className="text-sm font-medium">{f.place_name}</p>
                       <p className="text-xs text-gray-400">{f.category_name}</p>

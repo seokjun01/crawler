@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { favoriteListApi, favoriteDeleteApi } from "../../places/api";
+import { Heart } from "lucide-react";
 
 export function FavoriteListMain() {
   const navigate = useNavigate();
@@ -54,7 +55,11 @@ export function FavoriteListMain() {
                 className="flex items-center justify-between py-3 border-b border-gray-100"
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-yellow-400 text-lg">⭐</span>
+                  <Heart
+                    size={18}
+                    strokeWidth={1.5}
+                    className="text-red-400 fill-red-400"
+                  />
                   <div>
                     <p className="text-sm font-medium">{f.place_name}</p>
                     <p className="text-xs text-gray-400">{f.category_name}</p>
