@@ -173,9 +173,7 @@ export function ChatRoom() {
               className={`flex flex-col ${isMine ? "items-end" : "items-start"}`}
             >
               {!isMine && (
-                <span className="caption1 text-muted mb-1">
-                  {msg.nickname}
-                </span>
+                <span className="caption1 text-muted mb-1">{msg.nickname}</span>
               )}
               <div
                 className={`px-4 py-2 rounded-2xl body3 max-w-[70%] ${

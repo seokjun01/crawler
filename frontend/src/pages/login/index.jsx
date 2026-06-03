@@ -2,7 +2,6 @@
 //FSD니까 하위로 더 쪼개서 조립할 것
 
 import { LoginForm } from "../../features/auth";
-import logo from "../../assets/logo.png";
 
 export default function LoginPage() {
   return (

@@ -1,4 +1,4 @@
-import { FavoriteListMain } from "../../../features/user/ui/FavoriteListMain";
+import { FavoriteListMain } from "../../../features/user";
 import { BottomNav } from "../../../shared/ui/BottomNav";
 
 export default function FavoritesPage() {
