@@ -1,0 +1,35 @@
+<svg width="680" height="680" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8A4C" />
+      <stop offset="55%" stop-color="#FF6B35" />
+      <stop offset="100%" stop-color="#F2541B" />
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="9" flood-color="#B83508" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <rect x="90" y="90" width="500" height="500" rx="118" fill="url(#bgGrad)" />
+  <rect x="90" y="90" width="500" height="250" rx="118" fill="#FFFFFF" opacity="0.06" />
+
+  <!-- Pin group, shifted up to visually center (pin + dot) -->
+  <g transform="translate(340, 275)" filter="url(#softShadow)">
+    <path d="M0,-148 C85,-148 148,-85 148,-18 C148,68 55,148 0,198 C-55,148 -148,68 -148,-18 C-148,-85 -85,-148 0,-148 Z" fill="#FFFFFF" />
+    <circle cx="0" cy="232" r="19" fill="#FFFFFF" />
+  </g>
+
+  <!-- Fork -->
+  <g transform="translate(340, 273) rotate(-26)">
+    <line x1="0" y1="-110" x2="0" y2="108" stroke="#FF6B35" stroke-width="16" stroke-linecap="round" />
+    <line x1="-17" y1="-110" x2="-17" y2="-58" stroke="#FF6B35" stroke-width="13" stroke-linecap="round" />
+    <line x1="17" y1="-110" x2="17" y2="-58" stroke="#FF6B35" stroke-width="13" stroke-linecap="round" />
+    <path d="M-21,-58 Q0,-34 21,-58" fill="none" stroke="#FF6B35" stroke-width="13" stroke-linecap="round" />
+  </g>
+
+  <!-- Spoon -->
+  <g transform="translate(340, 273) rotate(26)">
+    <ellipse cx="0" cy="-90" rx="20" ry="28" fill="none" stroke="#FF6B35" stroke-width="14" />
+    <line x1="0" y1="-62" x2="0" y2="108" stroke="#FF6B35" stroke-width="16" stroke-linecap="round" />
+  </g>
+</svg>
