@@ -17,10 +17,12 @@ export function RecommendResult() {
     setLoading(true);
     setVisited(false); // 다시 추천 시 초기화
     try {
-      const res =
+      const [res] = await Promise.all([
         mode === "personal"
-          ? await personalRecommendApi(exclude)
-          : await randomRecommendApi();
+          ? personalRecommendApi(exclude)
+          : randomRecommendApi(),
+        new Promise((r) => setTimeout(r, 1000)),
+      ]);
       setPlace(res.data);
     } catch {
       alert("추천을 불러오지 못했습니다.");
@@ -59,9 +61,17 @@ export function RecommendResult() {
           ‹
         </button>
         <h1 className="h2 flex items-center gap-2">
-          {mode === "personal"
-            ? <><UserStar size={18} strokeWidth={1.5} className="text-primary" /> 개인화 추천</>
-            : <><Dices size={18} strokeWidth={1.5} className="text-primary" /> 랜덤 추천</>}
+          {mode === "personal" ? (
+            <>
+              <UserStar size={18} strokeWidth={1.5} className="text-primary" />{" "}
+              개인화 추천
+            </>
+          ) : (
+            <>
+              <Dices size={18} strokeWidth={1.5} className="text-primary" />{" "}
+              랜덤 추천
+            </>
+          )}
         </h1>
       </div>
 
@@ -107,7 +117,11 @@ export function RecommendResult() {
             {/* 주소 */}
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-start gap-2 flex-1">
-                <MapPin size={16} strokeWidth={1.5} className="text-muted mt-0.5 shrink-0" />
+                <MapPin
+                  size={16}
+                  strokeWidth={1.5}
+                  className="text-muted mt-0.5 shrink-0"
+                />
                 <p className="sub1 text-secondary">
                   {place.roadAddressName || place.addressName}
                 </p>
