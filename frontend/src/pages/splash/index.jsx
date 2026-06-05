@@ -152,21 +152,22 @@ export default function SplashPage() {
         </div>
 
         <div
-          className={`${styles.buttons} w-full max-w-sm mx-auto px-5 pb-10 flex flex-col gap-3 transition-all duration-400`}
+          className={`${styles.buttons} fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-5 pb-10 pt-8 flex flex-col gap-3 transition-all duration-400`}
           style={{
+            background: "linear-gradient(to bottom, transparent, #fff4ec 40%)",
             opacity: showButtons ? 1 : 0,
             transform: showButtons ? "translateY(0)" : "translateY(12px)",
           }}
         >
           <button
             onClick={() => navigate("/login")}
-            className="w-full bg-btn-primary text-white rounded-xl py-4 text-base font-semibold"
+            className="w-full bg-btn-primary text-white rounded-xl py-4 text-base font-semibold active:scale-95 active:brightness-90"
           >
             로그인
           </button>
           <button
             onClick={() => navigate("/register")}
-            className="w-full border border-primary text-primary bg-transparent rounded-xl py-4 text-base font-semibold"
+            className="w-full border border-primary text-primary bg-transparent rounded-xl py-4 text-base font-semibold active:scale-95 active:brightness-90"
           >
             가입하기
           </button>
