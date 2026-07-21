@@ -2,7 +2,7 @@
 import { locationGetApi } from "../../location/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../app/AuthContext";
+import { useAuthStore } from "../../../app/authStore";
 import { loginApi } from "../api";
 
 export function LoginForm() {
@@ -11,7 +11,7 @@ export function LoginForm() {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const login = useAuthStore((state) => state.login);
 
   const handleLogin = async () => {
     let response;
@@ -48,9 +48,7 @@ export function LoginForm() {
   return (
     <div className="flex-1 px-5 pt-8">
       <h2 className="h1 mb-1">로그인</h2>
-      <p className="text-muted sub1 mb-8">
-        이메일과 비밀번호로 로그인하세요
-      </p>
+      <p className="text-muted sub1 mb-8">이메일과 비밀번호로 로그인하세요</p>
 
       <div className="flex flex-col gap-3">
         <input

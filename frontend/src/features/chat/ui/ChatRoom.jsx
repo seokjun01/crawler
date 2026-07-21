@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAuth } from "../../../app/AuthContext";
+import { useAuthStore } from "../../../app/authStore";
 import {
   getMessagesApi,
   leaveRoomApi,
@@ -12,7 +12,7 @@ import {
 export function ChatRoom() {
   const { roomId } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const user = useAuthStore((state) => state.user);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [roomInfo, setRoomInfo] = useState(null);
@@ -80,7 +80,6 @@ export function ChatRoom() {
     const message = input.trim();
 
     wsRef.current.send(
-    
       JSON.stringify({
         type: "MESSAGE",
         roomId: Number(roomId),

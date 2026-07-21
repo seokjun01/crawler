@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../app/AuthContext";
+import { useAuthStore } from "../../../app/authStore";
 import { useUserLocation } from "../../location/api/queries";
 import { logoutApi, updateNicknameApi, updateCategoriesApi } from "../api";
 import { useFavorites } from "../../places/api/queries";
@@ -19,7 +19,9 @@ const CATEGORY_OPTIONS = [
 ];
 
 export function MyPageMain() {
-  const { user, login, logout } = useAuth();
+  const user = useAuthStore((state) => state.user);
+  const login = useAuthStore((state) => state.login);
+  const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
   const { data: locationData, isLoading: locationLoading } = useUserLocation();
   const locationLabel = locationData?.title || "내 위치";

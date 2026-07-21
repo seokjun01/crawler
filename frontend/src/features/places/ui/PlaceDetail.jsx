@@ -7,14 +7,14 @@ import {
   useUpdateReview,
   useDeleteReview,
 } from "../api/queries";
-import { useAuth } from "../../../app/AuthContext";
+import { useAuthStore } from "../../../app/authStore";
 import { RunnerLoader } from "../../../shared/ui/RunnerLoading";
 
 export default function PlaceDetail() {
   const { kakaoPlaceId } = useParams();
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const user = useAuthStore((state) => state.user);
   const placeName = state?.placeName || "";
   const categoryName = state?.categoryName || "";
 

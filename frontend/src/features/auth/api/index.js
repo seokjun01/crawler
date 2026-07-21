@@ -26,3 +26,5 @@ export const resendVerificationEmailApi = (email) => {
 export const verifyEmailApi = (token) => {
   return api("GET", `/api/users/verify-email?token=${token}`);
 };
+
+export const meApi = () => api("GET", "/api/auth/me");

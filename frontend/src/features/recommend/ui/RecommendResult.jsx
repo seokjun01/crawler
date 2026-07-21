@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { personalRecommendApi, randomRecommendApi, visitSaveApi } from "../api";
+import { useRecommend, useSaveVisit } from "../api/queries";
 import { Heart, UserStar, Dices, MapPin } from "lucide-react";
 
 export function RecommendResult() {
@@ -8,46 +8,40 @@ export function RecommendResult() {
   const { state } = useLocation();
   const mode = state?.mode || "random";
   const exclude = state?.exclude || "";
+  const {
+    mutate: recommend,
+    data: place,
+    isPending: loading,
+    reset: resetRecommend,
+  } = useRecommend();
+  const {
+    mutate: saveVisit,
+    isSuccess: visited,
+    reset: resetVisit,
+  } = useSaveVisit();
 
-  const [place, setPlace] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [visited, setVisited] = useState(false);
-
-  const fetchRecommend = useCallback(async () => {
-    setLoading(true);
-    setVisited(false); // 다시 추천 시 초기화
-    try {
-      const [res] = await Promise.all([
-        mode === "personal"
-          ? personalRecommendApi(exclude)
-          : randomRecommendApi(),
-        new Promise((r) => setTimeout(r, 1000)),
-      ]);
-      setPlace(res.data);
-    } catch {
-      alert("추천을 불러오지 못했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  }, [mode, exclude]);
+  const fetchRecommend = () => {
+    resetVisit();
+    recommend(
+      { mode, exclude },
+      { onError: () => alert("추천을 불러오지 못했습니다.") },
+    );
+  };
 
   useEffect(() => {
     fetchRecommend();
-  }, [fetchRecommend]);
+  }, []);
 
-  // 좋아요 → 방문기록 저장
-  const handleVisit = async () => {
+  const handleVisit = () => {
     if (!place || visited) return;
-    try {
-      await visitSaveApi(
-        place.kakaoPlaceId,
-        place.placeName,
-        place.categoryName,
-      );
-      setVisited(true);
-    } catch {
-      alert("방문기록 저장에 실패했습니다.");
-    }
+    saveVisit(
+      {
+        kakaoPlaceId: place.kakaoPlaceId,
+        placeName: place.placeName,
+        categoryName: place.categoryName,
+      },
+      { onError: () => alert("방문기록 저장에 실패했습니다.") },
+    );
   };
 
   return (
@@ -161,10 +155,7 @@ export function RecommendResult() {
             onClick={fetchRecommend}
             className="flex-1 bg-primary text-white rounded-xl py-4 btn1"
           >
-            다시 추천저장  
-            초기화초기화
-            
-            
+            다시 추천저장 초기화초기화
           </button>
         </div>
       )}

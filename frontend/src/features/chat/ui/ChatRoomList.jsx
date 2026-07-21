@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../app/AuthContext";
+import { useAuthStore } from "../../../app/authStore";
 import { useRooms, useJoinRoom, useDeleteRoom } from "../api/queries";
 import { ChatRoomCreate } from "./ChatRoomCreate";
 
 export function ChatRoomList() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const user = useAuthStore((state) => state.user);
   const { data: rooms = [], isLoading: loading } = useRooms();
   const [error, setError] = useState("");
   const [showCreate, setShowCreate] = useState(false);
