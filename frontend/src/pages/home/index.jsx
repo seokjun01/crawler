@@ -1,34 +1,30 @@
 // 홈 페이지 (레이아웃 조립)
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlaceList } from "../../features/places";
-import { locationGetApi } from "../../features/location";
+import { useUserLocation } from "../../features/location/api/queries";
 
 export default function HomePage() {
-  const [location, setLocation] = useState(null);
-  const [locationLabel, setLocationLabel] = useState("위치 불러오는 중...");
-
+  const { data, isError } = useUserLocation();
   const navigate = useNavigate();
 
   // 마운트 시 저장된 위치 불러오기
   useEffect(() => {
-    const fetchLocation = async () => {
-      try {
-        const response = await locationGetApi();
-        if (response.data.latitude) {
-          const lat = parseFloat(response.data.latitude);
-          const lng = parseFloat(response.data.longitude);
-          setLocation({ latitude: lat, longitude: lng });
-          setLocationLabel(response.data.title || "내 위치");
-        } else {
-          navigate("/splash");
-        }
-      } catch (e) {
-        navigate("/splash");
+    if (isError) {
+      navigate("/splash");
+    } else if (data && !data.latitude) {
+      navigate("/splash");
+    }
+  }, [data, isError, navigate]);
+
+  const location = data?.latitude
+    ? {
+        latitude: parseFloat(data.latitude),
+        longitude: parseFloat(data.longitude),
       }
-    };
-    fetchLocation();
-  }, []);
+    : null;
+
+  const locationLabel = data?.title || "위치 불러오는 중 ...";
 
   return (
     <div className="min-h-screen bg-white">

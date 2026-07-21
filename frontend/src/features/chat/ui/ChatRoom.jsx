@@ -80,6 +80,7 @@ export function ChatRoom() {
     const message = input.trim();
 
     wsRef.current.send(
+    
       JSON.stringify({
         type: "MESSAGE",
         roomId: Number(roomId),

@@ -1,12 +1,8 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  nearbyApi,
-  favoriteListApi,
-  favoriteSaveApi,
-  favoriteDeleteApi,
-} from "../api";
+import { nearbyApi, favoriteSaveApi, favoriteDeleteApi } from "../api";
 import { Heart } from "lucide-react";
+import { useFavorites } from "../api/queries";
 
 const RADIUS_OPTIONS = [
   { label: "100m", value: "100" },
@@ -39,7 +35,6 @@ export function PlaceList({ latitude, longitude }) {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [favoriteIds, setFavoriteIds] = useState(new Set());
 
   const navigate = useNavigate();
   const observerRef = useRef(null);
@@ -113,19 +108,11 @@ export function PlaceList({ latitude, longitude }) {
     [latitude, longitude, radius],
   );
 
-  // 즐겨찾기 초기 로드
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const res = await favoriteListApi();
-        const ids = (res.data.favorites?.block1 || []).map(
-          (f) => f.kakao_place_id,
-        );
-        setFavoriteIds(new Set(ids));
-      } catch (e) {}
-    };
-    fetchFavorites();
-  }, []);
+  const { data: favorites = [] } = useFavorites();
+  const favoriteIds = useMemo(
+    () => new Set(favorites.map((f) => f.kakao_place_id)),
+    [favorites],
+  );
 
   // radius/category/위치 바뀌면 초기화 후 1페이지
   useEffect(() => {
@@ -164,18 +151,12 @@ export function PlaceList({ latitude, longitude }) {
     try {
       if (favoriteIds.has(place.kakaoPlaceId)) {
         await favoriteDeleteApi(place.kakaoPlaceId);
-        setFavoriteIds((prev) => {
-          const next = new Set(prev);
-          next.delete(place.kakaoPlaceId);
-          return next;
-        });
       } else {
         await favoriteSaveApi(
           place.kakaoPlaceId,
           place.placeName,
           place.categoryName.split(">").pop().trim(),
         );
-        setFavoriteIds((prev) => new Set([...prev, place.kakaoPlaceId]));
       }
     } catch (e) {}
   };

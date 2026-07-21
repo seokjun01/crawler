@@ -1,19 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { visitListApi, visitDetailApi } from "../api";
+import { visitDetailApi } from "../api";
+import { useVisits } from "../api/queries";
 
 export function VisitListMain() {
   const navigate = useNavigate();
-  const [visits, setVisits] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: visits = [], isLoading: loading } = useVisits();
   const [reviewMap, setReviewMap] = useState({});
-
-  useEffect(() => {
-    visitListApi()
-      .then((res) => setVisits(res.data.visits?.block1 || []))
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
 
   const handleToggleReviews = async (kakaoPlaceId) => {
     // 이미 열려있으면 닫기
@@ -77,10 +70,7 @@ export function VisitListMain() {
               const reviewState = reviewMap[v.kakao_place_id];
 
               return (
-                <div
-                  key={v.kakao_place_id}
-                  className="border-b border-line"
-                >
+                <div key={v.kakao_place_id} className="border-b border-line">
                   {/* 식당 요약 행 */}
                   <div className="py-4">
                     <div className="flex justify-between items-start">

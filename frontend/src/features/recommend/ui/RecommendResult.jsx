@@ -161,7 +161,10 @@ export function RecommendResult() {
             onClick={fetchRecommend}
             className="flex-1 bg-primary text-white rounded-xl py-4 btn1"
           >
-            다시 추천
+            다시 추천저장  
+            초기화초기화
+            
+            
           </button>
         </div>
       )}

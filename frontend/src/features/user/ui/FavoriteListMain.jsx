@@ -1,30 +1,17 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { favoriteListApi, favoriteDeleteApi } from "../../places/api";
+import { favoriteDeleteApi } from "../../places/api";
+import { useFavorites } from "../../places/api/queries";
 import { Heart } from "lucide-react";
 
 export function FavoriteListMain() {
   const navigate = useNavigate();
-  const [favorites, setFavorites] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchFavorites = () => {
-    setLoading(true);
-    favoriteListApi()
-      .then((res) => setFavorites(res.data.favorites?.block1 || []))
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  };
-
-  useEffect(() => {
-    fetchFavorites();
-  }, []);
+  const { data: favorites = [], isLoading: loading } = useFavorites();
 
   const handleDelete = async (kakaoPlaceId) => {
     if (!window.confirm("즐겨찾기에서 삭제하시겠습니까?")) return;
     try {
       await favoriteDeleteApi(kakaoPlaceId);
-      fetchFavorites();
+      //   fetchFavorites();
     } catch (e) {}
   };
 
@@ -58,9 +45,7 @@ export function FavoriteListMain() {
                   <span className="text-rating text-lg">⭐</span>
                   <div>
                     <p className="body2">{f.place_name}</p>
-                    <p className="caption1 text-muted">
-                      {f.category_name}
-                    </p>
+                    <p className="caption1 text-muted">{f.category_name}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">

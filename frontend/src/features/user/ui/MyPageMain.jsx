@@ -1,15 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../app/AuthContext";
-import { locationGetApi } from "../../location";
-import { favoriteListApi } from "../../places/api";
-import {
-  visitListApi,
-  logoutApi,
-  updateNicknameApi,
-  updateCategoriesApi,
-} from "../api";
+import { useUserLocation } from "../../location/api/queries";
+import { logoutApi, updateNicknameApi, updateCategoriesApi } from "../api";
+import { useFavorites } from "../../places/api/queries";
 import { Heart } from "lucide-react";
+import { useVisits } from "../api/queries";
 
 const CATEGORY_OPTIONS = [
   { label: "한식", value: "한식", emoji: "🍚" },
@@ -25,16 +21,13 @@ const CATEGORY_OPTIONS = [
 export function MyPageMain() {
   const { user, login, logout } = useAuth();
   const navigate = useNavigate();
-
-  const [locationLabel, setLocationLabel] = useState("불러오는 중...");
-  const [visits, setVisits] = useState([]);
-  const [favorites, setFavorites] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+  const { data: locationData, isLoading: locationLoading } = useUserLocation();
+  const locationLabel = locationData?.title || "내 위치";
+  const { data: favorites = [], isLoading: favoritesLoading } = useFavorites();
   // 닉네임 편집
   const [editingNickname, setEditingNickname] = useState(false);
   const [nicknameInput, setNicknameInput] = useState(user?.nickname || "");
-
+  const { data: visits = [], isLoading: visitsLoading } = useVisits();
   // 카테고리 편집
   const [editingCategories, setEditingCategories] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState(
@@ -45,27 +38,6 @@ export function MyPageMain() {
           .filter(Boolean)
       : [],
   );
-
-  useEffect(() => {
-    const fetchAll = async () => {
-      try {
-        const [locRes, visitRes, favRes] = await Promise.all([
-          locationGetApi(),
-          visitListApi(),
-          favoriteListApi(),
-        ]);
-
-        setLocationLabel(locRes.data.title || "내 위치");
-        setVisits(visitRes.data.visits?.block1 || []);
-        setFavorites(favRes.data.favorites?.block1 || []);
-      } catch (e) {
-        console.error("fetchAll 에러:", e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchAll();
-  }, []);
 
   const handleNicknameSave = async () => {
     if (!nicknameInput.trim()) return;
@@ -286,7 +258,7 @@ export function MyPageMain() {
               전체보기 &gt;
             </button>
           </div>
-          {loading ? (
+          {visitsLoading ? (
             <p className="caption1 text-muted">불러오는 중...</p>
           ) : visits.length === 0 ? (
             <p className="caption1 text-muted">방문 기록이 없습니다</p>
@@ -298,9 +270,7 @@ export function MyPageMain() {
                   className="min-w-40 border border-line rounded-xl p-3 bg-hover flex-shrink-0"
                 >
                   <p className="caption1 font-bold mb-1">{v.place_name}</p>
-                  <p className="caption1 text-muted">
-                    {v.visit_count}회 방문
-                  </p>
+                  <p className="caption1 text-muted">{v.visit_count}회 방문</p>
                   <p className="caption1 text-muted mt-1">
                     마지막 {v.last_visited?.slice(0, 10)}
                   </p>
@@ -324,7 +294,7 @@ export function MyPageMain() {
               전체보기 &gt;
             </button>
           </div>
-          {loading ? (
+          {favoritesLoading ? (
             <p className="caption1 text-muted">불러오는 중...</p>
           ) : favorites.length === 0 ? (
             <p className="caption1 text-muted">즐겨찾기가 없습니다</p>
@@ -343,9 +313,7 @@ export function MyPageMain() {
                     />
                     <div>
                       <p className="body2">{f.place_name}</p>
-                      <p className="caption1 text-muted">
-                        {f.category_name}
-                      </p>
+                      <p className="caption1 text-muted">{f.category_name}</p>
                     </div>
                   </div>
                   <p className="caption1 text-muted">
