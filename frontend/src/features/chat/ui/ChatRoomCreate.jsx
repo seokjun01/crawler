@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { createRoomApi } from "../api";
+import { useCreateRoom } from "../api/queries";
 
 export function ChatRoomCreate({ onClose, onCreated }) {
   const [title, setTitle] = useState("");
   const [maxMembers, setMaxMembers] = useState(4);
-  const [loading, setLoading] = useState(false);
+  const { mutate: createRoom, isPending: loading } = useCreateRoom();
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
@@ -13,19 +13,19 @@ export function ChatRoomCreate({ onClose, onCreated }) {
       setError("방 제목을 입력해주세요.");
       return;
     }
-    setLoading(true);
-    try {
-      const res = await createRoomApi(title, maxMembers);
-      if (res.data.success) {
-        onCreated();
-      } else {
-        setError(res.data.message);
-      }
-    } catch {
-      setError("방 생성 중 오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
-    }
+    createRoom(
+      { title, maxMembers },
+      {
+        onSuccess: (res) => {
+          if (res.data.success) {
+            onCreated();
+          } else {
+            setError(res.data.message);
+          }
+        },
+        onError: () => setError("방 생성 중 오류가 발생했습니다."),
+      },
+    );
   };
 
   return (
