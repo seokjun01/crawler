@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import {
-  placeDetailApi,
-  reviewGetApi,
-  reviewSaveApi,
-  reviewUpdateApi,
-  reviewDeleteApi,
-} from "../api";
+  usePlaceDetail,
+  useReviews,
+  useAddReview,
+  useUpdateReview,
+  useDeleteReview,
+} from "../api/queries";
 import { useAuth } from "../../../app/AuthContext";
 import { RunnerLoader } from "../../../shared/ui/RunnerLoading";
 
@@ -15,14 +15,23 @@ export default function PlaceDetail() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const placeName = state?.placeName || "";
+  const categoryName = state?.categoryName || "";
 
-  const [menus, setMenus] = useState([]);
-  const [reviews, setReviews] = useState([]);
+  const {
+    data: menus = [],
+    isLoading: loading,
+    isError: error,
+  } = usePlaceDetail(kakaoPlaceId, placeName);
+  const { data: reviews = [] } = useReviews(kakaoPlaceId);
+
+  const { mutate: addReview } = useAddReview(kakaoPlaceId);
+  const { mutate: updateReview } = useUpdateReview(kakaoPlaceId);
+  const { mutate: deleteReview } = useDeleteReview(kakaoPlaceId);
+
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
   const [selectedMenu, setSelectedMenu] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   // 수정 모드 상태
   const [editingId, setEditingId] = useState(null);
@@ -30,53 +39,28 @@ export default function PlaceDetail() {
   const [editRating, setEditRating] = useState(5);
   const [editMenu, setEditMenu] = useState("");
 
-  const placeName = state?.placeName || "";
-  const categoryName = state?.categoryName || "";
-
-  const fetchReviews = async () => {
-    const res = await reviewGetApi(kakaoPlaceId);
-    setReviews(res.data.reviews?.block1 || []);
-  };
-
-  useEffect(() => {
-    const fetchDetail = async () => {
-      try {
-        const [detailRes] = await Promise.all([
-          placeDetailApi(kakaoPlaceId, placeName),
-        ]);
-        const rawMenus = detailRes.data.menus;
-        const parsedMenus =
-          typeof rawMenus === "string" ? JSON.parse(rawMenus) : rawMenus;
-        setMenus(Array.isArray(parsedMenus) ? parsedMenus : []);
-        await fetchReviews();
-      } catch (e) {
-        setError("정보를 불러오지 못했습니다.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchDetail();
-  }, [kakaoPlaceId]);
-
   const handleReviewSubmit = async () => {
     if (!reviewText.trim()) return;
-    try {
-      await reviewSaveApi(
-        kakaoPlaceId,
+    addReview(
+      {
         placeName,
-        categoryName.split(">").pop().trim(),
-        selectedMenu,
+        categoryName: categoryName.split(">").pop().trim(),
+        menuName: selectedMenu,
         rating,
-        reviewText,
-      );
-      setReviewText("");
-      setSelectedMenu("");
-      setRating(5);
-      alert("후기가 등록되었습니다.");
-      await fetchReviews();
-    } catch (e) {
-      setError("후기 등록에 실패했습니다.");
-    }
+        content: reviewText,
+      },
+      {
+        onSuccess: () => {
+          setReviewText("");
+          setSelectedMenu("");
+          setRating(5);
+          alert("후기가 등록되었습니다.");
+        },
+        onError: () => {
+          alert("후기 등록에 실패했습니다.");
+        },
+      },
+    );
   };
 
   const handleEditStart = (review) => {
@@ -86,32 +70,32 @@ export default function PlaceDetail() {
     setEditMenu(review.menu_name || "");
   };
 
-  const handleEditSubmit = async (visitHistoryId) => {
-    try {
-      await reviewUpdateApi(
-        kakaoPlaceId,
+  const handleEditSubmit = (visitHistoryId) => {
+    updateReview(
+      {
         visitHistoryId,
-        editMenu,
-        editRating,
-        editText,
-      );
-      setEditingId(null);
-      alert("후기가 수정되었습니다.");
-      await fetchReviews();
-    } catch (e) {
-      setError("후기 수정에 실패했습니다.");
-    }
+        menuName: editMenu,
+        rating: editRating,
+        content: editText,
+      },
+      {
+        onSuccess: () => {
+          setEditingId(null);
+          alert("후기가 수정되었습니다.");
+        },
+        onError: () => {
+          alert("후기 수정에 실패했습니다.");
+        },
+      },
+    );
   };
 
-  const handleDelete = async (visitHistoryId) => {
+  const handleDelete = (visitHistoryId) => {
     if (!window.confirm("후기를 삭제하시겠습니까?")) return;
-    try {
-      await reviewDeleteApi(kakaoPlaceId, visitHistoryId);
-      alert("후기가 삭제되었습니다.");
-      await fetchReviews();
-    } catch (e) {
-      setError("후기 삭제에 실패했습니다.");
-    }
+    deleteReview(visitHistoryId, {
+      onSuccess: () => alert("후기가 삭제되었습니다."),
+      onError: () => alert("후기 삭제에 실패했습니다."),
+    });
   };
 
   const StarRating = ({ value, onChange }) => (
@@ -149,9 +133,7 @@ export default function PlaceDetail() {
           <div>
             <h2 className="font-bold body3 mb-3">메뉴</h2>
             {menus.length === 0 ? (
-              <p className="caption1 text-muted">
-                등록된 메뉴가 없습니다.
-              </p>
+              <p className="caption1 text-muted">등록된 메뉴가 없습니다.</p>
             ) : (
               <div className="flex flex-col gap-2">
                 {menus.map((menu, idx) => (
@@ -201,18 +183,18 @@ export default function PlaceDetail() {
                 등록
               </button>
             </div>
-            {error && <p className="text-error caption1 mt-1">{error}</p>}
+            {error && (
+              <p className="text-error caption1 mt-1">
+                정보를 불러오지 못했습니다.
+              </p>
+            )}
           </div>
 
           {/* 후기 목록 */}
           <div>
-            <h2 className="font-bold body3 mb-3">
-              후기 ({reviews.length})
-            </h2>
+            <h2 className="font-bold body3 mb-3">후기 ({reviews.length})</h2>
             {reviews.length === 0 ? (
-              <p className="caption1 text-muted">
-                아직 후기가 없습니다.
-              </p>
+              <p className="caption1 text-muted">아직 후기가 없습니다.</p>
             ) : (
               <div className="flex flex-col gap-3">
                 {reviews.map((review) => (

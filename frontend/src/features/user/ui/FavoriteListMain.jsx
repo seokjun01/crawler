@@ -1,18 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { favoriteDeleteApi } from "../../places/api";
-import { useFavorites } from "../../places/api/queries";
+import { useFavorites, useRemoveFavorite } from "../../places/api/queries";
 import { Heart } from "lucide-react";
 
 export function FavoriteListMain() {
   const navigate = useNavigate();
   const { data: favorites = [], isLoading: loading } = useFavorites();
+  const { mutate: removeFavorite } = useRemoveFavorite();
 
-  const handleDelete = async (kakaoPlaceId) => {
+  const handleDelete = (kakaoPlaceId) => {
     if (!window.confirm("즐겨찾기에서 삭제하시겠습니까?")) return;
-    try {
-      await favoriteDeleteApi(kakaoPlaceId);
-      //   fetchFavorites();
-    } catch (e) {}
+    removeFavorite(kakaoPlaceId);
   };
 
   return (

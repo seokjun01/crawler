@@ -1,8 +1,12 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { nearbyApi, favoriteSaveApi, favoriteDeleteApi } from "../api";
+import { nearbyApi } from "../api";
 import { Heart } from "lucide-react";
-import { useFavorites } from "../api/queries";
+import {
+  useFavorites,
+  useAddFavorite,
+  useRemoveFavorite,
+} from "../api/queries";
 
 const RADIUS_OPTIONS = [
   { label: "100m", value: "100" },
@@ -113,6 +117,8 @@ export function PlaceList({ latitude, longitude }) {
     () => new Set(favorites.map((f) => f.kakao_place_id)),
     [favorites],
   );
+  const { mutate: addFavorite } = useAddFavorite();
+  const { mutate: removeFavorite } = useRemoveFavorite();
 
   // radius/category/위치 바뀌면 초기화 후 1페이지
   useEffect(() => {
@@ -148,17 +154,15 @@ export function PlaceList({ latitude, longitude }) {
 
   const handleFavoriteToggle = async (e, place) => {
     e.stopPropagation();
-    try {
-      if (favoriteIds.has(place.kakaoPlaceId)) {
-        await favoriteDeleteApi(place.kakaoPlaceId);
-      } else {
-        await favoriteSaveApi(
-          place.kakaoPlaceId,
-          place.placeName,
-          place.categoryName.split(">").pop().trim(),
-        );
-      }
-    } catch (e) {}
+    if (favoriteIds.has(place.kakaoPlaceId)) {
+      removeFavorite(place.kakaoPlaceId);
+    } else {
+      addFavorite({
+        kakaoPlaceId: place.kakaoPlaceId,
+        placeName: place.placeName,
+        categoryName: place.categoryName.split(">").pop().trim(),
+      });
+    }
   };
 
   return (
