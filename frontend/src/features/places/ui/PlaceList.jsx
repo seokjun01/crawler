@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { nearbyApi } from "../api";
 import { Heart } from "lucide-react";
 import {
   useFavorites,
   useAddFavorite,
   useRemoveFavorite,
+  usePlaces,
 } from "../api/queries";
 
 const RADIUS_OPTIONS = [
@@ -36,81 +36,42 @@ const formatDistance = (distance) => {
 export function PlaceList({ latitude, longitude }) {
   const [radius, setRadius] = useState("1000");
   const [category, setCategory] = useState("");
-  const [places, setPlaces] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
 
   const navigate = useNavigate();
-  const observerRef = useRef(null);
   const bottomRef = useRef(null);
-  const loadingRef = useRef(false);
-  const pageRef = useRef(1);
-  const hasMoreRef = useRef(true);
+  const observerRef = useRef(null);
 
-  // category를 ref로도 들고 있어야 fetchPlaces 클로저에서 최신값 읽힘
-  const categoryRef = useRef(category);
-  useEffect(() => {
-    categoryRef.current = category;
-  }, [category]);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    usePlaces(latitude, longitude, radius);
 
-  const fetchPlaces = useCallback(
-    async (currentPage, reset = false) => {
-      if (!latitude || !longitude) return;
-      if (loadingRef.current) return;
-      if (!hasMoreRef.current && !reset) return;
-      if (currentPage >= 45) {
-        hasMoreRef.current = false;
-        setHasMore(false);
-        return;
-      }
-
-      loadingRef.current = true;
-      setLoading(true);
-      try {
-        const response = await nearbyApi(
-          latitude,
-          longitude,
-          radius,
-          // 카테고리 필터는 백엔드에 보내지 않음 - 프론트에서 처리
-          "",
-          currentPage,
-        );
-        const { places: newPlaces, isEnd } = response.data;
-
-        // 카테고리 클라이언트 필터링
-        // categoryRef.current: 최신 카테고리 값 (클로저 stale 방지)
-        const filtered = categoryRef.current
-          ? (newPlaces || []).filter((p) =>
-              p.categoryName?.includes(categoryRef.current),
-            )
-          : newPlaces || [];
-
-        // isEnd가 true면 더 이상 페이지 없음
-        if (isEnd) {
-          hasMoreRef.current = false;
-          setHasMore(false);
-        }
-        if (!newPlaces || newPlaces.length === 0) {
-          hasMoreRef.current = false;
-          setHasMore(false);
-          return;
-        }
-
-        // reset=true면 새 목록, false면 기존에 append
-        setPlaces((prev) => (reset ? filtered : [...prev, ...filtered]));
-      } catch (e) {
-        console.error("식당 목록 조회 실패", e);
-      } finally {
-        loadingRef.current = false;
-        setLoading(false);
-        if (observerRef.current && bottomRef.current) {
-          observerRef.current.unobserve(bottomRef.current);
-          observerRef.current.observe(bottomRef.current);
-        }
-      }
-    },
-    [latitude, longitude, radius],
+  const allPlaces = useMemo(
+    () => data?.pages.flatMap((page) => page.places || []) || [],
+    [data],
   );
+
+  const places = useMemo(
+    () =>
+      category
+        ? allPlaces.filter((p) => p.categoryName?.includes(category))
+        : allPlaces,
+    [allPlaces, category],
+  );
+
+  useEffect(() => {
+    if (observerRef.current) observerRef.current.disconnect();
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0 },
+    );
+
+    if (bottomRef.current) observerRef.current.observe(bottomRef.current);
+    return () => observerRef.current?.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   const { data: favorites = [] } = useFavorites();
   const favoriteIds = useMemo(
@@ -120,39 +81,7 @@ export function PlaceList({ latitude, longitude }) {
   const { mutate: addFavorite } = useAddFavorite();
   const { mutate: removeFavorite } = useRemoveFavorite();
 
-  // radius/category/위치 바뀌면 초기화 후 1페이지
-  useEffect(() => {
-    pageRef.current = 1;
-    hasMoreRef.current = true;
-    setPlaces([]);
-    setHasMore(true);
-    fetchPlaces(1, true);
-  }, [radius, category, latitude, longitude, fetchPlaces]);
-
-  // 무한스크롤 observer
-  useEffect(() => {
-    if (observerRef.current) observerRef.current.disconnect();
-
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        if (
-          entries[0].isIntersecting &&
-          hasMoreRef.current &&
-          !loadingRef.current
-        ) {
-          const nextPage = pageRef.current + 1;
-          pageRef.current = nextPage;
-          fetchPlaces(nextPage, false);
-        }
-      },
-      { threshold: 0 },
-    );
-
-    if (bottomRef.current) observerRef.current.observe(bottomRef.current);
-    return () => observerRef.current?.disconnect();
-  }, [fetchPlaces]);
-
-  const handleFavoriteToggle = async (e, place) => {
+  const handleFavoriteToggle = (e, place) => {
     e.stopPropagation();
     if (favoriteIds.has(place.kakaoPlaceId)) {
       removeFavorite(place.kakaoPlaceId);
@@ -249,17 +178,17 @@ export function PlaceList({ latitude, longitude }) {
           ))}
         </div>
 
-        {loading && (
+        {(isLoading || isFetchingNextPage) && (
           <div className="flex justify-center py-6">
             <div className="w-6 h-6 rounded-full border-2 border-black border-t-transparent animate-spin" />
           </div>
         )}
-        {!hasMore && places.length > 0 && (
+        {!hasNextPage && places.length > 0 && (
           <p className="text-center caption1 text-muted py-6">
             주변 식당을 모두 불러왔어요
           </p>
         )}
-        {!loading && places.length === 0 && (
+        {!isLoading && places.length === 0 && (
           <p className="text-center caption1 text-muted py-10">
             주변에 식당이 없어요
           </p>

@@ -1,4 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import {
   favoriteListApi,
   favoriteSaveApi,
@@ -8,6 +13,7 @@ import {
   reviewSaveApi,
   reviewUpdateApi,
   reviewDeleteApi,
+  nearbyApi,
 } from "./index";
 
 // 상태 선언(useState + useEffect) 를 => ReactQuery로 custom hook화 함
@@ -103,5 +109,22 @@ export const useDeleteReview = (kakaoPlaceId) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reviews", kakaoPlaceId] });
     },
+  });
+};
+
+export const usePlaces = (latitude, longitude, radius) => {
+  return useInfiniteQuery({
+    queryKey: ["places", latitude, longitude, radius],
+    queryFn: async ({ pageParam }) => {
+      const res = await nearbyApi(latitude, longitude, radius, "", pageParam);
+      return res.data;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.isEnd) return undefined;
+      if (allPages.length >= 45) return undefined;
+      return allPages.length + 1;
+    },
+    enabled: !!latitude && !!longitude,
   });
 };
