@@ -1,18 +1,32 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { useCreateRoom } from "../api/queries";
 
-export function ChatRoomCreate({ onClose, onCreated }) {
-  const [title, setTitle] = useState("");
-  const [maxMembers, setMaxMembers] = useState(4);
-  const { mutate: createRoom, isPending: loading } = useCreateRoom();
-  const [error, setError] = useState("");
+const roomSchema = z.object({
+  title: z.string().trim().min(1, "방 제목을 입력해주세요."),
+  maxMembers: z.number().min(2).max(5),
+});
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!title.trim()) {
-      setError("방 제목을 입력해주세요.");
-      return;
-    }
+export function ChatRoomCreate({ onClose, onCreated }) {
+  const [error, setError] = useState("");
+  const { mutate: createRoom, isPending: loading } = useCreateRoom();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(roomSchema),
+    defaultValues: { title: "", maxMembers: 4 },
+  });
+
+  const maxMembers = watch("maxMembers");
+
+  const onSubmit = ({ title, maxMembers }) => {
     createRoom(
       { title, maxMembers },
       {
@@ -41,21 +55,23 @@ export function ChatRoomCreate({ onClose, onCreated }) {
 
         {error && <p className="text-error body3 mb-2">{error}</p>}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <input
             type="text"
             placeholder="방 제목 (예: 12시 삼성역 순대국 같이 먹어요)"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full border border-input rounded-lg px-4 py-3 body3 outline-none focus:border-black mb-4"
+            {...register("title")}
+            className="w-full border border-input rounded-lg px-4 py-3 body3 outline-none focus:border-black mb-1"
           />
-          <div className="flex items-center gap-3 mb-6">
+          {errors.title && (
+            <p className="text-error caption1 mb-3">{errors.title.message}</p>
+          )}
+          <div className="flex items-center gap-3 mb-6 mt-3">
             <span className="body3 text-secondary">최대 인원</span>
             {[2, 3, 4, 5].map((n) => (
               <button
                 type="button"
                 key={n}
-                onClick={() => setMaxMembers(n)}
+                onClick={() => setValue("maxMembers", n)}
                 className={`w-10 h-10 rounded-full body3 border ${
                   maxMembers === n
                     ? "bg-primary text-white border-primary-light"

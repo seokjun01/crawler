@@ -1,11 +1,10 @@
-//회원가입 UI + 상태관리 + API호출
-//Layers -> slices -> segment 부분!
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { checkEmailApi, registerApi } from "../api";
 
-//  백엔드 validation과 일치
 const CATEGORIES = [
   { label: "한식", emoji: "🍚" },
   { label: "중식", emoji: "🥟" },
@@ -17,19 +16,35 @@ const CATEGORIES = [
   { label: "피자", emoji: "🍕" },
 ];
 
-export function RegisterForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState([]); // 카테고리는 배열로 관리
-  const [emailChecked, setEmailChecked] = useState(false);
-  const [error, setError] = useState("");
+const registerSchema = z.object({
+  email: z.string().email("올바른 이메일 형식이 아닙니다."),
+  password: z.string().min(1, "비밀번호를 입력해주세요"),
+  nickname: z.string().min(1, "닉네임을 입력해주세요"),
+  categories: z.array(z.string()).max(5, "최대 5개까지 선택 가능합니다."),
+});
 
+export function RegisterForm() {
+  const [emailChecked, setEmailChecked] = useState(false);
   const navigate = useNavigate();
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(registerSchema),
+    defaultValues: { categories: [] },
+  });
+
+  const selectedCategories = watch("categories");
+
   const handleCheckEmail = async () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    const email = getValues("email");
+    const result = z.string().email().safeParse(email);
+    if (!result.success) {
       alert("올바른 이메일 형식이 아닙니다.");
       return;
     }
@@ -39,42 +54,41 @@ export function RegisterForm() {
         alert("이미 사용중인 이메일입니다.");
         setEmailChecked(false);
       } else {
-        setError("");
         setEmailChecked(true);
         alert("사용 가능한 이메일입니다.");
       }
     } catch (e) {
-      setError("이메일 확인 중 오류가 발생했습니다.");
+      alert("이메일 확인 중 오류가 발생했습니다.");
     }
   };
 
   const handleCategoryToggle = (label) => {
     if (selectedCategories.includes(label)) {
-      setSelectedCategories(selectedCategories.filter((c) => c !== label));
-    } else {
-      if (selectedCategories.length >= 5) {
-        setError("최대 5개까지 선택 가능합니다.");
-        return;
-      }
-      setSelectedCategories([...selectedCategories, label]);
+      setValue(
+        "categories",
+        selectedCategories.filter((c) => c !== label),
+        { shouldValidate: true },
+      );
+      return;
     }
-    setError("");
+    if (selectedCategories.length >= 5) {
+      alert("최대 5개까지 선택 가능합니다.");
+      return;
+    }
+    setValue("categories", [...selectedCategories, label], {
+      shouldValidate: true,
+    });
   };
 
-  const handleRegister = async () => {
+  const onSubmit = async ({ email, password, nickname, categories }) => {
     if (!emailChecked) {
       alert("이메일 중복확인을 해주세요.");
       return;
     }
     try {
-      const response = await registerApi(
-        email,
-        password,
-        nickname,
-        selectedCategories,
-      );
+      const response = await registerApi(email, password, nickname, categories);
       if (response.data.success) {
-        navigate("/verify-email", { state: { email } }); // (인증 재발송에 필요하기 때문에 상태로 넘겨줌)
+        navigate("/verify-email", { state: { email } });
       } else {
         alert(response.data.message);
       }
@@ -84,23 +98,25 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="px-5 py-6 flex flex-col gap-5">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="px-5 py-6 flex flex-col gap-5"
+    >
       {/* 이메일 섹션 */}
       <div>
         <label className="btn1 mb-1 block">이메일</label>
         <input
           type="email"
           placeholder="이메일을 입력하세요"
-          value={email}
-          // 이메일 바뀌면 중복확인 초기화
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setEmailChecked(false);
-          }}
+          {...register("email", { onChange: () => setEmailChecked(false) })}
           className="w-full border border-input rounded-lg px-4 py-3 body3 outline-none focus:border-black"
         />
+        {errors.email && (
+          <p className="text-error caption1 mt-1">{errors.email.message}</p>
+        )}
         <p className="caption1 text-muted mt-1">예: name@cyber-i.com</p>
         <button
+          type="button"
           onClick={handleCheckEmail}
           className="w-full bg-primary text-white rounded-lg py-3 text-sm font-semibold mt-2"
         >
@@ -114,10 +130,12 @@ export function RegisterForm() {
         <input
           type="password"
           placeholder="비밀번호를 입력하세요"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register("password")}
           className="w-full border border-input rounded-lg px-4 py-3 body3 outline-none focus:border-black"
         />
+        {errors.password && (
+          <p className="text-error caption1 mt-1">{errors.password.message}</p>
+        )}
         <p className="caption1 text-muted mt-1">영문/숫자 조합 등</p>
       </div>
 
@@ -127,10 +145,12 @@ export function RegisterForm() {
         <input
           type="text"
           placeholder="닉네임을 입력하세요"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
+          {...register("nickname")}
           className="w-full border border-input rounded-lg px-4 py-3 body3 outline-none focus:border-black"
         />
+        {errors.nickname && (
+          <p className="text-error caption1 mt-1">{errors.nickname.message}</p>
+        )}
         <p className="caption1 text-muted mt-1">2~10자 권장</p>
       </div>
 
@@ -141,6 +161,7 @@ export function RegisterForm() {
         <div className="grid grid-cols-2 gap-2">
           {CATEGORIES.map((cat) => (
             <button
+              type="button"
               key={cat.label}
               onClick={() => handleCategoryToggle(cat.label)}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl border body3 transition-all
@@ -157,11 +178,10 @@ export function RegisterForm() {
         </div>
       </div>
 
-      {error && <p className="text-error caption1">{error}</p>}
-
       {/* 하단 버튼 */}
       <div className="flex gap-3 mt-2">
         <button
+          type="button"
           onClick={() => navigate(-1)}
           className="flex-1 border border-primary-light text-primary rounded-xl py-4 h2-semi
           hover:bg-gray-200 active:scale-95 transition-all
@@ -170,13 +190,13 @@ export function RegisterForm() {
           취소
         </button>
         <button
-          onClick={handleRegister}
+          type="submit"
           className="flex-1 bg-primary text-white rounded-xl py-4 h2-semi
           hover:bg-gray-900 active:scale-95 transition-all"
         >
           가입하기
         </button>
       </div>
-    </div>
+    </form>
   );
 }
